@@ -1,0 +1,416 @@
+[
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCF25_P_AX_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/WCF25",
+      "@type": "CardSet",
+      "id": "01JTJS48D59114PW9E8Z6SQQTN",
+      "reference": "WCF25",
+      "name": "World Championship 2025 - WORLD CHAMPION CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/386c4a2902e888f5c85a",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_AX_01/JPG/fr_FR/4fc622fdfeb03cf7bf5425ec35b89e25.jpg",
+    "assets": {
+      "HERO_THUMB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_AX_01/HERO_THUMB_a8f05bfb7109c722ece54ca2e92a31c9"
+      ],
+      "HERO_WIDE": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_AX_01/HERO_WIDE_e7aee31bebce05a4531173cc7404709f"
+      ],
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_AX_01/WEB_2194b8f16dcf7a94cbcbff11fb9e5433"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCF25_P_AX_01_C",
+    "reference": "ALT_WCF25_P_AX_01_C",
+    "id": "01JTJTAYQJVBPMZHA95V72ZSBD",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "allImagePath": {
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_AX_01/JPG/es_ES/fcd5d75d1696be3a25880d41bf650085.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_AX_01/JPG/it_IT/3e097ba8a8d805637095f2e692a505b6.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_AX_01/JPG/en_US/b0e3a76ca13b8b00ac14290fc00d9550.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_AX_01/JPG/fr_FR/4fc622fdfeb03cf7bf5425ec35b89e25.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_AX_01/JPG/de_DE/2b046c6877b47b76a5e70bfc25c1e560.jpg"
+    },
+    "name": "Sierra & Oddball",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "MAIN_EFFECT": "Lorsque vous jouez un Permanent de Coût de Main {3} ou plus — Vous pouvez m'épuiser ({T}) pour créer un jeton Robot [2/2/2 Scarabot] dans une Expédition ciblée."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCF25_P_BR_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/WCF25",
+      "@type": "CardSet",
+      "id": "01JTJS48D59114PW9E8Z6SQQTN",
+      "reference": "WCF25",
+      "name": "World Championship 2025 - WORLD CHAMPION CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/c474e11d7989b119ecec",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_BR_01/JPG/fr_FR/77e7948e924f41a77eb91e2d43b5e82c.jpg",
+    "assets": {
+      "HERO_THUMB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_BR_01/HERO_THUMB_b77c781ebcb48af8e1be9c9500c5becd"
+      ],
+      "HERO_WIDE": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_BR_01/HERO_WIDE_b81cd17370f9bfecb1fc3c6c42cb9771"
+      ],
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_BR_01/WEB_d3aef837b0f4467d3f8638532d9f4eb9"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCF25_P_BR_01_C",
+    "reference": "ALT_WCF25_P_BR_01_C",
+    "id": "01JTJTBKTY6TT01XE38M36BRXV",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "allImagePath": {
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_BR_01/JPG/es_ES/33b41be30a685e8dbf22b91a80b2a2ef.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_BR_01/JPG/it_IT/804afd2846fb7a4d8c8403415ab7f93e.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_BR_01/JPG/en_US/ef4760d59b0e72bcdcf5c64d95054921.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_BR_01/JPG/fr_FR/77e7948e924f41a77eb91e2d43b5e82c.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_BR_01/JPG/de_DE/c2bf0dc5cbda7c75014dcd7d308b5858.jpg"
+    },
+    "name": "Kojo & Booda",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "MAIN_EFFECT": "À Midi — Si vous êtes le premier joueur, créez un jeton Compagnon [2/2/2 Booda] dans votre Expédition Compagnon."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCF25_P_LY_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/WCF25",
+      "@type": "CardSet",
+      "id": "01JTJS48D59114PW9E8Z6SQQTN",
+      "reference": "WCF25",
+      "name": "World Championship 2025 - WORLD CHAMPION CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/8c8e9b1c17181fa3e6c4",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_LY_01/JPG/fr_FR/0c58300fcc4e00b162bce01afb4732ad.jpg",
+    "assets": {
+      "HERO_THUMB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_LY_01/HERO_THUMB_36df1cdf6c8d717abf91fa53a2fe701f"
+      ],
+      "HERO_WIDE": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_LY_01/HERO_WIDE_cacba7d59ee58cb28865805eee83f994"
+      ],
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_LY_01/WEB_3b2083584ebffdb8750a7f60272618cf"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCF25_P_LY_01_C",
+    "reference": "ALT_WCF25_P_LY_01_C",
+    "id": "01JTJTC2SC2MSTG5C3JTZ880C7",
+    "mainFaction": {
+      "@id": "/factions/LY",
+      "@type": "Faction",
+      "reference": "LY",
+      "color": "#cf4171",
+      "id": "01GE7AC9XGB6JE2V63WXWN4FB3",
+      "name": "Lyra"
+    },
+    "allImagePath": {
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_LY_01/JPG/es_ES/194bbae5a4f40d4aa71cb3db95f5981e.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_LY_01/JPG/it_IT/b3b43e991062db43720243cb4a5919e3.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_LY_01/JPG/en_US/81196a238f5e8137e9c055cc8e25dd57.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_LY_01/JPG/de_DE/9824cccbeb7119e8f12fa16694829c5b.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_LY_01/JPG/fr_FR/0c58300fcc4e00b162bce01afb4732ad.jpg"
+    },
+    "name": "Nevenka & Blotch",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "MAIN_EFFECT": "{T} : Ciblez un Personnage que vous contrôlez, puis lancez un dé. Sur :  • 6+, il gagne [[Ancré]]. (Au Repos, il ne va pas en Réserve et il perd Ancré.)  • 2-5, il gagne 1 boost. (Un boost est un compteur +1/+1/+1. Retirez-le lorsqu'il quitte la zone d'Expédition.)  • 1, envoyez-le en Réserve."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCF25_P_MU_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/WCF25",
+      "@type": "CardSet",
+      "id": "01JTJS48D59114PW9E8Z6SQQTN",
+      "reference": "WCF25",
+      "name": "World Championship 2025 - WORLD CHAMPION CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/43ace6618f275ba3b0ae",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_MU_01/JPG/fr_FR/35b30aa7dd7853f43f04cb1e77c50c45.jpg",
+    "assets": {
+      "HERO_THUMB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_MU_01/HERO_THUMB_7108bccb8e4e0f05e7e0b2d08f6724cb"
+      ],
+      "HERO_WIDE": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_MU_01/HERO_WIDE_4598aa4aa84b67fcffb572e5bb685e4b"
+      ],
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_MU_01/WEB_dd2a59e03e38f45c07aa075dd00f8eda"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCF25_P_MU_01_C",
+    "reference": "ALT_WCF25_P_MU_01_C",
+    "id": "01JTJTCMKKVDQ30Y79Z543BR9Y",
+    "mainFaction": {
+      "@id": "/factions/MU",
+      "@type": "Faction",
+      "reference": "MU",
+      "color": "#3d6b42",
+      "id": "01GE7AC9X2BNM40TTAYAEFSZSJ",
+      "name": "Muna"
+    },
+    "allImagePath": {
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_MU_01/JPG/es_ES/7a5c7d062cbe7811d35350b1f6189360.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_MU_01/JPG/it_IT/631b5c550320caa5fd4d4a5b8eb33245.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_MU_01/JPG/en_US/a98852fbb8f49623048b25c399c59581.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_MU_01/JPG/fr_FR/35b30aa7dd7853f43f04cb1e77c50c45.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_MU_01/JPG/de_DE/71bb969f53c0022f6970cd757befa06b.jpg"
+    },
+    "name": "Teija & Nauraa",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "MAIN_EFFECT": "Le premier Personnage que vous jouez chaque Après-midi gagne 1 boost[]. (Un boost est un compteur +1/+1/+1. Retirez-le lorsqu'il quitte la zone d'Expédition.)"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCF25_P_OR_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/WCF25",
+      "@type": "CardSet",
+      "id": "01JTJS48D59114PW9E8Z6SQQTN",
+      "reference": "WCF25",
+      "name": "World Championship 2025 - WORLD CHAMPION CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/10d3d568d1de32d0919d",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_OR_01/JPG/fr_FR/7ca6d3509ba0d14682c9849efb2dac37.jpg",
+    "assets": {
+      "HERO_THUMB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_OR_01/HERO_THUMB_8b6098e4b4f52e10e9a732a240b6fbcc"
+      ],
+      "HERO_WIDE": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_OR_01/HERO_WIDE_b51f3ec56e3a9e04ad7295f0e2ca9e62"
+      ],
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_OR_01/WEB_a778de6da816ad85ecad5a7dd6486984"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCF25_P_OR_01_C",
+    "reference": "ALT_WCF25_P_OR_01_C",
+    "id": "01JTJTD4EM0W2NCG6VM3X6AJG4",
+    "mainFaction": {
+      "@id": "/factions/OR",
+      "@type": "Faction",
+      "reference": "OR",
+      "color": "#0f6593",
+      "id": "01GE7AC9X78DXSNKNB15KCF69X",
+      "name": "Ordis"
+    },
+    "allImagePath": {
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_OR_01/JPG/es_ES/94554260293baee2cd8d8e44d1679531.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_OR_01/JPG/it_IT/6850c73147ad381517f8e68fef628a2a.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_OR_01/JPG/en_US/3416f0955464ca6e8336f67de7db34ef.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_OR_01/JPG/fr_FR/7ca6d3509ba0d14682c9849efb2dac37.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_OR_01/JPG/de_DE/4283bf5a96aeb27761cf1da53f940442.jpg"
+    },
+    "name": "Sigismar & Wingspan",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "MAIN_EFFECT": "À Midi — Créez un jeton Soldat [1/1/1 Recrue Ordis] dans votre Expédition Héros."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCF25_P_YZ_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/WCF25",
+      "@type": "CardSet",
+      "id": "01JTJS48D59114PW9E8Z6SQQTN",
+      "reference": "WCF25",
+      "name": "World Championship 2025 - WORLD CHAMPION CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/efacc383f24d9208ab2b",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_YZ_01/JPG/fr_FR/4c12cbc25d334d9cbc53d5a195c01c21.jpg",
+    "assets": {
+      "HERO_THUMB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_YZ_01/HERO_THUMB_9f660718442d5f733040d349414cb0de"
+      ],
+      "HERO_WIDE": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_YZ_01/HERO_WIDE_086f26d8a473f861309ee4f90e714502"
+      ],
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_YZ_01/WEB_a8e6efc60950b369ddf4856a2559c360"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCF25_P_YZ_01_C",
+    "reference": "ALT_WCF25_P_YZ_01_C",
+    "id": "01JTJTDPF7DTXK6G6AYG3RZG5X",
+    "mainFaction": {
+      "@id": "/factions/YZ",
+      "@type": "Faction",
+      "reference": "YZ",
+      "color": "#764891",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY7459",
+      "name": "Yzmir"
+    },
+    "allImagePath": {
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_YZ_01/JPG/es_ES/19d6cac2e32e4a1c8060d07b10cb5554.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_YZ_01/JPG/it_IT/579652d15fc47b940755d5a2ae4db280.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_YZ_01/JPG/en_US/1f62d3341d5ffb7f200df177ad1d6f19.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_YZ_01/JPG/fr_FR/4c12cbc25d334d9cbc53d5a195c01c21.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCF25/CARDS/ALT_WCF25_P_YZ_01/JPG/de_DE/fe4cdf4c2157a276bef8a0a8f4cf0ec9.jpg"
+    },
+    "name": "Akesha & Taru",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "MAIN_EFFECT": "{T} : [Après vous]. Vous pouvez seulement activer cela si vous êtes le premier joueur. (Terminez votre tour comme si vous aviez joué une carte. Vous pouvez encore jouer des cartes plus tard ce Jour.)"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  }
+]

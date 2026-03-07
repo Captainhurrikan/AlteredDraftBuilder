@@ -1,0 +1,420 @@
+[
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_TCS3_P_AX_53_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/c1b61e63054cbcc000b8",
+        "reference": "ENGINEER",
+        "id": "01HKAGPA9AS71JN0H9HQZTBNCD",
+        "name": "Ingénieur"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/TCS3",
+      "@type": "CardSet",
+      "id": "01JTJS0F8GG1CAXSJ6AEK8495P",
+      "reference": "TCS3",
+      "name": "Tumult Faction Champion - Set 3"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/c1018fe93333578bb2b3",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_AX_53/JPG/fr_FR/98e631b178203a4d74d0f48fa5435d4b.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_TCS3_P_AX_53_R1",
+    "reference": "ALT_TCS3_P_AX_53_R1",
+    "id": "01JTJSCJQPQGS5XGCFF7M2V0HQ",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_AX_53/JPG/fr_FR/98e631b178203a4d74d0f48fa5435d4b.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_AX_53/JPG/es_ES/bedbfbdb040995a1e4b90ac24cb4d6bb.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_AX_53/JPG/it_IT/6cd3e5ec966ffe692cdd041c10cef194.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_AX_53/JPG/de_DE/92d9265f86a46395773a89b6aa55e1e1.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_AX_53/JPG/en_US/42c62239e31aaad53066ca8f1aa8678d.jpg"
+    },
+    "name": "Les Grems",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "OCEAN_POWER": "2",
+      "FOREST_POWER": "#2#",
+      "MOUNTAIN_POWER": "2",
+      "MAIN_EFFECT": "{R} Choisissez jusqu’à l'un :  • Défaussez un Permanent ciblé de Coût de Main #{5} ou moins.#  • Sacrifiez un Permanent. Si vous le faites, créez un jeton Robot [2/2/2 Scarabot] dans une Expédition ciblée."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "TCS3-01-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_TCS3_P_BR_61_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9X35JXEQZJBBD6E4BKX",
+      "@type": "CardType",
+      "reference": "SPELL",
+      "id": "01GE7AC9X35JXEQZJBBD6E4BKX",
+      "name": "Sort"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/a5ee8b23382501b096e5",
+        "reference": "DISRUPTION",
+        "id": "01HKAGPH80FC347E2P8841D298",
+        "name": "Interférence"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/TCS3",
+      "@type": "CardSet",
+      "id": "01JTJS0F8GG1CAXSJ6AEK8495P",
+      "reference": "TCS3",
+      "name": "Tumult Faction Champion - Set 3"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/3ee8a3b1f7e07f508177",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_BR_61/JPG/fr_FR/d4b28b9b16b868d770cdea4353563dc7.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_TCS3_P_BR_61_R1",
+    "reference": "ALT_TCS3_P_BR_61_R1",
+    "id": "01JTJSDF1J1G7TQ6MSRX4TZXWB",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "allImagePath": {
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_BR_61/JPG/es_ES/7c7b901207defb8dafa8cf69165f40b5.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_BR_61/JPG/it_IT/0774ba606a6e273c9ff19cb40f56e93a.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_BR_61/JPG/de_DE/ea3082ea8b9719032c83116137b107e2.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_BR_61/JPG/fr_FR/d4b28b9b16b868d770cdea4353563dc7.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_BR_61/JPG/en_US/77d623699773148f4eb7ee2ead930c3c.jpg"
+    },
+    "name": "Duel de Cran",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "MAIN_EFFECT": "[[Fugace]].  #Défaussez# un Personnage ciblé de Coût de Main inférieur ou égal au Coût de Main d'un Personnage que vous contrôlez."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "TCS3-02-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_TCS3_P_LY_49_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/1e0aeedd28e1b8e13929",
+        "reference": "ARTIST",
+        "id": "01HKAGQTJ167DYCKKGR8MCESNT",
+        "name": "Artiste"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/TCS3",
+      "@type": "CardSet",
+      "id": "01JTJS0F8GG1CAXSJ6AEK8495P",
+      "reference": "TCS3",
+      "name": "Tumult Faction Champion - Set 3"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/6746eb1f1e374152bcfd",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_LY_49/JPG/fr_FR/8e4c074559e2702b28358b0a7be1d708.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_TCS3_P_LY_49_R1",
+    "reference": "ALT_TCS3_P_LY_49_R1",
+    "id": "01JTJSE97X5P7ETXPC0JW7VYK3",
+    "mainFaction": {
+      "@id": "/factions/LY",
+      "@type": "Faction",
+      "reference": "LY",
+      "color": "#cf4171",
+      "id": "01GE7AC9XGB6JE2V63WXWN4FB3",
+      "name": "Lyra"
+    },
+    "allImagePath": {
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_LY_49/JPG/es_ES/ba17c87d8fbe43fed9e697e8549ad053.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_LY_49/JPG/it_IT/98ddc3720d4dacae6ff6e0084e1da2fd.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_LY_49/JPG/de_DE/f04802de34df8cc3a1e11561a87271e0.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_LY_49/JPG/fr_FR/8e4c074559e2702b28358b0a7be1d708.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_LY_49/JPG/en_US/70712f765c29c9208f23f2565a38fab0.jpg"
+    },
+    "name": "Bassiste de Bliss",
+    "elements": {
+      "MAIN_COST": "#2#",
+      "RECALL_COST": "#3#",
+      "OCEAN_POWER": "#3#",
+      "FOREST_POWER": "0",
+      "MOUNTAIN_POWER": "0",
+      "MAIN_EFFECT": "#Si je suis [[Boosté]], les {V}, {M} et {O} des autres Personnages que vous contrôlez sont égales à leur statistique la plus élevée.#",
+      "ECHO_EFFECT": "{I} Lorsque vous jouez un autre Personnage avec une stat de base 0 — Je gagne 1 boost, jusqu'à un max de 2."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "TCS3-03-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_TCS3_P_MU_51_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/9a6dced0bcd444c9bd31",
+        "reference": "ANIMAL",
+        "id": "01HKAGQS36Z3DP166MZW8KRAEK",
+        "name": "Animal"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/TCS3",
+      "@type": "CardSet",
+      "id": "01JTJS0F8GG1CAXSJ6AEK8495P",
+      "reference": "TCS3",
+      "name": "Tumult Faction Champion - Set 3"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/844fd2d97fa448dc5303",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_MU_51/JPG/fr_FR/b88a8dae866de3936bcf0e0bd2544b7e.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_TCS3_P_MU_51_R1",
+    "reference": "ALT_TCS3_P_MU_51_R1",
+    "id": "01JTJSFT2PMY7KGCEG0S8PPE6F",
+    "mainFaction": {
+      "@id": "/factions/MU",
+      "@type": "Faction",
+      "reference": "MU",
+      "color": "#3d6b42",
+      "id": "01GE7AC9X2BNM40TTAYAEFSZSJ",
+      "name": "Muna"
+    },
+    "allImagePath": {
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_MU_51/JPG/es_ES/ad082bbd5f81ce7d5ffa79f364e7ce01.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_MU_51/JPG/it_IT/340a12330ace0e8846b849b3e57ce1b6.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_MU_51/JPG/fr_FR/b88a8dae866de3936bcf0e0bd2544b7e.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_MU_51/JPG/de_DE/ce549de14edf6866f39dbe4918b8438c.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_MU_51/JPG/en_US/b1395abf81979c208d02ebce4abe1b64.jpg"
+    },
+    "name": "Renarde Intègre",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "OCEAN_POWER": "3",
+      "FOREST_POWER": "3",
+      "MOUNTAIN_POWER": "1",
+      "MAIN_EFFECT": "{H} #Vous pouvez payer {1} pour défausser un Permanent ciblé de Coût de Main {2} ou moins.# Si vous le faites, son contrôleur [Ravitaille]."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "TCS3-04-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_TCS3_P_OR_54_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/67191c135a401e01874f",
+        "reference": "SOLDIER",
+        "id": "01HKAGQ5CZVEX15T5KTM40KQSA",
+        "name": "Soldat"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/TCS3",
+      "@type": "CardSet",
+      "id": "01JTJS0F8GG1CAXSJ6AEK8495P",
+      "reference": "TCS3",
+      "name": "Tumult Faction Champion - Set 3"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/45c3759034a16f762c1d",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_OR_54/JPG/fr_FR/ee1609c890f7fd4450e6885fe35e0f94.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_TCS3_P_OR_54_R1",
+    "reference": "ALT_TCS3_P_OR_54_R1",
+    "id": "01JTJSG7D63B04MS41FP6Q1Q30",
+    "mainFaction": {
+      "@id": "/factions/OR",
+      "@type": "Faction",
+      "reference": "OR",
+      "color": "#0f6593",
+      "id": "01GE7AC9X78DXSNKNB15KCF69X",
+      "name": "Ordis"
+    },
+    "allImagePath": {
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_OR_54/JPG/it_IT/c1c912be0cb7f5988eff16e849744da2.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_OR_54/JPG/de_DE/056a1be601e4c7e7ec18192081e8cffe.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_OR_54/JPG/es_ES/d23891784a4d6ef7a7568d18b16e0769.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_OR_54/JPG/fr_FR/ee1609c890f7fd4450e6885fe35e0f94.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_OR_54/JPG/en_US/1c435fec1ffbe099ec4756ca9a5dfb5d.jpg"
+    },
+    "name": "Templier de l'Aegis",
+    "elements": {
+      "MAIN_COST": "3",
+      "RECALL_COST": "3",
+      "OCEAN_POWER": "#1#",
+      "FOREST_POWER": "2",
+      "MOUNTAIN_POWER": "2",
+      "MAIN_EFFECT": "#[Repérage] {2}.#  Lorsque je quitte la zone d'Expédition — Créez #deux# jetons Soldat [1/1/1 Recrue Ordis] dans mon Expédition."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "TCS3-05-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_TCS3_P_YZ_59_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/148a3578579785ac26d3",
+        "reference": "MAGE",
+        "id": "01HKAGXDF5A4KJW7GVC25YQS3H",
+        "name": "Mage"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/TCS3",
+      "@type": "CardSet",
+      "id": "01JTJS0F8GG1CAXSJ6AEK8495P",
+      "reference": "TCS3",
+      "name": "Tumult Faction Champion - Set 3"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/3170f93c8f47f1dde8ee",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_YZ_59/JPG/fr_FR/3816c546fc8d4e0c0653866f583de685.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_TCS3_P_YZ_59_R1",
+    "reference": "ALT_TCS3_P_YZ_59_R1",
+    "id": "01JTJSGRK8A1E0GDGZY1BC2YAY",
+    "mainFaction": {
+      "@id": "/factions/YZ",
+      "@type": "Faction",
+      "reference": "YZ",
+      "color": "#764891",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY7459",
+      "name": "Yzmir"
+    },
+    "allImagePath": {
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_YZ_59/JPG/es_ES/3e4d17e05405ecd86945df8d16b64489.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_YZ_59/JPG/it_IT/5498a0330244dfcc75b4ccf53513ebc4.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_YZ_59/JPG/fr_FR/3816c546fc8d4e0c0653866f583de685.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_YZ_59/JPG/de_DE/7b29be1ea5b578f5a4f969f94112134c.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/TCS3/CARDS/ALT_TCS3_P_YZ_59/JPG/en_US/c01b0d697195339338b50d32b58b2413.jpg"
+    },
+    "name": "Entomologiste Yzmir",
+    "elements": {
+      "MAIN_COST": "#3#",
+      "RECALL_COST": "#1#",
+      "OCEAN_POWER": "#1#",
+      "FOREST_POWER": "#1#",
+      "MOUNTAIN_POWER": "#1#",
+      "MAIN_EFFECT": "[Repérage] {2}.  {H} Créez un jeton Illusion [2/2/2 Phalène de Mana] dans une Expédition ciblée."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "TCS3-06-R-FR"
+  }
+]

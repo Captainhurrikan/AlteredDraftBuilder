@@ -1,0 +1,458 @@
+[
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCQ25_P_AX_08_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/fa6ad04e7920f53a98dc",
+        "reference": "ENGINEER",
+        "id": "01HKAGPA9AS71JN0H9HQZTBNCD",
+        "name": "Ingénieur"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/WCQ25",
+      "@type": "CardSet",
+      "id": "01JTJS33NQTY6A4RPTM11ARJTX",
+      "reference": "WCQ25",
+      "name": "World Championship Qualifier 2025 - FACTION CHAMPIONS CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/56bbdf6090f4dbcba4c7",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_AX_08/JPG/fr_FR/afccc0f35bbcda6db739b9a74c14d7aa.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_AX_08/WEB_4b595331465cbc7690b9fd0bf26d3ec9",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_AX_08/WEB_280bb22393d5ea4ac2b1aa2df2b6d494",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_AX_08/WEB_8c8ea7ecdb4015e98a6d4b7647458464"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCQ25_P_AX_08_R1",
+    "reference": "ALT_WCQ25_P_AX_08_R1",
+    "id": "01JTJSX4QTW5P8923GR58KVA1T",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "allImagePath": {
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_AX_08/JPG/it_IT/e526a01af324504fb5e31346327b2cb0.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_AX_08/JPG/de_DE/90aa7f3a0482f3f740a2cb8bba5ecb98.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_AX_08/JPG/en_US/0d743dc2fbadbf325e2bbe915e01ba8d.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_AX_08/JPG/fr_FR/afccc0f35bbcda6db739b9a74c14d7aa.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_AX_08/JPG/es_ES/7b5ac0f0f27634704658359f9617388d.jpg"
+    },
+    "name": "Récupérateur Axiom",
+    "elements": {
+      "MAIN_COST": "1",
+      "RECALL_COST": "#1#",
+      "OCEAN_POWER": "#0#",
+      "FOREST_POWER": "1",
+      "MOUNTAIN_POWER": "1",
+      "MAIN_EFFECT": "{R} [Ravitaillez]. (Mettez la première carte de votre deck en Réserve.)"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "WCQ25-01-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCQ25_P_BR_06_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/b2c138b0206b9bb2940f",
+        "reference": "ELEMENTAL",
+        "id": "01HKAGPA0G5NVDVVXS31BBX2AS",
+        "name": "Élémentaire"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/WCQ25",
+      "@type": "CardSet",
+      "id": "01JTJS33NQTY6A4RPTM11ARJTX",
+      "reference": "WCQ25",
+      "name": "World Championship Qualifier 2025 - FACTION CHAMPIONS CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/b7f54510e8f4965a0db4",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_BR_06/JPG/fr_FR/4ec1e534be758dbaed10665b950abc35.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_BR_06/WEB_42ecb090dbf33c2a0c9b62db3f39c99d",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_BR_06/WEB_7d2c568335fbeb1da0ab7c0a54dfef8d",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_BR_06/WEB_3ba0d17cc680b27131be2b4ed503a1aa"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCQ25_P_BR_06_R1",
+    "reference": "ALT_WCQ25_P_BR_06_R1",
+    "id": "01JTJSXTDGWEHTSNFWBRNQPP0N",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "allImagePath": {
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_BR_06/JPG/it_IT/6eefdce0c011f59973f864f26e8ad2b3.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_BR_06/JPG/en_US/800553cfbcdb5be8f002f10cf3b93564.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_BR_06/JPG/fr_FR/4ec1e534be758dbaed10665b950abc35.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_BR_06/JPG/de_DE/4c279a927b703fdd56c3ac9e280240a4.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_BR_06/JPG/es_ES/ed4c875ab430ac2a1bcb8e17e2443e70.jpg"
+    },
+    "name": "Petit Djinn",
+    "elements": {
+      "MAIN_COST": "#1#",
+      "RECALL_COST": "#2#",
+      "OCEAN_POWER": "0",
+      "FOREST_POWER": "0",
+      "MOUNTAIN_POWER": "#2#",
+      "MAIN_EFFECT": "Si je devais quitter la zone d'Expédition en étant [[Boosté]], mettez-moi dans la zone de Mana de mon propriétaire à la place (en tant qu'Orbe de Mana épuisé).  {R} Je gagne 1 boost."
+    },
+    "isSuspended": false,
+    "isErrated": true,
+    "isBanned": false,
+    "collectorNumber": "WCQ25-02-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCQ25_P_LY_10_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/7005a8c9ad112302b369",
+        "reference": "ARTIST",
+        "id": "01HKAGQTJ167DYCKKGR8MCESNT",
+        "name": "Artiste"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/WCQ25",
+      "@type": "CardSet",
+      "id": "01JTJS33NQTY6A4RPTM11ARJTX",
+      "reference": "WCQ25",
+      "name": "World Championship Qualifier 2025 - FACTION CHAMPIONS CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/8cc547f1aded3673c283",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_LY_10/JPG/fr_FR/937cf8a4d13d461ec59641c59dff37ef.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_LY_10/WEB_f861ecd5c85f0d675188c5116567c5a7",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_LY_10/WEB_f32dce40ce435137d9d042a1e93bd525",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_LY_10/WEB_494055edf8234c06367e553550b03f30"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCQ25_P_LY_10_R1",
+    "reference": "ALT_WCQ25_P_LY_10_R1",
+    "id": "01JTJSYASFMA9CQSVNETJBPBA9",
+    "mainFaction": {
+      "@id": "/factions/LY",
+      "@type": "Faction",
+      "reference": "LY",
+      "color": "#cf4171",
+      "id": "01GE7AC9XGB6JE2V63WXWN4FB3",
+      "name": "Lyra"
+    },
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_LY_10/JPG/fr_FR/937cf8a4d13d461ec59641c59dff37ef.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_LY_10/JPG/en_US/2d998a5d59511c76480f7dcd12ab9757.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_LY_10/JPG/es_ES/a22b2eb5962e75458cfd25163ecc2546.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_LY_10/JPG/de_DE/9f66318118c2fe42b8bfa134a570f155.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_LY_10/JPG/it_IT/57ad68bd2fd9ce31566830f8c35ef997.jpg"
+    },
+    "name": "Encrière de l'Ouroboros",
+    "elements": {
+      "MAIN_COST": "#2#",
+      "RECALL_COST": "#2#",
+      "OCEAN_POWER": "2",
+      "FOREST_POWER": "#2#",
+      "MOUNTAIN_POWER": "#2#",
+      "MAIN_EFFECT": "Lorsque je vais en Réserve depuis la zone d'Expédition — Vous pouvez renvoyer une autre carte de votre Réserve dans votre main.",
+      "ECHO_EFFECT": "#{D} : La prochaine carte que vous jouez ce tour coûte {1} de moins.# (Défaussez-moi de la Réserve pour ça.)"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "WCQ25-03-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCQ25_P_MU_16_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/e13441d323470fb73ea9",
+        "reference": "PLANT",
+        "id": "01HKAGSB49H24XWW17AAY441MT",
+        "name": "Plante"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/WCQ25",
+      "@type": "CardSet",
+      "id": "01JTJS33NQTY6A4RPTM11ARJTX",
+      "reference": "WCQ25",
+      "name": "World Championship Qualifier 2025 - FACTION CHAMPIONS CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/ecfd6fde8d43513fadd2",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_MU_16/JPG/fr_FR/dbcfc7dd2c24d4f6486d1efaf65ad6ef.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_MU_16/WEB_a7d054be4fa7e4139d47933e3b66ffe1",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_MU_16/WEB_4fcc89da75925f55fafcbbafe472bcb2",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_MU_16/WEB_cdb133e5325371663667784043786a5d"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCQ25_P_MU_16_R1",
+    "reference": "ALT_WCQ25_P_MU_16_R1",
+    "id": "01JTJSZ04RPJFYEWJ6KQ8NZ3D1",
+    "mainFaction": {
+      "@id": "/factions/MU",
+      "@type": "Faction",
+      "reference": "MU",
+      "color": "#3d6b42",
+      "id": "01GE7AC9X2BNM40TTAYAEFSZSJ",
+      "name": "Muna"
+    },
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_MU_16/JPG/fr_FR/dbcfc7dd2c24d4f6486d1efaf65ad6ef.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_MU_16/JPG/es_ES/36499c9a7903357ede9a886712f30c11.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_MU_16/JPG/en_US/e0c336ec0252a8614aca5ec0605fb786.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_MU_16/JPG/de_DE/2a956a2b95016b02e790299e63f45be5.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_MU_16/JPG/it_IT/5265129c8064d6bdf3e97537b0a83bfc.jpg"
+    },
+    "name": "Aloe Vera",
+    "elements": {
+      "MAIN_COST": "3",
+      "RECALL_COST": "3",
+      "OCEAN_POWER": "4",
+      "FOREST_POWER": "2",
+      "MOUNTAIN_POWER": "2",
+      "MAIN_EFFECT": "#{J} Vous pouvez payer {1} pour que je gagne [[Ancré]].# (Au Repos, je ne vais pas en Réserve et je perds Ancré.)  À Midi — [Ravitaillez]. (Mettez la première carte de votre deck en Réserve.)"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "WCQ25-04-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCQ25_P_OR_05_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/dec6a46d08492ce7d826",
+        "reference": "SOLDIER",
+        "id": "01HKAGQ5CZVEX15T5KTM40KQSA",
+        "name": "Soldat"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/WCQ25",
+      "@type": "CardSet",
+      "id": "01JTJS33NQTY6A4RPTM11ARJTX",
+      "reference": "WCQ25",
+      "name": "World Championship Qualifier 2025 - FACTION CHAMPIONS CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/423b51fcfdb0b726502a",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_OR_05/JPG/fr_FR/5592f6bb8c39ca8fd5246129ddae79b0.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_OR_05/WEB_e28f6e9841c03c9da1af34d43f9925df",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_OR_05/WEB_71f3dbe0e5eb7f6248c17859e7a97e92",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_OR_05/WEB_8ad3ebf230588d871a950bc0b223b982"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCQ25_P_OR_05_R1",
+    "reference": "ALT_WCQ25_P_OR_05_R1",
+    "id": "01JTJSZMEHWPT44KW6KXG7W0NN",
+    "mainFaction": {
+      "@id": "/factions/OR",
+      "@type": "Faction",
+      "reference": "OR",
+      "color": "#0f6593",
+      "id": "01GE7AC9X78DXSNKNB15KCF69X",
+      "name": "Ordis"
+    },
+    "allImagePath": {
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_OR_05/JPG/it_IT/7644024256cb26b9c5cd4b21dc6a5e43.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_OR_05/JPG/de_DE/a7ed6694d38050211c809adde84d27dd.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_OR_05/JPG/fr_FR/5592f6bb8c39ca8fd5246129ddae79b0.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_OR_05/JPG/en_US/738c1d534ce0cc6675dc76cda7d5b406.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_OR_05/JPG/es_ES/c5a360f77adfb7256dc12e1c330fe9c5.jpg"
+    },
+    "name": "Troupière Ordis",
+    "elements": {
+      "MAIN_COST": "1",
+      "RECALL_COST": "1",
+      "OCEAN_POWER": "#2#",
+      "FOREST_POWER": "1",
+      "MOUNTAIN_POWER": "#2#"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "WCQ25-05-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_WCQ25_P_YZ_05_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/8f3f9ff88b079cf0dae5",
+        "reference": "SPIRIT",
+        "id": "01HKAGQ2CRATX32S1PS2GBXYV7",
+        "name": "Esprit"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/WCQ25",
+      "@type": "CardSet",
+      "id": "01JTJS33NQTY6A4RPTM11ARJTX",
+      "reference": "WCQ25",
+      "name": "World Championship Qualifier 2025 - FACTION CHAMPIONS CARDS"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/182e2e1640ec36049874",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_YZ_05/JPG/fr_FR/f664b8bd3c4e0a3c13066927b7bd9fdd.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_YZ_05/WEB_5ab3006ee55028ad530aeb08d2799882",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_YZ_05/WEB_c7cf263b11dc8bee353de9d1a9918d97",
+        "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_YZ_05/WEB_68c6006f18e06f4b2b0049b2f18140b4"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_WCQ25_P_YZ_05_R1",
+    "reference": "ALT_WCQ25_P_YZ_05_R1",
+    "id": "01JTJT04XPN848S4D3Z0RNRH2W",
+    "mainFaction": {
+      "@id": "/factions/YZ",
+      "@type": "Faction",
+      "reference": "YZ",
+      "color": "#764891",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY7459",
+      "name": "Yzmir"
+    },
+    "allImagePath": {
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_YZ_05/JPG/de_DE/db9e1729167a4bce793a9f41fa0f7467.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_YZ_05/JPG/fr_FR/f664b8bd3c4e0a3c13066927b7bd9fdd.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_YZ_05/JPG/en_US/0cbab5200ada2477bf5f820f03600730.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_YZ_05/JPG/it_IT/d3a460d6d01134a9d046fce02f5a9627.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/WCQ25/CARDS/ALT_WCQ25_P_YZ_05/JPG/es_ES/e43e2ce31eafe86a4590aa136ade1ea0.jpg"
+    },
+    "name": "Méduse Lunaire",
+    "elements": {
+      "MAIN_COST": "1",
+      "RECALL_COST": "1",
+      "OCEAN_POWER": "1",
+      "FOREST_POWER": "1",
+      "MOUNTAIN_POWER": "0",
+      "MAIN_EFFECT": "Lorsque je suis sacrifiée, si je n'étais pas [[Fugace]] — Mettez-moi en Réserve.  #Lorsque je suis sacrifiée, si j'étais [[Fugace]] — Piochez une carte.#"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "WCQ25-06-R-FR"
+  }
+]

@@ -1,0 +1,293 @@
+[
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTEROP_A_AX_98_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9X35JXEQZJBBD6E4BKX",
+      "@type": "CardType",
+      "reference": "SPELL",
+      "id": "01GE7AC9X35JXEQZJBBD6E4BKX",
+      "name": "Sort"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/38016b7ef5d3e3054202",
+        "reference": "CONJURATION",
+        "id": "01HKAGQJMGEVS21MCGWDGG8KW0",
+        "name": "Conjuration"
+      },
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/e3dec5bfe12d6cc84483",
+        "reference": "MANEUVER",
+        "id": "01HKAGPGT0M24AWMMF30CN0NT4",
+        "name": "Manœuvre"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTEROP",
+      "@type": "CardSet",
+      "id": "01K4YGEBN10S3MMN6J9CW5B4AC",
+      "reference": "DUSTEROP",
+      "name": "Les Graines de l'Unité - Jeu Organisé"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/06a6c58f773fe935fda6",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_AX_98/JPG/fr_FR/8bbf0fee9275f54ed030a8cef1eea9de.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTEROP_A_AX_98_C",
+    "reference": "ALT_DUSTEROP_A_AX_98_C",
+    "id": "01K4YGECGRVP002XYTEWX1RAJT",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "allImagePath": {
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_AX_98/JPG/en_US/29d4d0dd1b6f64ae9b43aa0047a7099a.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_AX_98/JPG/fr_FR/8bbf0fee9275f54ed030a8cef1eea9de.jpg",
+      "de-de": "",
+      "it-it": "",
+      "es-es": ""
+    },
+    "name": "Rencontre Technologique",
+    "elements": {
+      "MAIN_COST": "4",
+      "RECALL_COST": "2",
+      "MAIN_EFFECT": "[Rafraîchissement].  Piochez une carte, puis créez un jeton [Graine de Mana] dans vos Repères."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUOP-014-C-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTEROP_A_AX_98_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9X35JXEQZJBBD6E4BKX",
+      "@type": "CardType",
+      "reference": "SPELL",
+      "id": "01GE7AC9X35JXEQZJBBD6E4BKX",
+      "name": "Sort"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/71c83d3a0c4ecda50b61",
+        "reference": "CONJURATION",
+        "id": "01HKAGQJMGEVS21MCGWDGG8KW0",
+        "name": "Conjuration"
+      },
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/47ce8a7c269512697bf4",
+        "reference": "MANEUVER",
+        "id": "01HKAGPGT0M24AWMMF30CN0NT4",
+        "name": "Manœuvre"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTEROP",
+      "@type": "CardSet",
+      "id": "01K4YGEBN10S3MMN6J9CW5B4AC",
+      "reference": "DUSTEROP",
+      "name": "Les Graines de l'Unité - Jeu Organisé"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/3fe714128d8422ce330d",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_AX_98/JPG/fr_FR/0f9cf1ebcb3c45687cca714bd4d1f8c0.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTEROP_A_AX_98_R1",
+    "reference": "ALT_DUSTEROP_A_AX_98_R1",
+    "id": "01K4YGECGRVP002XYTEWX1RAJX",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "allImagePath": {
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_AX_98/JPG/en_US/89d7f47aacaa015b0ff4c653a094006d.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_AX_98/JPG/fr_FR/0f9cf1ebcb3c45687cca714bd4d1f8c0.jpg",
+      "de-de": "",
+      "it-it": "",
+      "es-es": ""
+    },
+    "name": "Rencontre Technologique",
+    "elements": {
+      "MAIN_COST": "#3#",
+      "RECALL_COST": "2",
+      "MAIN_EFFECT": "[Rafraîchissement].  Piochez une carte, puis créez un jeton [Graine de Mana] dans vos Repères."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUOP-014-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTEROP_B_BR_31_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H0FV1VGP26CD3DFE8W3PWTQT",
+      "@type": "CardType",
+      "reference": "TOKEN",
+      "id": "01H0FV1VGP26CD3DFE8W3PWTQT",
+      "name": "Jeton Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/58012a08f03515a879e9",
+        "reference": "COMPANION",
+        "id": "01HKAGQPYTEKRYT4PRE9HZHTDA",
+        "name": "Compagnon"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTEROP",
+      "@type": "CardSet",
+      "id": "01K4YGEBN10S3MMN6J9CW5B4AC",
+      "reference": "DUSTEROP",
+      "name": "Les Graines de l'Unité - Jeu Organisé"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/a50329e00b2c9eb490ee",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_B_BR_31/JPG/fr_FR/cdae7441275e5e38bc8a3ed319b179ca.jpg",
+    "assets": {
+      "WEB": [
+        "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_B_BR_31/WEB_004629ecf15822ea23536c47fa674e09"
+      ]
+    },
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTEROP_B_BR_31_C",
+    "reference": "ALT_DUSTEROP_B_BR_31_C",
+    "id": "01K8NQYDYZFEJ4MK8ZT7K4GX3C",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "allImagePath": {
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_B_BR_31/JPG/en_US/35387d9175c66957f4e80618ff13d43f.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_B_BR_31/JPG/fr_FR/cdae7441275e5e38bc8a3ed319b179ca.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_B_BR_31/JPG/de_DE/2335be934518812a02696b1c4a677326.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_B_BR_31/JPG/it_IT/4da2632638b850bff4b391669b91c981.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_B_BR_31/JPG/es_ES/11b94f8b4561b96b93d8cdcb10b47628.jpg"
+    },
+    "name": "Booda",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "OCEAN_POWER": "2",
+      "MOUNTAIN_POWER": "2",
+      "FOREST_POWER": "2"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUOP-022-T-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTEROP_A_MU_83_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H0FV1VGP26CD3DFE8W3PWTQT",
+      "@type": "CardType",
+      "reference": "TOKEN",
+      "id": "01H0FV1VGP26CD3DFE8W3PWTQT",
+      "name": "Jeton Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/0ffa175a16c5a9c77328",
+        "reference": "ANIMAL",
+        "id": "01HKAGQS36Z3DP166MZW8KRAEK",
+        "name": "Animal"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTEROP",
+      "@type": "CardSet",
+      "id": "01K4YGEBN10S3MMN6J9CW5B4AC",
+      "reference": "DUSTEROP",
+      "name": "Les Graines de l'Unité - Jeu Organisé"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/de2ac92739d7085a7b9e",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_MU_83/JPG/fr_FR/103c5fdf59714cdb3ff6de6922b835b5.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTEROP_A_MU_83_C",
+    "isOwnerless": false,
+    "reference": "ALT_DUSTEROP_A_MU_83_C",
+    "id": "01KECGKEFQDSP605BFFGNKNT00",
+    "mainFaction": {
+      "@id": "/factions/MU",
+      "@type": "Faction",
+      "reference": "MU",
+      "color": "#3d6b42",
+      "id": "01GE7AC9X2BNM40TTAYAEFSZSJ",
+      "name": "Muna"
+    },
+    "allImagePath": {
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_MU_83/JPG/en_US/245960274810f6bbb44160dd95493255.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_MU_83/JPG/fr_FR/103c5fdf59714cdb3ff6de6922b835b5.jpg",
+      "de-de": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_MU_83/JPG/de_DE/60a5ad9d8f39e9a82a5b2edfdf22d1ec.jpg",
+      "it-it": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_MU_83/JPG/it_IT/1eec4707d8d41624fefd325ed7e7fb5c.jpg",
+      "es-es": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTEROP/CARDS/ALT_DUSTEROP_A_MU_83/JPG/es_ES/61d8f608b9591d5931f1a8d23e54ef54.jpg"
+    },
+    "name": "Dotouffu",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "OCEAN_POWER": "1",
+      "MOUNTAIN_POWER": "1",
+      "FOREST_POWER": "1"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "ALT_DUSTEROP_A_MU_83_C-FR"
+  }
+]
