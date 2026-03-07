@@ -1,7 +1,8 @@
 """Altered Draft Tool — Streamlit UI."""
 
 import streamlit as st
-from collections import Counter
+import plotly.graph_objects as go
+from collections import Counter, defaultdict
 
 from draft_engine import (
     apply_pick,
@@ -26,15 +27,15 @@ from draft_engine import (
 )
 
 # ---------------------------------------------------------------------------
-# Faction colours
+# Constants
 # ---------------------------------------------------------------------------
 FACTION_COLORS = {
-    "AX": "#5b8dd9",  # Axiom — blue
-    "BR": "#e05555",  # Bravos — red
-    "LY": "#d4a843",  # Lyra — gold
-    "MU": "#6bbf6b",  # Muna — green
-    "OR": "#b07cd8",  # Ordis — purple
-    "YZ": "#3cbcc3",  # Yzmir — teal
+    "AX": "#5b8dd9",
+    "BR": "#e05555",
+    "LY": "#d4a843",
+    "MU": "#6bbf6b",
+    "OR": "#b07cd8",
+    "YZ": "#3cbcc3",
 }
 
 FACTION_NAMES = {
@@ -46,6 +47,15 @@ FACTION_NAMES = {
     "YZ": "Yzmir",
 }
 
+FACTION_ICONS = {
+    "AX": "⚙️",
+    "BR": "🔥",
+    "LY": "🎵",
+    "MU": "🌿",
+    "OR": "🔮",
+    "YZ": "💧",
+}
+
 RARITY_LABELS = {
     "COMMON": "Commune",
     "RARE": "Rare",
@@ -54,17 +64,38 @@ RARITY_LABELS = {
 }
 
 TYPE_LABELS = {
-    "CHARACTER": "Personnages",
-    "SPELL": "Sorts",
-    "PERMANENT": "Permanents",
-    "LANDMARK_PERMANENT": "Permanents",
+    "CHARACTER": "Personnage",
+    "SPELL": "Sort",
+    "PERMANENT": "Permanent",
+    "LANDMARK_PERMANENT": "Repère Perm.",
     "HERO": "Héros",
 }
 
-POWER_ICONS = {
-    "MOUNTAIN_POWER": "🏔️",
-    "OCEAN_POWER": "🌊",
-    "FOREST_POWER": "🌲",
+TYPE_ICONS = {
+    "Personnage": "👤",
+    "Sort": "✨",
+    "Permanent": "🏛️",
+    "Repère Perm.": "🏛️",
+    "Héros": "👑",
+}
+
+TYPE_CHART_COLORS = {
+    "Personnage": "#4FC3F7",
+    "Sort": "#CE93D8",
+    "Permanent": "#FFB74D",
+    "Repère Perm.": "#FFB74D",
+}
+
+TERRAIN_COLORS = {
+    "FOREST_POWER": "#8BC34A",
+    "MOUNTAIN_POWER": "#FF9800",
+    "OCEAN_POWER": "#2196F3",
+}
+
+TERRAIN_LABELS = {
+    "FOREST_POWER": "Forêt",
+    "MOUNTAIN_POWER": "Montagne",
+    "OCEAN_POWER": "Eau",
 }
 
 # ---------------------------------------------------------------------------
@@ -81,7 +112,6 @@ def _state():
 
 
 def _reset_draft():
-    """Reset draft state but keep the collection."""
     collection = _state().get("raw_collection")
     if collection is not None:
         draft = init_draft_state(collection)
@@ -95,18 +125,23 @@ def _reset_draft():
 
 
 # ---------------------------------------------------------------------------
-# Card display component
+# Card display
 # ---------------------------------------------------------------------------
 def _get_image_url(card: dict) -> str | None:
-    """Get the card image URL (FR preferred, fallback to imagePath)."""
     all_paths = card.get("allImagePath", {})
     if isinstance(all_paths, dict) and all_paths.get("fr-fr"):
         return all_paths["fr-fr"]
     return card.get("imagePath")
 
 
+def _clean_cost(raw) -> int | None:
+    try:
+        return int(str(raw).replace("#", ""))
+    except (ValueError, TypeError):
+        return None
+
+
 def render_card(card: dict, col, key_suffix: str, on_pick):
-    """Render a single card in a Streamlit column with a pick button."""
     name = _get_name(card)
     image_url = _get_image_url(card)
 
@@ -160,49 +195,81 @@ def render_card(card: dict, col, key_suffix: str, on_pick):
 
 
 # ---------------------------------------------------------------------------
-# Sidebar: deck in progress with tooltip images + stats
+# Deck stats computation
 # ---------------------------------------------------------------------------
 def _compute_deck_stats(picks: list[dict]) -> dict:
-    """Compute type distribution and mana curve from picks."""
     type_counts = Counter()
     main_cost_curve = Counter()
     reserve_cost_curve = Counter()
+    terrain_totals = Counter()
+    rarity_counts = Counter()
 
     for card in picks:
         ct = _get_card_type(card)
+        rarity = _get_rarity(card)
+        rarity_counts[rarity] += 1
+
         if ct == "HERO":
             continue
+
         type_label = TYPE_LABELS.get(ct, ct)
         type_counts[type_label] += 1
 
         elements = card.get("elements", {})
-        main_cost = elements.get("MAIN_COST", "?")
-        recall_cost = elements.get("RECALL_COST", "?")
 
-        # Clean cost values (remove # markers from rare cards)
-        main_cost_clean = str(main_cost).replace("#", "")
-        recall_cost_clean = str(recall_cost).replace("#", "")
-
-        try:
-            mc = int(main_cost_clean)
+        mc = _clean_cost(elements.get("MAIN_COST", "?"))
+        rc = _clean_cost(elements.get("RECALL_COST", "?"))
+        if mc is not None:
             main_cost_curve[mc] += 1
-        except (ValueError, TypeError):
-            pass
-        try:
-            rc = int(recall_cost_clean)
+        if rc is not None:
             reserve_cost_curve[rc] += 1
-        except (ValueError, TypeError):
-            pass
+
+        for terrain_key in ("FOREST_POWER", "MOUNTAIN_POWER", "OCEAN_POWER"):
+            val = elements.get(terrain_key, "")
+            if val != "":
+                try:
+                    terrain_totals[terrain_key] += int(str(val).replace("#", ""))
+                except (ValueError, TypeError):
+                    terrain_totals[terrain_key] += 1
 
     return {
         "type_counts": dict(type_counts),
         "main_cost_curve": dict(sorted(main_cost_curve.items())),
         "reserve_cost_curve": dict(sorted(reserve_cost_curve.items())),
+        "terrain_totals": dict(terrain_totals),
+        "rarity_counts": dict(rarity_counts),
     }
 
 
+# ---------------------------------------------------------------------------
+# Sidebar: deck in progress
+# ---------------------------------------------------------------------------
+def _build_deck_by_type(picks: list[dict]) -> dict:
+    """Group picks by card type, with counts and card data."""
+    card_counts: dict[str, int] = {}
+    card_map: dict[str, dict] = {}
+    for c in picks:
+        ref = _get_ref(c)
+        card_counts[ref] = card_counts.get(ref, 0) + 1
+        card_map[ref] = c
+
+    grouped = defaultdict(list)
+    for ref, count in card_counts.items():
+        card = card_map[ref]
+        ct = _get_card_type(card)
+        type_label = TYPE_LABELS.get(ct, ct)
+        grouped[type_label].append((card, count))
+
+    # Sort each group by main cost
+    for type_label in grouped:
+        grouped[type_label].sort(
+            key=lambda x: (_clean_cost(x[0].get("elements", {}).get("MAIN_COST", "99")) or 99)
+        )
+
+    return dict(grouped)
+
+
 def render_sidebar():
-    """Show the deck being built in the sidebar with hover images and stats."""
     picks = _state().get("picks", [])
     if not picks:
         st.sidebar.markdown("*Aucune carte encore sélectionnée.*")
@@ -210,100 +277,190 @@ def render_sidebar():
 
     st.sidebar.markdown(f"### Deck ({len(picks)} cartes)")
 
-    # --- Deck stats ---
-    stats = _compute_deck_stats(picks)
-
-    # Type distribution
-    type_counts = stats["type_counts"]
-    if type_counts:
-        st.sidebar.markdown("**Répartition par type :**")
-        for t_label in ("Personnages", "Sorts", "Permanents"):
-            count = type_counts.get(t_label, 0)
-            if count:
-                st.sidebar.markdown(f"- {t_label} : **{count}**")
-
-    # Mana curve
-    main_curve = stats["main_cost_curve"]
-    reserve_curve = stats["reserve_cost_curve"]
-    if main_curve:
-        st.sidebar.markdown("**Courbe de mana (Main) :**")
-        max_cost = max(main_curve.keys()) if main_curve else 0
-        curve_parts = []
-        for cost in range(0, max_cost + 1):
-            count = main_curve.get(cost, 0)
-            bar = "█" * count
-            curve_parts.append(f"`{cost}` {bar} {count}")
-        st.sidebar.markdown("  \n".join(curve_parts))
-
-    if reserve_curve:
-        st.sidebar.markdown("**Courbe de mana (Réserve) :**")
-        max_cost = max(reserve_curve.keys()) if reserve_curve else 0
-        curve_parts = []
-        for cost in range(0, max_cost + 1):
-            count = reserve_curve.get(cost, 0)
-            bar = "█" * count
-            curve_parts.append(f"`{cost}` {bar} {count}")
-        st.sidebar.markdown("  \n".join(curve_parts))
-
-    st.sidebar.markdown("---")
-
-    # --- Card list with hover images ---
-    summary = build_deck_summary(picks)
-
-    # Build a map from ref -> image_url for tooltip
-    ref_to_image = {}
-    for card in picks:
-        ref = _get_ref(card)
-        if ref not in ref_to_image:
-            ref_to_image[ref] = _get_image_url(card) or ""
-
     # CSS for hover tooltip
     st.sidebar.markdown(
         """
         <style>
-        .card-tooltip {
-            position: relative;
-            cursor: pointer;
-            display: inline-block;
+        .card-row {
+            display: flex; align-items: center; gap: 6px;
+            padding: 3px 0; font-size: 0.85em; position: relative;
         }
-        .card-tooltip .card-tooltip-img {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            width: 250px;
-            border-radius: 12px;
+        .card-row .qty {
+            background: #f0f0f0; border-radius: 4px; padding: 1px 6px;
+            font-weight: bold; min-width: 22px; text-align: center;
+        }
+        .card-row .faction-dot {
+            width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+        }
+        .card-row .cname { flex: 1; }
+        .cost-badge {
+            display: inline-block; width: 22px; height: 22px; border-radius: 50%;
+            text-align: center; line-height: 22px; font-size: 0.75em; font-weight: bold;
+            color: white;
+        }
+        .cost-main { background: #1976D2; }
+        .cost-reserve { background: #F57C00; }
+        .card-tooltip-wrap { position: relative; }
+        .card-tooltip-wrap .card-hover-img {
+            display: none; position: fixed; z-index: 9999;
+            width: 250px; border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            pointer-events: none;
+            pointer-events: none; left: 300px; top: 100px;
         }
-        .card-tooltip:hover .card-tooltip-img {
+        .card-tooltip-wrap:hover .card-hover-img {
             display: block;
-            left: 300px;
-            top: 50px;
         }
         </style>
         """,
         unsafe_allow_html=True,
     )
 
-    for rarity in ("HERO", "RARE", "EXALTED", "COMMON"):
-        entries = summary.get(rarity, [])
+    deck_by_type = _build_deck_by_type(picks)
+
+    type_order = ["Héros", "Personnage", "Sort", "Permanent", "Repère Perm."]
+    for type_label in type_order:
+        entries = deck_by_type.get(type_label, [])
         if not entries:
             continue
-        label = RARITY_LABELS.get(rarity, rarity)
-        st.sidebar.markdown(f"**{label}** ({len(entries)})")
-        for name, ref, count in sorted(entries):
-            img_url = ref_to_image.get(ref, "")
-            count_str = "" if rarity == "HERO" else f" x{count}"
+        total = sum(count for _, count in entries)
+        icon = TYPE_ICONS.get(type_label, "")
+        st.sidebar.markdown(f"**{icon} {type_label} ({total})**")
+
+        html_rows = []
+        for card, count in entries:
+            name = _get_name(card)
+            faction = _get_faction(card)
+            color = FACTION_COLORS.get(faction, "#888")
+            elements = card.get("elements", {})
+            mc = _clean_cost(elements.get("MAIN_COST"))
+            rc = _clean_cost(elements.get("RECALL_COST"))
+            img_url = _get_image_url(card) or ""
+
+            cost_html = ""
+            if mc is not None:
+                cost_html += f'<span class="cost-badge cost-main">{mc}</span> '
+            if rc is not None:
+                cost_html += f'<span class="cost-badge cost-reserve">{rc}</span>'
+
+            img_tag = ""
             if img_url:
-                st.sidebar.markdown(
-                    f'<span class="card-tooltip">'
-                    f"{name}{count_str}"
-                    f'<img class="card-tooltip-img" src="{img_url}" />'
-                    f"</span>",
-                    unsafe_allow_html=True,
-                )
-            else:
-                st.sidebar.markdown(f"- {name}{count_str}")
+                img_tag = f'<img class="card-hover-img" src="{img_url}" />'
+
+            html_rows.append(
+                f'<div class="card-row card-tooltip-wrap">'
+                f'<span class="qty">{count}</span>'
+                f'<span class="faction-dot" style="background:{color}"></span>'
+                f'<span class="cname">{name}</span>'
+                f'{cost_html}'
+                f'{img_tag}'
+                f'</div>'
+            )
+
+        st.sidebar.markdown("\n".join(html_rows), unsafe_allow_html=True)
+
+    # Quick stats at the bottom
+    stats = _compute_deck_stats(picks)
+    rarity = stats["rarity_counts"]
+    st.sidebar.markdown("---")
+    st.sidebar.markdown(
+        f"**C** {rarity.get('COMMON', 0)} | "
+        f"**R** {rarity.get('RARE', 0)} | "
+        f"**E** {rarity.get('EXALTED', 0)}"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Charts for the done screen
+# ---------------------------------------------------------------------------
+def _make_type_pie(stats: dict) -> go.Figure:
+    type_counts = stats["type_counts"]
+    labels = []
+    values = []
+    colors = []
+    for t_label in ("Personnage", "Sort", "Permanent", "Repère Perm."):
+        if type_counts.get(t_label, 0) > 0:
+            labels.append(t_label)
+            values.append(type_counts[t_label])
+            colors.append(TYPE_CHART_COLORS.get(t_label, "#999"))
+
+    fig = go.Figure(data=[go.Pie(
+        labels=labels, values=values,
+        marker=dict(colors=colors),
+        hole=0.0,
+        textinfo="label+value",
+        textfont_size=13,
+    )])
+    fig.update_layout(
+        title="Répartition par Types",
+        margin=dict(t=40, b=10, l=10, r=10),
+        height=280,
+        showlegend=True,
+        legend=dict(orientation="h", y=-0.05),
+    )
+    return fig
+
+
+def _make_mana_curve(stats: dict) -> go.Figure:
+    main_curve = stats["main_cost_curve"]
+    reserve_curve = stats["reserve_cost_curve"]
+
+    all_costs = sorted(set(list(main_curve.keys()) + list(reserve_curve.keys())))
+    if not all_costs:
+        all_costs = [0]
+    max_cost = max(all_costs)
+    x = list(range(0, max_cost + 1))
+    main_vals = [main_curve.get(c, 0) for c in x]
+    reserve_vals = [reserve_curve.get(c, 0) for c in x]
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        name="Main", x=x, y=main_vals,
+        marker_color="#1976D2",
+    ))
+    fig.add_trace(go.Bar(
+        name="Réserve", x=x, y=reserve_vals,
+        marker_color="#F57C00",
+        opacity=0.7,
+    ))
+    fig.update_layout(
+        title="Coût en Mana",
+        xaxis_title="Coût en Mana",
+        yaxis_title="Nombre de Cartes",
+        barmode="group",
+        margin=dict(t=40, b=40, l=40, r=10),
+        height=300,
+        legend=dict(orientation="h", y=1.12),
+    )
+    fig.update_xaxes(dtick=1)
+    return fig
+
+
+def _make_terrain_pie(stats: dict) -> go.Figure:
+    terrain = stats["terrain_totals"]
+    labels = []
+    values = []
+    colors = []
+    for key in ("FOREST_POWER", "MOUNTAIN_POWER", "OCEAN_POWER"):
+        if terrain.get(key, 0) > 0:
+            labels.append(TERRAIN_LABELS[key])
+            values.append(terrain[key])
+            colors.append(TERRAIN_COLORS[key])
+
+    fig = go.Figure(data=[go.Pie(
+        labels=labels, values=values,
+        marker=dict(colors=colors),
+        hole=0.0,
+        textinfo="label+value",
+        textfont_size=13,
+    )])
+    fig.update_layout(
+        title="Répartition par Terrain",
+        margin=dict(t=40, b=10, l=10, r=10),
+        height=280,
+        showlegend=True,
+        legend=dict(orientation="h", y=-0.05),
+    )
+    return fig
 
 
 # ---------------------------------------------------------------------------
@@ -359,23 +516,29 @@ def screen_start():
         st.rerun()
 
 
+def _card_columns(n_cards: int, max_per_row: int = 5):
+    """Create centered columns with padding for smaller card display."""
+    n = min(n_cards, max_per_row)
+    # Add spacer columns (weight 1) on each side, card columns (weight 2)
+    widths = [1.5] + [2] * n + [1.5]
+    all_cols = st.columns(widths)
+    return all_cols[1:-1]  # Return only the card columns
+
+
 def screen_faction_pick():
     st.title("Pick 1 — Quelle faction vas-tu jouer ?")
     st.markdown("Choisis une carte rare. Sa faction sera ta faction pour tout le draft.")
 
-    # Generate choices once
     if _state().get("current_choices") is None:
         choices = generate_faction_choices(_state())
         _state()["current_choices"] = choices
 
     choices = _state()["current_choices"]
-
     if not choices:
         st.error("Pas assez de cartes rares dans la collection pour proposer un choix.")
         return
 
-    # Use max 5 columns, cards won't be too wide
-    cols = st.columns(min(len(choices), 5))
+    cols = _card_columns(len(choices))
     for i, card in enumerate(choices):
         render_card(card, cols[i % len(cols)], f"faction_{i}", on_faction_pick)
 
@@ -385,7 +548,6 @@ def screen_main_draft():
     rare_left = _state()["rare_slots"]
     ce_left = _state()["common_exalted_slots"]
 
-    # Generate choices once per pick
     if _state().get("current_choices") is None:
         pick_type, choices = generate_main_choices(_state())
         _state()["current_choices"] = choices
@@ -394,11 +556,9 @@ def screen_main_draft():
         pick_type = _state().get("pick_type", "COMMON_EXALTED")
         choices = _state()["current_choices"]
 
-    # Header
     type_label = "Pick Rare" if pick_type == "RARE" else "Pick Commune / Exaltée"
     st.title(f"Pick {pick_idx}/39 — {type_label}")
 
-    # Progress bar
     progress = (pick_idx - 1) / 39
     st.progress(progress)
     st.markdown(
@@ -415,8 +575,7 @@ def screen_main_draft():
         st.rerun()
         return
 
-    # Display in rows of 5 max for smaller cards
-    cols = st.columns(min(len(choices), 5))
+    cols = _card_columns(len(choices))
     for i, card in enumerate(choices):
         render_card(card, cols[i % len(cols)], f"main_{pick_idx}_{i}", on_main_pick)
 
@@ -429,18 +588,15 @@ def screen_hero_pick():
         _state()["current_choices"] = choices
 
     choices = _state()["current_choices"]
-
     if not choices:
         st.error("Aucun héros disponible pour ta faction.")
         return
 
     st.markdown(f"**{len(choices)} héros disponibles :**")
-
-    # Display all heroes in rows of 5
     n_cols = min(len(choices), 5)
     for row_start in range(0, len(choices), n_cols):
         row_cards = choices[row_start : row_start + n_cols]
-        cols = st.columns(n_cols)
+        cols = _card_columns(len(row_cards))
         for i, card in enumerate(row_cards):
             render_card(card, cols[i], f"hero_{row_start + i}", on_hero_pick)
 
@@ -450,23 +606,144 @@ def screen_done():
     st.balloons()
 
     picks = _state().get("picks", [])
-    summary = build_deck_summary(picks)
+    stats = _compute_deck_stats(picks)
+    deck_by_type = _build_deck_by_type(picks)
+    faction = _state().get("faction", "")
+    faction_name = FACTION_NAMES.get(faction, faction)
+    faction_color = FACTION_COLORS.get(faction, "#888")
 
-    for rarity in ("HERO", "RARE", "EXALTED", "COMMON"):
-        entries = summary.get(rarity, [])
-        if not entries:
-            continue
-        label = RARITY_LABELS.get(rarity, rarity)
-        st.subheader(f"{label} ({sum(c for _, _, c in entries)} cartes)")
-        for name, _ref, count in sorted(entries):
-            if rarity == "HERO":
-                st.markdown(f"- **{name}**")
-            else:
-                st.markdown(f"- {name} x{count}")
+    # --- Layout: Hero image | Card list | Stats ---
+    col_hero, col_list, col_stats = st.columns([1, 2, 2])
 
-    st.markdown(f"**Total : {len(picks)} cartes**")
+    # --- Hero card image ---
+    with col_hero:
+        hero_cards = deck_by_type.get("Héros", [])
+        if hero_cards:
+            hero_card = hero_cards[0][0]
+            hero_img = _get_image_url(hero_card)
+            if hero_img:
+                st.image(hero_img, use_container_width=True)
+            st.markdown(
+                f'<div style="text-align:center; margin-top:4px;">'
+                f'<span style="background:{faction_color}; color:white; '
+                f'padding:4px 14px; border-radius:20px; font-weight:bold;">'
+                f'{FACTION_ICONS.get(faction, "")} {faction_name}</span></div>',
+                unsafe_allow_html=True,
+            )
+
+    # --- Card list by type ---
+    with col_list:
+        # Tooltip CSS
+        st.markdown(
+            """
+            <style>
+            .dl-card-row {
+                display: flex; align-items: center; gap: 6px;
+                padding: 4px 8px; font-size: 0.9em;
+                border-radius: 6px; margin: 2px 0;
+                background: #fafafa;
+            }
+            .dl-card-row:hover { background: #f0f0f0; }
+            .dl-card-row .qty {
+                background: #e8e8e8; border-radius: 4px; padding: 2px 8px;
+                font-weight: bold; min-width: 24px; text-align: center;
+            }
+            .dl-card-row .fdot {
+                width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+            }
+            .dl-card-row .cname { flex: 1; font-weight: 500; }
+            .dl-cost {
+                display: inline-flex; width: 24px; height: 24px; border-radius: 50%;
+                align-items: center; justify-content: center;
+                font-size: 0.8em; font-weight: bold; color: white;
+            }
+            .dl-cost-m { background: #1976D2; }
+            .dl-cost-r { background: #F57C00; }
+            .dl-wrap { position: relative; }
+            .dl-wrap .dl-hover {
+                display: none; position: fixed; z-index: 9999;
+                width: 250px; border-radius: 12px;
+                box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+                pointer-events: none;
+            }
+            .dl-wrap:hover .dl-hover {
+                display: block; left: 50%; top: 80px;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        type_order = ["Héros", "Personnage", "Sort", "Permanent", "Repère Perm."]
+        for type_label in type_order:
+            entries = deck_by_type.get(type_label, [])
+            if not entries:
+                continue
+            total = sum(c for _, c in entries)
+            icon = TYPE_ICONS.get(type_label, "")
+            st.markdown(f"**{icon} {type_label} ({total})**")
+
+            rows_html = []
+            for card, count in entries:
+                name = _get_name(card)
+                f_code = _get_faction(card)
+                color = FACTION_COLORS.get(f_code, "#888")
+                elements = card.get("elements", {})
+                mc = _clean_cost(elements.get("MAIN_COST"))
+                rc = _clean_cost(elements.get("RECALL_COST"))
+                img_url = _get_image_url(card) or ""
+
+                costs = ""
+                if mc is not None:
+                    costs += f'<span class="dl-cost dl-cost-m">{mc}</span> '
+                if rc is not None:
+                    costs += f'<span class="dl-cost dl-cost-r">{rc}</span>'
+
+                img_tag = ""
+                if img_url:
+                    img_tag = f'<img class="dl-hover" src="{img_url}" />'
+
+                rows_html.append(
+                    f'<div class="dl-card-row dl-wrap">'
+                    f'<span class="qty">{count}</span>'
+                    f'<span class="fdot" style="background:{color}"></span>'
+                    f'<span class="cname">{name}</span>'
+                    f'{costs}'
+                    f'{img_tag}'
+                    f'</div>'
+                )
+
+            st.markdown("\n".join(rows_html), unsafe_allow_html=True)
+
+    # --- Stats column ---
+    with col_stats:
+        # Summary header
+        rarity = stats["rarity_counts"]
+        st.markdown("### Statistiques du Deck")
+
+        total_non_hero = len(picks) - rarity.get("HERO", 0)
+        st.markdown(
+            f"**Total** {len(picks)} | "
+            f"C {rarity.get('COMMON', 0)} | "
+            f"R {rarity.get('RARE', 0)} | "
+            f"E {rarity.get('EXALTED', 0)}"
+        )
+
+        # Type pie chart
+        fig_type = _make_type_pie(stats)
+        st.plotly_chart(fig_type, use_container_width=True)
+
+        # Mana curve
+        fig_mana = _make_mana_curve(stats)
+        st.plotly_chart(fig_mana, use_container_width=True)
+
+        # Terrain pie
+        if stats["terrain_totals"]:
+            fig_terrain = _make_terrain_pie(stats)
+            st.plotly_chart(fig_terrain, use_container_width=True)
+
+    # --- Export buttons ---
     st.markdown("---")
-
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Nouveau Draft"):
