@@ -343,124 +343,147 @@ def render_mana_curves():
             st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 
+def _build_sidebar_card_list(picks: list[dict]) -> list[tuple[dict, int]]:
+    """Build a flat card list sorted by main cost, with counts."""
+    card_counts: dict[str, int] = {}
+    card_map: dict[str, dict] = {}
+    for c in picks:
+        ref = _get_ref(c)
+        card_counts[ref] = card_counts.get(ref, 0) + 1
+        card_map[ref] = c
+
+    result = []
+    for ref, count in card_counts.items():
+        result.append((card_map[ref], count))
+
+    # Sort by main cost → reserve cost → name
+    result.sort(
+        key=lambda x: (
+            _clean_cost(x[0].get("elements", {}).get("MAIN_COST", "99")) or 99,
+            _clean_cost(x[0].get("elements", {}).get("RECALL_COST", "99")) or 99,
+            _get_name(x[0]).lower(),
+        )
+    )
+    return result
+
+
 def render_sidebar():
     picks = _state().get("picks", [])
     if not picks:
         st.sidebar.markdown("*Aucune carte encore sélectionnée.*")
         return
 
-    st.sidebar.markdown(f"### Deck ({len(picks)} cartes)")
+    # --- Rarity summary ---
+    stats = _compute_deck_stats(picks)
+    rarity = stats["rarity_counts"]
+    total = len(picks)
+    n_common = rarity.get("COMMON", 0)
+    n_rare = rarity.get("RARE", 0)
+    n_exalted = rarity.get("EXALTED", 0)
 
-    # CSS for sidebar card rows with cropped artwork thumbnails
     st.sidebar.markdown(
-        """
+        f"""
         <style>
-        .card-row {
-            display: flex; align-items: center; gap: 5px;
-            padding: 2px 0; font-size: 0.82em; position: relative;
-        }
-        .card-thumb {
-            width: 36px; height: 36px; border-radius: 4px; flex-shrink: 0;
-            object-fit: cover; object-position: center 25%;
-            border: 1px solid #555;
-        }
-        .card-thumb-placeholder {
-            width: 36px; height: 36px; border-radius: 4px; flex-shrink: 0;
-            background: #444; border: 1px solid #555;
-        }
-        .card-row .cname {
+        .deck-header {{
+            display: flex; align-items: center; gap: 12px;
+            padding: 8px 4px; border-bottom: 2px solid #555;
+            margin-bottom: 6px; font-size: 0.85em; font-weight: bold;
+        }}
+        .deck-header .dh-label {{ color: #aaa; }}
+        .deck-header .dh-val {{ min-width: 20px; text-align: center; }}
+        .rarity-icon {{
+            display: inline-block; width: 12px; height: 12px;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            vertical-align: middle; margin-right: 2px;
+        }}
+        .ri-common {{ background: #9E9E9E; }}
+        .ri-rare {{ background: #1976D2; }}
+        .ri-exalted {{ background: #FFD700; }}
+
+        .sb-card-row {{
+            display: flex; align-items: center; gap: 0;
+            padding: 0; font-size: 0.82em; position: relative;
+            height: 32px; overflow: hidden;
+        }}
+        .sb-card-row:nth-child(odd) {{ background: rgba(255,255,255,0.03); }}
+        .sb-card-row:nth-child(even) {{ background: rgba(255,255,255,0.07); }}
+        .sb-card-row:hover {{ background: rgba(255,255,255,0.12); }}
+
+        .sb-qty {{
+            min-width: 22px; text-align: center; font-weight: bold;
+            font-size: 0.9em; flex-shrink: 0; padding: 0 2px;
+        }}
+        .sb-thumb {{
+            width: 50px; height: 32px; flex-shrink: 0;
+            object-fit: cover; object-position: center 20%;
+        }}
+        .sb-thumb-ph {{
+            width: 50px; height: 32px; flex-shrink: 0;
+            background: #333;
+        }}
+        .sb-faction-icon {{
+            flex-shrink: 0; font-size: 0.8em; padding: 0 3px;
+        }}
+        .sb-name {{
             flex: 1; white-space: nowrap; overflow: hidden;
-            text-overflow: ellipsis; font-size: 0.85em;
-        }
-        .cost-badge {
-            display: inline-flex; width: 20px; height: 20px; border-radius: 50%;
-            align-items: center; justify-content: center;
-            font-size: 0.7em; font-weight: bold; color: white; flex-shrink: 0;
-        }
-        .cost-main { background: #1976D2; }
-        .cost-reserve { background: #F57C00; }
-        .card-tooltip-wrap { position: relative; }
-        .card-tooltip-wrap .card-hover-img {
+            text-overflow: ellipsis; padding: 0 4px; font-size: 0.85em;
+        }}
+        .sb-card-wrap {{ position: relative; }}
+        .sb-card-wrap .sb-hover-img {{
             display: none; position: fixed; z-index: 9999;
             width: 250px; border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            pointer-events: none; left: 300px; top: 100px;
-        }
-        .card-tooltip-wrap:hover .card-hover-img {
+            pointer-events: none; left: 310px; top: 80px;
+        }}
+        .sb-card-wrap:hover .sb-hover-img {{
             display: block;
-        }
-        .type-block {
-            margin-bottom: 8px;
-            padding: 4px 0;
-            border-bottom: 1px solid #333;
-        }
-        .type-block:last-child { border-bottom: none; }
+        }}
+        .sb-list {{
+            border: 1px solid #444; border-radius: 6px; overflow: hidden;
+        }}
         </style>
+
+        <div class="deck-header">
+            <span class="dh-label">Total</span>
+            <span class="dh-val">{total}</span>
+            <span><span class="rarity-icon ri-common"></span> {n_common}</span>
+            <span><span class="rarity-icon ri-rare"></span> {n_rare}/{RARE_SLOTS}</span>
+            <span><span class="rarity-icon ri-exalted"></span> {n_exalted}</span>
+        </div>
         """,
         unsafe_allow_html=True,
     )
 
-    deck_by_type = _build_deck_by_type(picks)
+    # --- Card list ---
+    card_list = _build_sidebar_card_list(picks)
+    html_rows = []
+    for card, count in card_list:
+        name = _get_name(card)
+        faction = _get_faction(card)
+        faction_icon = FACTION_ICONS.get(faction, "")
+        img_url = _get_image_url(card) or ""
 
-    # Card list grouped by type
-    type_order = ["Personnage", "Sort", "Permanent", "Repère Perm.", "Héros"]
-    for type_label in type_order:
-        entries = deck_by_type.get(type_label, [])
-        if not entries:
-            continue
-        total = sum(count for _, count in entries)
-        icon = TYPE_ICONS.get(type_label, "")
-        st.sidebar.markdown(f"**{icon} {type_label} ({total})**")
+        # Artwork thumbnail (horizontal banner crop)
+        if img_url:
+            thumb = f'<img class="sb-thumb" src="{img_url}" />'
+            hover = f'<img class="sb-hover-img" src="{img_url}" />'
+        else:
+            thumb = '<div class="sb-thumb-ph"></div>'
+            hover = ""
 
-        html_rows = []
-        for card, count in entries:
-            name = _get_name(card)
-            elements = card.get("elements", {})
-            mc = _clean_cost(elements.get("MAIN_COST"))
-            rc = _clean_cost(elements.get("RECALL_COST"))
-            img_url = _get_image_url(card) or ""
-
-            cost_html = ""
-            if mc is not None:
-                cost_html += f'<span class="cost-badge cost-main">{mc}</span> '
-            if rc is not None:
-                cost_html += f'<span class="cost-badge cost-reserve">{rc}</span>'
-
-            # Cropped artwork thumbnail
-            if img_url:
-                thumb_html = f'<img class="card-thumb" src="{img_url}" />'
-            else:
-                thumb_html = '<div class="card-thumb-placeholder"></div>'
-
-            hover_img = ""
-            if img_url:
-                hover_img = f'<img class="card-hover-img" src="{img_url}" />'
-
-            qty_html = f'<span style="font-weight:bold; min-width:14px; text-align:center; font-size:0.8em;">{count}</span>' if count > 1 else ""
-
-            html_rows.append(
-                f'<div class="card-row card-tooltip-wrap">'
-                f'{thumb_html}'
-                f'{qty_html}'
-                f'<span class="cname">{name}</span>'
-                f'{cost_html}'
-                f'{hover_img}'
-                f'</div>'
-            )
-
-        st.sidebar.markdown(
-            f'<div class="type-block">{"".join(html_rows)}</div>',
-            unsafe_allow_html=True,
+        html_rows.append(
+            f'<div class="sb-card-row sb-card-wrap">'
+            f'<span class="sb-qty">{count}</span>'
+            f'{thumb}'
+            f'<span class="sb-faction-icon">{faction_icon}</span>'
+            f'<span class="sb-name">{name}</span>'
+            f'{hover}'
+            f'</div>'
         )
 
-    # Quick stats at the bottom
-    stats = _compute_deck_stats(picks)
-    rarity = stats["rarity_counts"]
-    st.sidebar.markdown("---")
     st.sidebar.markdown(
-        f"**C** {rarity.get('COMMON', 0)} | "
-        f"**R** {rarity.get('RARE', 0)} | "
-        f"**E** {rarity.get('EXALTED', 0)}"
+        f'<div class="sb-list">{"".join(html_rows)}</div>',
+        unsafe_allow_html=True,
     )
 
 
