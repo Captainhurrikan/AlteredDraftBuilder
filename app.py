@@ -47,13 +47,21 @@ FACTION_NAMES = {
     "YZ": "Yzmir",
 }
 
+# Inline SVG faction icons (16x16) — stylized symbols per faction
+_FACTION_SVGS = {
+    "AX": '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#8c432a"/><path d="M8 3l1.5 3h3L10 8.5l1 3L8 10l-3 1.5 1-3L3.5 6h3z" fill="white"/></svg>',
+    "BR": '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#c32637"/><path d="M8 3c-1 2-3 3-3 5.5C5 11 6.3 13 8 13s3-2 3-4.5C11 6 9 5 8 3z" fill="white"/></svg>',
+    "LY": '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#d4a843"/><path d="M5 5q3-2 6 0M4 8q4-2.5 8 0M5 11q3-2 6 0" stroke="white" stroke-width="1.3" fill="none"/></svg>',
+    "MU": '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#2e7d32"/><path d="M8 3C5.5 5 4 7.5 4 10h8c0-2.5-1.5-5-4-7zM8 10v3" stroke="white" stroke-width="0.8" fill="white" fill-opacity="0.9"/></svg>',
+    "OR": '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#5c3d8f"/><rect x="5.5" y="5.5" width="5" height="5" rx="0.5" fill="none" stroke="white" stroke-width="1.3" transform="rotate(45 8 8)"/></svg>',
+    "YZ": '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#1a5276"/><path d="M8 4c-2 0-4 2-4 4.5S6 13 8 13s4-2.5 4-4.5S10 4 8 4zm0 2c1 0 2 1 2 2.5S9 11 8 11s-2-1-2-2.5S7 6 8 6z" fill="white"/></svg>',
+}
+
+import base64 as _b64
+
 FACTION_ICONS = {
-    "AX": "⚙️",
-    "BR": "🔥",
-    "LY": "🎵",
-    "MU": "🌿",
-    "OR": "🔮",
-    "YZ": "💧",
+    k: f'<img src="data:image/svg+xml;base64,{_b64.b64encode(v.encode()).decode()}" width="16" height="16" style="vertical-align:middle" />'
+    for k, v in _FACTION_SVGS.items()
 }
 
 RARITY_LABELS = {
@@ -413,12 +421,17 @@ def render_sidebar():
             min-width: 22px; text-align: center; font-weight: bold;
             font-size: 0.9em; flex-shrink: 0; padding: 0 2px;
         }}
+        .sb-thumb-wrap {{
+            width: 55px; height: 32px; flex-shrink: 0;
+            overflow: hidden; position: relative;
+        }}
         .sb-thumb {{
-            width: 50px; height: 32px; flex-shrink: 0;
-            object-fit: cover; object-position: center 20%;
+            width: 55px; height: auto; min-height: 32px;
+            object-fit: cover; object-position: center 25%;
+            display: block;
         }}
         .sb-thumb-ph {{
-            width: 50px; height: 32px; flex-shrink: 0;
+            width: 55px; height: 32px; flex-shrink: 0;
             background: #333;
         }}
         .sb-faction-icon {{
@@ -465,8 +478,8 @@ def render_sidebar():
 
         # Artwork thumbnail (horizontal banner crop)
         if img_url:
-            thumb = f'<img class="sb-thumb" src="{img_url}" />'
-            hover = f'<img class="sb-hover-img" src="{img_url}" />'
+            thumb = f'<div class="sb-thumb-wrap"><img class="sb-thumb" src="{img_url}" referrerpolicy="no-referrer" crossorigin="anonymous" loading="lazy" /></div>'
+            hover = f'<img class="sb-hover-img" src="{img_url}" referrerpolicy="no-referrer" />'
         else:
             thumb = '<div class="sb-thumb-ph"></div>'
             hover = ""
@@ -777,9 +790,10 @@ def screen_done():
             }
             .dl-card-row .cname { flex: 1; font-weight: 500; }
             .dl-cost {
-                display: inline-flex; width: 24px; height: 24px; border-radius: 50%;
+                display: inline-flex; width: 24px; height: 24px;
                 align-items: center; justify-content: center;
                 font-size: 0.8em; font-weight: bold; color: white;
+                clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
             }
             .dl-cost-m { background: #1976D2; }
             .dl-cost-r { background: #F57C00; }
@@ -827,10 +841,11 @@ def screen_done():
                 if img_url:
                     img_tag = f'<img class="dl-hover" src="{img_url}" />'
 
+                faction_svg = FACTION_ICONS.get(f_code, f'<span class="fdot" style="background:{color}"></span>')
                 rows_html.append(
                     f'<div class="dl-card-row dl-wrap">'
                     f'<span class="qty">{count}</span>'
-                    f'<span class="fdot" style="background:{color}"></span>'
+                    f'{faction_svg}'
                     f'<span class="cname">{name}</span>'
                     f'{costs}'
                     f'{img_tag}'
