@@ -368,5 +368,4 @@ def main():
         screen_upload()
 
 
-if __name__ == "__main__":
-    main()
+main()
