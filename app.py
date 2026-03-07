@@ -1,6 +1,7 @@
 """Altered Draft Tool — Streamlit UI."""
 
 import streamlit as st
+from collections import Counter
 
 from draft_engine import (
     apply_pick,
@@ -21,6 +22,7 @@ from draft_engine import (
     _get_effect,
     _get_powers,
     _get_card_type,
+    _get_ref,
 )
 
 # ---------------------------------------------------------------------------
@@ -48,6 +50,14 @@ RARITY_LABELS = {
     "COMMON": "Commune",
     "RARE": "Rare",
     "EXALTED": "Exaltée",
+    "HERO": "Héros",
+}
+
+TYPE_LABELS = {
+    "CHARACTER": "Personnages",
+    "SPELL": "Sorts",
+    "PERMANENT": "Permanents",
+    "LANDMARK_PERMANENT": "Permanents",
     "HERO": "Héros",
 }
 
@@ -97,7 +107,6 @@ def _get_image_url(card: dict) -> str | None:
 
 def render_card(card: dict, col, key_suffix: str, on_pick):
     """Render a single card in a Streamlit column with a pick button."""
-    faction = _get_faction(card)
     name = _get_name(card)
     image_url = _get_image_url(card)
 
@@ -105,7 +114,7 @@ def render_card(card: dict, col, key_suffix: str, on_pick):
         if image_url:
             st.image(image_url, use_container_width=True)
         else:
-            # Fallback: text-based card display
+            faction = _get_faction(card)
             rarity = _get_rarity(card)
             card_type = _get_card_type(card)
             color = FACTION_COLORS.get(faction, "#888")
@@ -120,7 +129,7 @@ def render_card(card: dict, col, key_suffix: str, on_pick):
                     padding: 16px;
                     text-align: center;
                     background: linear-gradient(180deg, {color}22 0%, #ffffff 40%);
-                    min-height: 280px;
+                    min-height: 200px;
                 ">
                     <div style="
                         background: {color};
@@ -131,8 +140,8 @@ def render_card(card: dict, col, key_suffix: str, on_pick):
                         font-size: 0.8em;
                         margin-bottom: 8px;
                     ">{faction_name}</div>
-                    <h3 style="margin: 8px 0;">{name}</h3>
-                    <p style="margin: 4px 0; color: #666;">
+                    <h4 style="margin: 4px 0;">{name}</h4>
+                    <p style="margin: 4px 0; color: #666; font-size: 0.85em;">
                         {"" if card_type == "HERO" else f"Coût : {cost} | "}{rarity_label}
                     </p>
                 </div>
@@ -151,28 +160,150 @@ def render_card(card: dict, col, key_suffix: str, on_pick):
 
 
 # ---------------------------------------------------------------------------
-# Sidebar: deck in progress
+# Sidebar: deck in progress with tooltip images + stats
 # ---------------------------------------------------------------------------
+def _compute_deck_stats(picks: list[dict]) -> dict:
+    """Compute type distribution and mana curve from picks."""
+    type_counts = Counter()
+    main_cost_curve = Counter()
+    reserve_cost_curve = Counter()
+
+    for card in picks:
+        ct = _get_card_type(card)
+        if ct == "HERO":
+            continue
+        type_label = TYPE_LABELS.get(ct, ct)
+        type_counts[type_label] += 1
+
+        elements = card.get("elements", {})
+        main_cost = elements.get("MAIN_COST", "?")
+        recall_cost = elements.get("RECALL_COST", "?")
+
+        # Clean cost values (remove # markers from rare cards)
+        main_cost_clean = str(main_cost).replace("#", "")
+        recall_cost_clean = str(recall_cost).replace("#", "")
+
+        try:
+            mc = int(main_cost_clean)
+            main_cost_curve[mc] += 1
+        except (ValueError, TypeError):
+            pass
+        try:
+            rc = int(recall_cost_clean)
+            reserve_cost_curve[rc] += 1
+        except (ValueError, TypeError):
+            pass
+
+    return {
+        "type_counts": dict(type_counts),
+        "main_cost_curve": dict(sorted(main_cost_curve.items())),
+        "reserve_cost_curve": dict(sorted(reserve_cost_curve.items())),
+    }
+
+
 def render_sidebar():
-    """Show the deck being built in the sidebar."""
+    """Show the deck being built in the sidebar with hover images and stats."""
     picks = _state().get("picks", [])
     if not picks:
         st.sidebar.markdown("*Aucune carte encore sélectionnée.*")
         return
 
     st.sidebar.markdown(f"### Deck ({len(picks)} cartes)")
+
+    # --- Deck stats ---
+    stats = _compute_deck_stats(picks)
+
+    # Type distribution
+    type_counts = stats["type_counts"]
+    if type_counts:
+        st.sidebar.markdown("**Répartition par type :**")
+        for t_label in ("Personnages", "Sorts", "Permanents"):
+            count = type_counts.get(t_label, 0)
+            if count:
+                st.sidebar.markdown(f"- {t_label} : **{count}**")
+
+    # Mana curve
+    main_curve = stats["main_cost_curve"]
+    reserve_curve = stats["reserve_cost_curve"]
+    if main_curve:
+        st.sidebar.markdown("**Courbe de mana (Main) :**")
+        max_cost = max(main_curve.keys()) if main_curve else 0
+        curve_parts = []
+        for cost in range(0, max_cost + 1):
+            count = main_curve.get(cost, 0)
+            bar = "█" * count
+            curve_parts.append(f"`{cost}` {bar} {count}")
+        st.sidebar.markdown("  \n".join(curve_parts))
+
+    if reserve_curve:
+        st.sidebar.markdown("**Courbe de mana (Réserve) :**")
+        max_cost = max(reserve_curve.keys()) if reserve_curve else 0
+        curve_parts = []
+        for cost in range(0, max_cost + 1):
+            count = reserve_curve.get(cost, 0)
+            bar = "█" * count
+            curve_parts.append(f"`{cost}` {bar} {count}")
+        st.sidebar.markdown("  \n".join(curve_parts))
+
+    st.sidebar.markdown("---")
+
+    # --- Card list with hover images ---
     summary = build_deck_summary(picks)
+
+    # Build a map from ref -> image_url for tooltip
+    ref_to_image = {}
+    for card in picks:
+        ref = _get_ref(card)
+        if ref not in ref_to_image:
+            ref_to_image[ref] = _get_image_url(card) or ""
+
+    # CSS for hover tooltip
+    st.sidebar.markdown(
+        """
+        <style>
+        .card-tooltip {
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .card-tooltip .card-tooltip-img {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            width: 250px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            pointer-events: none;
+        }
+        .card-tooltip:hover .card-tooltip-img {
+            display: block;
+            left: 300px;
+            top: 50px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     for rarity in ("HERO", "RARE", "EXALTED", "COMMON"):
         entries = summary.get(rarity, [])
         if not entries:
             continue
         label = RARITY_LABELS.get(rarity, rarity)
-        st.sidebar.markdown(f"**{label}** ({len(entries)} différentes)")
-        for name, _ref, count in sorted(entries):
-            if rarity == "HERO":
-                st.sidebar.markdown(f"- {name}")
+        st.sidebar.markdown(f"**{label}** ({len(entries)})")
+        for name, ref, count in sorted(entries):
+            img_url = ref_to_image.get(ref, "")
+            count_str = "" if rarity == "HERO" else f" x{count}"
+            if img_url:
+                st.sidebar.markdown(
+                    f'<span class="card-tooltip">'
+                    f"{name}{count_str}"
+                    f'<img class="card-tooltip-img" src="{img_url}" />'
+                    f"</span>",
+                    unsafe_allow_html=True,
+                )
             else:
-                st.sidebar.markdown(f"- {name} ×{count}")
+                st.sidebar.markdown(f"- {name}{count_str}")
 
 
 # ---------------------------------------------------------------------------
@@ -243,9 +374,10 @@ def screen_faction_pick():
         st.error("Pas assez de cartes rares dans la collection pour proposer un choix.")
         return
 
-    cols = st.columns(len(choices))
+    # Use max 5 columns, cards won't be too wide
+    cols = st.columns(min(len(choices), 5))
     for i, card in enumerate(choices):
-        render_card(card, cols[i], f"faction_{i}", on_faction_pick)
+        render_card(card, cols[i % len(cols)], f"faction_{i}", on_faction_pick)
 
 
 def screen_main_draft():
@@ -276,7 +408,6 @@ def screen_main_draft():
 
     if not choices:
         st.warning("Plus de cartes disponibles dans ce pool.")
-        # Force advance
         _state()["pick_index"] += 1
         if pick_idx >= 39:
             _state()["phase"] = "HERO_PICK"
@@ -284,9 +415,10 @@ def screen_main_draft():
         st.rerun()
         return
 
-    cols = st.columns(len(choices))
+    # Display in rows of 5 max for smaller cards
+    cols = st.columns(min(len(choices), 5))
     for i, card in enumerate(choices):
-        render_card(card, cols[i], f"main_{pick_idx}_{i}", on_main_pick)
+        render_card(card, cols[i % len(cols)], f"main_{pick_idx}_{i}", on_main_pick)
 
 
 def screen_hero_pick():
@@ -302,9 +434,15 @@ def screen_hero_pick():
         st.error("Aucun héros disponible pour ta faction.")
         return
 
-    cols = st.columns(len(choices))
-    for i, card in enumerate(choices):
-        render_card(card, cols[i], f"hero_{i}", on_hero_pick)
+    st.markdown(f"**{len(choices)} héros disponibles :**")
+
+    # Display all heroes in rows of 5
+    n_cols = min(len(choices), 5)
+    for row_start in range(0, len(choices), n_cols):
+        row_cards = choices[row_start : row_start + n_cols]
+        cols = st.columns(n_cols)
+        for i, card in enumerate(row_cards):
+            render_card(card, cols[i], f"hero_{row_start + i}", on_hero_pick)
 
 
 def screen_done():
@@ -324,7 +462,7 @@ def screen_done():
             if rarity == "HERO":
                 st.markdown(f"- **{name}**")
             else:
-                st.markdown(f"- {name} ×{count}")
+                st.markdown(f"- {name} x{count}")
 
     st.markdown(f"**Total : {len(picks)} cartes**")
     st.markdown("---")

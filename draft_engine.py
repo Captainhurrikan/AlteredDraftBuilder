@@ -141,11 +141,24 @@ def _get_powers(card: dict) -> dict[str, str]:
     return powers
 
 
+def _is_alt_art(card: dict) -> bool:
+    """Check if a card is an alternate art variant (A or P prefix)."""
+    ref = _get_ref(card)
+    parts = ref.split("_")
+    # Pattern: ALT_CORE_[A|B|P]_FACTION_NUM_RARITY
+    if len(parts) >= 3 and parts[2] in ("A", "P"):
+        return True
+    return False
+
+
 def filter_collection(cards: list[dict]) -> list[dict]:
-    """Remove banned cards and uniques from the collection."""
+    """Remove banned cards, uniques, tokens, and alternate art from the collection."""
     return [
         c for c in cards
-        if not _is_banned(c) and _get_rarity(c) != RARITY_UNIQUE
+        if not _is_banned(c)
+        and _get_rarity(c) != RARITY_UNIQUE
+        and not _is_alt_art(c)
+        and _get_card_type(c) not in ("TOKEN", "TOKEN_MANA")
     ]
 
 
@@ -184,18 +197,21 @@ def available_for_pick(
 
 
 def draw_choices(pool: list[dict], n: int = CHOICES_PER_PICK) -> list[dict]:
-    """Draw n distinct cards from pool (by reference), randomly."""
-    if len(pool) <= n:
-        return list(pool)
-    # Pick distinct references
-    by_ref: dict[str, list[dict]] = {}
+    """Draw n distinct cards from pool (by name), randomly.
+
+    Ensures no two proposed cards share the same name (e.g. R1 vs R2 variants).
+    """
+    if not pool:
+        return []
+    # Group by name to avoid proposing variants of the same card
+    by_name: dict[str, list[dict]] = {}
     for c in pool:
-        by_ref.setdefault(_get_ref(c), []).append(c)
-    refs = list(by_ref.keys())
-    if len(refs) <= n:
-        return [by_ref[r][0] for r in refs]
-    chosen_refs = random.sample(refs, n)
-    return [by_ref[r][0] for r in chosen_refs]
+        by_name.setdefault(_get_name(c), []).append(c)
+    names = list(by_name.keys())
+    if len(names) <= n:
+        return [random.choice(by_name[name]) for name in names]
+    chosen_names = random.sample(names, n)
+    return [random.choice(by_name[name]) for name in chosen_names]
 
 
 # ---------------------------------------------------------------------------
@@ -263,10 +279,9 @@ def generate_main_choices(state: dict) -> tuple[str, list[dict]]:
 
 
 def generate_hero_choices(state: dict) -> list[dict]:
-    """Generate hero choices for pick 40."""
+    """Generate ALL hero choices for pick 40."""
     pool = get_heroes(state["collection"], state["faction"])
-    pool = available_for_pick(pool, state["copies_picked"])
-    return draw_choices(pool)
+    return pool  # Return all heroes, not just 3
 
 
 def apply_pick(state: dict, card: dict, pick_type: str | None = None) -> None:
