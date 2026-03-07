@@ -412,6 +412,7 @@ def render_sidebar():
         .sb-qty {{
             min-width: 22px; text-align: center; font-weight: bold;
             font-size: 0.9em; flex-shrink: 0; padding: 0 2px;
+            color: #ddd;
         }}
         .sb-thumb {{
             width: 50px; height: 32px; flex-shrink: 0;
@@ -427,6 +428,7 @@ def render_sidebar():
         .sb-name {{
             flex: 1; white-space: nowrap; overflow: hidden;
             text-overflow: ellipsis; padding: 0 4px; font-size: 0.85em;
+            color: #ddd;
         }}
         .sb-card-wrap {{ position: relative; }}
         .sb-card-wrap .sb-hover-img {{
@@ -765,12 +767,12 @@ def screen_done():
                 display: flex; align-items: center; gap: 6px;
                 padding: 4px 8px; font-size: 0.9em;
                 border-radius: 6px; margin: 2px 0;
-                background: #fafafa;
+                background: #fafafa; color: #333;
             }
             .dl-card-row:hover { background: #f0f0f0; }
             .dl-card-row .qty {
                 background: #e8e8e8; border-radius: 4px; padding: 2px 8px;
-                font-weight: bold; min-width: 24px; text-align: center;
+                font-weight: bold; min-width: 24px; text-align: center; color: #333;
             }
             .dl-card-row .fdot {
                 width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
