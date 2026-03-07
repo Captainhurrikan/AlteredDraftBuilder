@@ -9,8 +9,9 @@ from draft_engine import (
     generate_faction_choices,
     generate_hero_choices,
     generate_main_choices,
+    has_bundled_data,
     init_draft_state,
-    load_collection_from_zip,
+    load_collection_from_data_dir,
     RARE_SLOTS,
     COMMON_EXALTED_SLOTS,
     _get_name,
@@ -86,60 +87,58 @@ def _reset_draft():
 # ---------------------------------------------------------------------------
 # Card display component
 # ---------------------------------------------------------------------------
+def _get_image_url(card: dict) -> str | None:
+    """Get the card image URL (FR preferred, fallback to imagePath)."""
+    all_paths = card.get("allImagePath", {})
+    if isinstance(all_paths, dict) and all_paths.get("fr-fr"):
+        return all_paths["fr-fr"]
+    return card.get("imagePath")
+
+
 def render_card(card: dict, col, key_suffix: str, on_pick):
     """Render a single card in a Streamlit column with a pick button."""
     faction = _get_faction(card)
-    rarity = _get_rarity(card)
-    card_type = _get_card_type(card)
-    color = FACTION_COLORS.get(faction, "#888")
-    faction_name = FACTION_NAMES.get(faction, faction)
-    rarity_label = RARITY_LABELS.get(rarity, rarity)
     name = _get_name(card)
-    cost = _get_cost(card)
-    effect = _get_effect(card)
-    powers = _get_powers(card)
+    image_url = _get_image_url(card)
 
     with col:
-        st.markdown(
-            f"""
-            <div style="
-                border: 3px solid {color};
-                border-radius: 12px;
-                padding: 16px;
-                text-align: center;
-                background: linear-gradient(180deg, {color}22 0%, #ffffff 40%);
-                min-height: 280px;
-            ">
+        if image_url:
+            st.image(image_url, use_container_width=True)
+        else:
+            # Fallback: text-based card display
+            rarity = _get_rarity(card)
+            card_type = _get_card_type(card)
+            color = FACTION_COLORS.get(faction, "#888")
+            faction_name = FACTION_NAMES.get(faction, faction)
+            rarity_label = RARITY_LABELS.get(rarity, rarity)
+            cost = _get_cost(card)
+            st.markdown(
+                f"""
                 <div style="
-                    background: {color};
-                    color: white;
-                    padding: 4px 12px;
-                    border-radius: 20px;
-                    display: inline-block;
-                    font-size: 0.8em;
-                    margin-bottom: 8px;
-                ">{faction_name}</div>
-                <h3 style="margin: 8px 0;">{name}</h3>
-                <p style="margin: 4px 0; color: #666;">
-                    {"" if card_type == "HERO" else f"Coût : {cost} | "}{rarity_label}
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-        # Powers
-        if powers:
-            power_parts = []
-            for pk, pv in powers.items():
-                icon = POWER_ICONS.get(pk, "")
-                power_parts.append(f"{icon} {pv}")
-            st.caption(" — ".join(power_parts))
-
-        # Effect (truncated)
-        if effect:
-            display_effect = effect[:120] + "…" if len(effect) > 120 else effect
-            st.caption(display_effect)
+                    border: 3px solid {color};
+                    border-radius: 12px;
+                    padding: 16px;
+                    text-align: center;
+                    background: linear-gradient(180deg, {color}22 0%, #ffffff 40%);
+                    min-height: 280px;
+                ">
+                    <div style="
+                        background: {color};
+                        color: white;
+                        padding: 4px 12px;
+                        border-radius: 20px;
+                        display: inline-block;
+                        font-size: 0.8em;
+                        margin-bottom: 8px;
+                    ">{faction_name}</div>
+                    <h3 style="margin: 8px 0;">{name}</h3>
+                    <p style="margin: 4px 0; color: #666;">
+                        {"" if card_type == "HERO" else f"Coût : {cost} | "}{rarity_label}
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
         st.button(
             f"Choisir {name}",
@@ -198,28 +197,27 @@ def on_hero_pick(card):
 # ---------------------------------------------------------------------------
 # Screens
 # ---------------------------------------------------------------------------
-def screen_upload():
+def screen_start():
     st.title("Altered Draft Tool")
     st.markdown("Outil de draft interactif pour **Altered TCG**.")
     st.markdown("---")
 
-    uploaded = st.file_uploader(
-        "Uploade ton export de collection Altered (fichier ZIP)",
-        type=["zip"],
-    )
+    if not has_bundled_data():
+        st.error(
+            "Aucune donnée de cartes trouvée dans le dossier `data/`. "
+            "Place ton export Altered (ZIP ou fichiers JSON) dans le dossier `data/` du projet."
+        )
+        return
 
-    if uploaded is not None:
-        _state()["zip_data"] = uploaded.read()
-
-    if st.button("Commencer le Draft", disabled=("zip_data" not in _state())):
+    if st.button("Commencer le Draft", type="primary"):
         try:
-            collection = load_collection_from_zip(_state()["zip_data"])
+            collection = load_collection_from_data_dir()
         except Exception as e:
-            st.error(f"Erreur lors du chargement du ZIP : {e}")
+            st.error(f"Erreur lors du chargement des cartes : {e}")
             return
 
         if not collection:
-            st.error("Aucune carte trouvée dans le ZIP.")
+            st.error("Aucune carte trouvée dans le dossier `data/`.")
             return
 
         _state()["raw_collection"] = collection
@@ -355,7 +353,7 @@ def main():
     phase = _state().get("phase")
 
     if phase is None:
-        screen_upload()
+        screen_start()
     elif phase == "FACTION_PICK":
         screen_faction_pick()
     elif phase == "MAIN_DRAFT":
@@ -365,7 +363,7 @@ def main():
     elif phase == "DONE":
         screen_done()
     else:
-        screen_upload()
+        screen_start()
 
 
 main()

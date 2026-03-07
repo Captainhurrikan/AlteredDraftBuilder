@@ -1,10 +1,15 @@
 """Draft engine for Altered TCG draft tool — pure logic, no Streamlit."""
 
 import json
+import os
 import random
 import zipfile
 from io import BytesIO
+from pathlib import Path
 from typing import Any
+
+# Path to the bundled card data
+DATA_DIR = Path(__file__).parent / "data"
 
 # Factions
 FACTIONS = ["AX", "BR", "LY", "MU", "OR", "YZ"]
@@ -44,6 +49,45 @@ def load_collection_from_zip(zip_bytes: bytes) -> list[dict[str, Any]]:
             elif isinstance(data, dict):
                 cards.append(data)
     return cards
+
+
+def load_collection_from_data_dir() -> list[dict[str, Any]]:
+    """Load card collection from the bundled data/ directory.
+
+    Supports:
+    - A ZIP file in data/ (first .zip found)
+    - Individual JSON files in data/ (and subdirectories)
+    """
+    cards: list[dict[str, Any]] = []
+
+    # Try ZIP first
+    zip_files = list(DATA_DIR.glob("*.zip"))
+    if zip_files:
+        with open(zip_files[0], "rb") as f:
+            return load_collection_from_zip(f.read())
+
+    # Otherwise, load all JSON files recursively
+    for json_path in DATA_DIR.rglob("*.json"):
+        try:
+            with open(json_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            continue
+        if isinstance(data, list):
+            cards.extend(data)
+        elif isinstance(data, dict):
+            cards.append(data)
+
+    return cards
+
+
+def has_bundled_data() -> bool:
+    """Check if card data exists in the data/ directory."""
+    if not DATA_DIR.exists():
+        return False
+    has_zip = any(DATA_DIR.glob("*.zip"))
+    has_json = any(DATA_DIR.rglob("*.json"))
+    return has_zip or has_json
 
 
 def _get_ref(card: dict) -> str:

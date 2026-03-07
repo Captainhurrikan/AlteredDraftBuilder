@@ -1,0 +1,1305 @@
+[
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_AX_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/cda3ecacd7e7da0cd4cd",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_AX_01/JPG/fr_FR/013b8498a854bc1e95a19aeb58e5ae1f.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_AX_01_C",
+    "reference": "ALT_DUSTERCB_P_AX_01_C",
+    "id": "01K60PWCX3SQ0Y79B6CR6ZTZ4Q",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "allImagePath": {
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_AX_01/JPG/en_US/f01cf7defcefce1bcb257d12f9825d69.jpg",
+      "de-de": "",
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_AX_01/JPG/fr_FR/013b8498a854bc1e95a19aeb58e5ae1f.jpg",
+      "it-it": ""
+    },
+    "name": "Sierra & Oddball",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "PERMANENT": "2",
+      "RESERVE": "2",
+      "MAIN_EFFECT": "Lorsque vous jouez un Permanent de Coût de Main {3} ou plus — Vous pouvez m'épuiser ({T}) pour créer un jeton Robot [2/2/2 Scarabot] dans une Expédition ciblée."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_AX_101_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01J1Q78N4S1E64PN4T7GB4T59F",
+      "@type": "CardType",
+      "reference": "LANDMARK_PERMANENT",
+      "id": "01J1Q78N4S1E64PN4T7GB4T59F",
+      "name": "Repère Permanent"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/3eed70105fb24c2e5049",
+        "reference": "SITE",
+        "id": "01J1SYC3P1C9H7CT2H8C0WN9CT",
+        "name": "Lieu"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/f4e419a3888a198fd1be",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_AX_101/JPG/fr_FR/0e7bcf13d7f7eb74cf31e7b619609158.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_AX_101_R1",
+    "reference": "ALT_DUSTERCB_P_AX_101_R1",
+    "id": "01K60PWCXAA7FFFQSY9E1X0YVV",
+    "mainFaction": {
+      "@id": "/factions/AX",
+      "@type": "Faction",
+      "reference": "AX",
+      "color": "#8c432a",
+      "id": "01GE7AC9XBG707G19F03A95TH1",
+      "name": "Axiom"
+    },
+    "allImagePath": {
+      "it-it": "",
+      "de-de": "",
+      "es-es": "",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_AX_101/JPG/en_US/07c4d44caae297b1413f49ce0ebddac4.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_AX_101/JPG/fr_FR/0e7bcf13d7f7eb74cf31e7b619609158.jpg"
+    },
+    "name": "Exposition Axiom",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "MAIN_EFFECT": "{T} : Un Personnage ciblé dans votre Réserve gagne 1 boost. Puis épuisez-le ({T}).  #{T} : Un Personnage ciblé dans votre Réserve gagne 1 boost. Puis redressez-le.#"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-003-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_BR_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/2f74e970896f4737d839",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_01/JPG/fr_FR/06a4ec2a3c6df1f54203fe7dc9798334.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_BR_01_C",
+    "reference": "ALT_DUSTERCB_P_BR_01_C",
+    "id": "01K60PWD0CXG8MJ6T5YT8VMAGQ",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "allImagePath": {
+      "it-it": "",
+      "de-de": "",
+      "es-es": "",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_01/JPG/en_US/11a6164b96ce55a340faf79f21db780a.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_01/JPG/fr_FR/06a4ec2a3c6df1f54203fe7dc9798334.jpg"
+    },
+    "name": "Kojo & Booda",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "PERMANENT": "2",
+      "RESERVE": "2",
+      "MAIN_EFFECT": "At Noon — If you are first player, create a [2/2/2 Booda] Companion token in your Companion Expedition."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_BR_89_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/df617e64dcc4139ed1fe",
+        "reference": "ANIMAL",
+        "id": "01HKAGQS36Z3DP166MZW8KRAEK",
+        "name": "Animal"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/373748c810f46387f371",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_89/JPG/fr_FR/d6e5753d7ff1ce6df714a3dfd9edf5b7.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_BR_89_C",
+    "reference": "ALT_DUSTERCB_P_BR_89_C",
+    "id": "01K60PWD0MHJWXHXD4JH5EMHDF",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "allImagePath": {
+      "it-it": "",
+      "de-de": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_89/JPG/fr_FR/d6e5753d7ff1ce6df714a3dfd9edf5b7.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_89/JPG/en_US/9afe4c40a6a2a5295dc0c031fdde434d.jpg",
+      "es-es": ""
+    },
+    "name": "Kedarm",
+    "elements": {
+      "MAIN_COST": "3",
+      "RECALL_COST": "3",
+      "OCEAN_POWER": "3",
+      "FOREST_POWER": "3",
+      "MOUNTAIN_POWER": "3",
+      "ECHO_EFFECT": "{D} : Le prochain Personnage joué de votre main ce tour-ci active l'une de ses capacités {r}. (Défaussez-moi de la Réserve pour ça.)"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-005-C-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_BR_96_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/51b4cdcfa83f345b9eef",
+        "reference": "FAIRY",
+        "id": "01HKAGPBKC6V2RK28EZGHP8VWW",
+        "name": "Fée"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/1e74b0cda55cc8850daa",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_96/JPG/fr_FR/0bb8dabc3f9aa8a8e16d345bfce4aca8.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_BR_96_C",
+    "reference": "ALT_DUSTERCB_P_BR_96_C",
+    "id": "01K60PWD0MHJWXHXD4JH5EMHDN",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "allImagePath": {
+      "it-it": "",
+      "de-de": "",
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_96/JPG/fr_FR/0bb8dabc3f9aa8a8e16d345bfce4aca8.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_96/JPG/en_US/3105ef17919381e49b38e6cb8d8ed161.jpg"
+    },
+    "name": "Néphélé",
+    "elements": {
+      "MAIN_COST": "4",
+      "RECALL_COST": "4",
+      "OCEAN_POWER": "5",
+      "FOREST_POWER": "5",
+      "MOUNTAIN_POWER": "3",
+      "MAIN_EFFECT": "{J} You may pass. If you don't, create a [Graine de Mana] token in target opponent's Landmarks."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-006-C-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_BR_88_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/6a52de509daf32ff2203",
+        "reference": "ADVENTURER",
+        "id": "01HKAGPC92CGHANVSRSC8R8ES6",
+        "name": "Aventurier"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/494580969b3642ca53d3",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_88/JPG/fr_FR/3621e82ea80ad0589db45752489494de.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_BR_88_R1",
+    "reference": "ALT_DUSTERCB_P_BR_88_R1",
+    "id": "01K60PWD0DJBPZYC8N950EJPDW",
+    "mainFaction": {
+      "@id": "/factions/BR",
+      "@type": "Faction",
+      "reference": "BR",
+      "color": "#c32637",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T4",
+      "name": "Bravos"
+    },
+    "allImagePath": {
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_88/JPG/fr_FR/3621e82ea80ad0589db45752489494de.jpg",
+      "it-it": "",
+      "de-de": "",
+      "es-es": "",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_BR_88/JPG/en_US/2644b08869b23cee0a6dfabeeee8e37e.jpg"
+    },
+    "name": "Plongeuse Serviable",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "OCEAN_POWER": "#3#",
+      "FOREST_POWER": "3",
+      "MOUNTAIN_POWER": "#3#",
+      "MAIN_EFFECT": "{J} You may [Foncer]. If you don't, target opponent [Ravitaille Épuisé]."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-007-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_LY_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/f9de95a45323dede0a73",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_01/JPG/fr_FR/98640333af8840de723e9b4bcbe325cf.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_LY_01_C",
+    "reference": "ALT_DUSTERCB_P_LY_01_C",
+    "id": "01K60PWD2WYTEGA63BK95J3SJQ",
+    "mainFaction": {
+      "@id": "/factions/LY",
+      "@type": "Faction",
+      "reference": "LY",
+      "color": "#cf4171",
+      "id": "01GE7AC9XGB6JE2V63WXWN4FB3",
+      "name": "Lyra"
+    },
+    "allImagePath": {
+      "it-it": "",
+      "de-de": "",
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_01/JPG/fr_FR/98640333af8840de723e9b4bcbe325cf.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_01/JPG/en_US/f18ba085f3b1a471f86b8bd6d8a7e920.jpg"
+    },
+    "name": "Nevenka & Blotch",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "PERMANENT": "2",
+      "RESERVE": "2",
+      "MAIN_EFFECT": "{T} : Ciblez un Personnage que vous contrôlez, puis lancez un dé. Sur :  • 6+, it gains [[Ancré]].  • 2-5, it gains 1 boost.  • 1, envoyez-le en Réserve."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_LY_90_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/8d2c99aef0a00081b653",
+        "reference": "MAGE",
+        "id": "01HKAGXDF5A4KJW7GVC25YQS3H",
+        "name": "Mage"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/afa739fe161da2f996c2",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_90/JPG/fr_FR/ab65e3fb63799ccc6e320adf13c4bfef.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_LY_90_R1",
+    "reference": "ALT_DUSTERCB_P_LY_90_R1",
+    "id": "01K60PWD2X3YDG38RBY20C0Q5Z",
+    "mainFaction": {
+      "@id": "/factions/LY",
+      "@type": "Faction",
+      "reference": "LY",
+      "color": "#cf4171",
+      "id": "01GE7AC9XGB6JE2V63WXWN4FB3",
+      "name": "Lyra"
+    },
+    "allImagePath": {
+      "it-it": "",
+      "de-de": "",
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_90/JPG/fr_FR/ab65e3fb63799ccc6e320adf13c4bfef.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_90/JPG/en_US/a49b591674731d708b0c06d5af52db0b.jpg"
+    },
+    "name": "Nyala, Fêtarde Nocturne",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "OCEAN_POWER": "3",
+      "FOREST_POWER": "0",
+      "MOUNTAIN_POWER": "#3#",
+      "MAIN_EFFECT": "{H} Si je suis [En Contact], vous pouvez échanger une carte de votre Réserve contre une carte de votre main.",
+      "ECHO_EFFECT": "#{D} : Échangez une autre carte de votre Réserve contre une carte de votre main.#"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-011-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_LY_93_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/2b0cab93c0ef9ee9338a",
+        "reference": "ADVENTURER",
+        "id": "01HKAGPC92CGHANVSRSC8R8ES6",
+        "name": "Aventurier"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/fceca5a4c4175c5676a2",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_93/JPG/fr_FR/1179779d5d8789bd818ce63c12760b42.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_LY_93_C",
+    "reference": "ALT_DUSTERCB_P_LY_93_C",
+    "id": "01K60PWD2YF6CPQMAD3RCR988V",
+    "mainFaction": {
+      "@id": "/factions/LY",
+      "@type": "Faction",
+      "reference": "LY",
+      "color": "#cf4171",
+      "id": "01GE7AC9XGB6JE2V63WXWN4FB3",
+      "name": "Lyra"
+    },
+    "allImagePath": {
+      "it-it": "",
+      "de-de": "",
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_93/JPG/fr_FR/1179779d5d8789bd818ce63c12760b42.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_93/JPG/en_US/b7be0319364ee5dbdc24e3a0365d4f9f.jpg"
+    },
+    "name": "Dioclès, Aurige",
+    "elements": {
+      "MAIN_COST": "3",
+      "RECALL_COST": "3",
+      "OCEAN_POWER": "0",
+      "FOREST_POWER": "4",
+      "MOUNTAIN_POWER": "4",
+      "MAIN_EFFECT": "Je ne peux pas être joué dans une région de départ.  {J} Mon Expédition recule d'une région.  Lorsque je quitte la zone d'Expédition — Mon Expédition avance d'une région."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-009-C-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_LY_102_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01J1Q78N4S1E64PN4T7GB4T59F",
+      "@type": "CardType",
+      "reference": "LANDMARK_PERMANENT",
+      "id": "01J1Q78N4S1E64PN4T7GB4T59F",
+      "name": "Repère Permanent"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/adb450e6737a544c6c4b",
+        "reference": "SITE",
+        "id": "01J1SYC3P1C9H7CT2H8C0WN9CT",
+        "name": "Lieu"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/093a8fd1a04cfe2b095a",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_102/JPG/fr_FR/77e099da7c4fa115f3d056842a117248.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_LY_102_C",
+    "reference": "ALT_DUSTERCB_P_LY_102_C",
+    "id": "01K60PWD2YF6CPQMAD3RCR9891",
+    "mainFaction": {
+      "@id": "/factions/LY",
+      "@type": "Faction",
+      "reference": "LY",
+      "color": "#cf4171",
+      "id": "01GE7AC9XGB6JE2V63WXWN4FB3",
+      "name": "Lyra"
+    },
+    "allImagePath": {
+      "it-it": "",
+      "de-de": "",
+      "es-es": "",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_102/JPG/en_US/37f1dc306fba4724e7f22177bdcaf75e.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_LY_102/JPG/fr_FR/77e099da7c4fa115f3d056842a117248.jpg"
+    },
+    "name": "Station de Téléphérique",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "MAIN_EFFECT": "{J} [Ravitaillez], puis je gagne 2 compteurs Déplacement.  {T}, Dépensez 1 de mes compteurs Déplacement : L'une de vos Expéditions recule d'une région. Si elle le fait, votre autre Expédition avance d'une région."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-010-C-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_MU_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/b7730dcfaca92038be27",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_MU_01/JPG/fr_FR/8de07431080c3391deec319b15831d71.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_MU_01_C",
+    "reference": "ALT_DUSTERCB_P_MU_01_C",
+    "id": "01K60PWD54G4DT1WXE9TA1KAJG",
+    "mainFaction": {
+      "@id": "/factions/MU",
+      "@type": "Faction",
+      "reference": "MU",
+      "color": "#3d6b42",
+      "id": "01GE7AC9X2BNM40TTAYAEFSZSJ",
+      "name": "Muna"
+    },
+    "allImagePath": {
+      "it-it": "",
+      "de-de": "",
+      "es-es": "",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_MU_01/JPG/en_US/2d8f5ba5490127ea19f79269c489ec45.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_MU_01/JPG/fr_FR/8de07431080c3391deec319b15831d71.jpg"
+    },
+    "name": "Teija & Nauraa",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "PERMANENT": "2",
+      "RESERVE": "2",
+      "MAIN_EFFECT": "The first Character you play each Afternoon gains 1 boost."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_MU_86_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/c027a0ef37169c20a27e",
+        "reference": "DRUID",
+        "id": "01HKAGS7G3JAKED7MVQKP2G8F7",
+        "name": "Druide"
+      },
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/3cf57fd4fd85c169279c",
+        "reference": "ANIMAL",
+        "id": "01HKAGQS36Z3DP166MZW8KRAEK",
+        "name": "Animal"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/5645565cbf9cdd136643",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_MU_86/JPG/fr_FR/568cb4496945990088ed89f109cd7eb5.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_MU_86_R1",
+    "reference": "ALT_DUSTERCB_P_MU_86_R1",
+    "id": "01K60PWD557T11ESVX3CG0J0DP",
+    "mainFaction": {
+      "@id": "/factions/MU",
+      "@type": "Faction",
+      "reference": "MU",
+      "color": "#3d6b42",
+      "id": "01GE7AC9X2BNM40TTAYAEFSZSJ",
+      "name": "Muna"
+    },
+    "allImagePath": {
+      "it-it": "",
+      "de-de": "",
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_MU_86/JPG/fr_FR/568cb4496945990088ed89f109cd7eb5.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_MU_86/JPG/en_US/34c0dc51e18047889b867b7516fffca9.jpg"
+    },
+    "name": "Lapin Fermier",
+    "elements": {
+      "MAIN_COST": "#1#",
+      "RECALL_COST": "#1#",
+      "OCEAN_POWER": "#0#",
+      "FOREST_POWER": "#1#",
+      "MOUNTAIN_POWER": "#1#",
+      "MAIN_EFFECT": "When an opponent receives a [Don] — If I have no boosts, I gain 1 boost."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-015-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_OR_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/21a1f80078d5613a5487",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_OR_01/JPG/fr_FR/ced54044bb44b2ef36a6d248ff71df40.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_OR_01_C",
+    "reference": "ALT_DUSTERCB_P_OR_01_C",
+    "id": "01K60PWD77HP98Q3ZHRAY5KGAY",
+    "mainFaction": {
+      "@id": "/factions/OR",
+      "@type": "Faction",
+      "reference": "OR",
+      "color": "#0f6593",
+      "id": "01GE7AC9X78DXSNKNB15KCF69X",
+      "name": "Ordis"
+    },
+    "allImagePath": {
+      "de-de": "",
+      "es-es": "",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_OR_01/JPG/en_US/ec1845916c2b64ef0c39eaeb1a54ecc7.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_OR_01/JPG/fr_FR/ced54044bb44b2ef36a6d248ff71df40.jpg",
+      "it-it": ""
+    },
+    "name": "Sigismar & Wingspan",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "PERMANENT": "2",
+      "RESERVE": "2",
+      "MAIN_EFFECT": "À Midi — Créez un jeton Soldat [1/1/1 Recrue Ordis] dans votre Expédition Héros."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_OR_90_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/e8e88e26acbda592511d",
+        "reference": "CITIZEN",
+        "id": "01HKAGQWDFDGS8YVZGW98BVV9D",
+        "name": "Citoyen"
+      },
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/22cb1bd18289099695ba",
+        "reference": "SOLDIER",
+        "id": "01HKAGQ5CZVEX15T5KTM40KQSA",
+        "name": "Soldat"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/444134168b018750969c",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_OR_90/JPG/fr_FR/476733f7269cc8480661fa20411e2447.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_OR_90_C",
+    "reference": "ALT_DUSTERCB_P_OR_90_C",
+    "id": "01K60PWD791FBK32KNA4JH58N2",
+    "mainFaction": {
+      "@id": "/factions/OR",
+      "@type": "Faction",
+      "reference": "OR",
+      "color": "#0f6593",
+      "id": "01GE7AC9X78DXSNKNB15KCF69X",
+      "name": "Ordis"
+    },
+    "allImagePath": {
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_OR_90/JPG/fr_FR/476733f7269cc8480661fa20411e2447.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_OR_90/JPG/en_US/31c3bf424ef266491ed955eabf7ec7bb.jpg",
+      "de-de": "",
+      "it-it": ""
+    },
+    "name": "Touriste Ordis",
+    "elements": {
+      "MAIN_COST": "2",
+      "RECALL_COST": "2",
+      "OCEAN_POWER": "2",
+      "FOREST_POWER": "1",
+      "MOUNTAIN_POWER": "2",
+      "MAIN_EFFECT": "{J} S'il y a au moins deux cartes dans vos Repères, je gagne 1 boost."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-017-C-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_OR_93_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/bac7dee02d7067389812",
+        "reference": "SOLDIER",
+        "id": "01HKAGQ5CZVEX15T5KTM40KQSA",
+        "name": "Soldat"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/4ca7b8c0edd90ae159e3",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_OR_93/JPG/fr_FR/00b8e12a193613d16c514f8d14844c58.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_OR_93_R1",
+    "reference": "ALT_DUSTERCB_P_OR_93_R1",
+    "id": "01K60PWD791FBK32KNA4JH58MZ",
+    "mainFaction": {
+      "@id": "/factions/OR",
+      "@type": "Faction",
+      "reference": "OR",
+      "color": "#0f6593",
+      "id": "01GE7AC9X78DXSNKNB15KCF69X",
+      "name": "Ordis"
+    },
+    "allImagePath": {
+      "es-es": "",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_OR_93/JPG/en_US/9786a86c1e5a85cd98f520f31e38e50b.jpg",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_OR_93/JPG/fr_FR/00b8e12a193613d16c514f8d14844c58.jpg",
+      "de-de": "",
+      "it-it": ""
+    },
+    "name": "Sunisa, Garde du Corps Ordis",
+    "elements": {
+      "MAIN_COST": "3",
+      "RECALL_COST": "3",
+      "OCEAN_POWER": "#3#",
+      "FOREST_POWER": "#3#",
+      "MOUNTAIN_POWER": "#3#",
+      "MAIN_EFFECT": "[Défenseuse].  S'il y a au moins deux cartes dans vos Repères, les Personnages [Défenseurs] n'empêchent pas mon Expédition d'avancer.  #{J} Créez un jeton Soldat [1/1/1 Recrue Ordis] dans une Expédition ciblée.#"
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-020-R-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_YZ_01_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9WGQTNRP28T63FH8TZD",
+      "@type": "CardType",
+      "reference": "HERO",
+      "id": "01GE7AC9WGQTNRP28T63FH8TZD",
+      "name": "Héros"
+    },
+    "cardSubTypes": [],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/582b67ef230146101451",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_01/JPG/fr_FR/2839eeb07044313cb879e5576831be28.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_YZ_01_C",
+    "reference": "ALT_DUSTERCB_P_YZ_01_C",
+    "id": "01K60PWD8TWS44PKJWG6M2PN2C",
+    "mainFaction": {
+      "@id": "/factions/YZ",
+      "@type": "Faction",
+      "reference": "YZ",
+      "color": "#764891",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY7459",
+      "name": "Yzmir"
+    },
+    "allImagePath": {
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_01/JPG/fr_FR/2839eeb07044313cb879e5576831be28.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_01/JPG/en_US/26966a00c7e81b1482857c1a3a2a48b2.jpg",
+      "de-de": "",
+      "it-it": ""
+    },
+    "name": "Akesha & Taru",
+    "elements": {
+      "MAIN_COST": "0",
+      "RECALL_COST": "0",
+      "PERMANENT": "2",
+      "RESERVE": "2",
+      "MAIN_EFFECT": "{T} : [Après vous]. You can only activate this if you are first player."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "[Code non trouvé]-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_YZ_88_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/1fdea21c723542ebdfcf",
+        "reference": "MAGE",
+        "id": "01HKAGXDF5A4KJW7GVC25YQS3H",
+        "name": "Mage"
+      },
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/743aa50493f982f3cd09",
+        "reference": "SCHOLAR",
+        "id": "01HKAGRGA2AC23BM29GTJ6XPYE",
+        "name": "Érudit"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/5e9dfdbfc9284c7172bf",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_88/JPG/fr_FR/f700d22378200916eb5f2a285bb5931c.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_YZ_88_C",
+    "reference": "ALT_DUSTERCB_P_YZ_88_C",
+    "id": "01K60PWD8XHVM4QMH6K3B0W2TS",
+    "mainFaction": {
+      "@id": "/factions/YZ",
+      "@type": "Faction",
+      "reference": "YZ",
+      "color": "#764891",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY7459",
+      "name": "Yzmir"
+    },
+    "allImagePath": {
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_88/JPG/fr_FR/f700d22378200916eb5f2a285bb5931c.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_88/JPG/en_US/53ce5a9d3d525f492bbd4d0c8e57cc60.jpg",
+      "de-de": "",
+      "it-it": ""
+    },
+    "name": "Novice Studieux",
+    "elements": {
+      "MAIN_COST": "1",
+      "RECALL_COST": "1",
+      "OCEAN_POWER": "1",
+      "FOREST_POWER": "0",
+      "MOUNTAIN_POWER": "0",
+      "MAIN_EFFECT": "When you play a Spell with Base Cost {4} or more — If I have no boosts, I gain 1 boost."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-021-C-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_YZ_92_C",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01H19NWA92A4ERAC4ATMSZNASS",
+      "@type": "CardType",
+      "reference": "CHARACTER",
+      "id": "01H19NWA92A4ERAC4ATMSZNASS",
+      "name": "Personnage"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/113feee5d5d2dff0d010",
+        "reference": "SOLDIER",
+        "id": "01HKAGQ5CZVEX15T5KTM40KQSA",
+        "name": "Soldat"
+      },
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/ae3292386fde1e390049",
+        "reference": "ROGUE",
+        "id": "01JZ2K0A1NZSGT69DP1WS2917B",
+        "name": "Gredin"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/632193cd586489def8b4",
+      "reference": "COMMON",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY745A",
+      "name": "Commun"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_92/JPG/fr_FR/37a0fd0dc84221d50982423a57713af3.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_YZ_92_C",
+    "reference": "ALT_DUSTERCB_P_YZ_92_C",
+    "id": "01K60PWD8XHVM4QMH6K3B0W2TZ",
+    "mainFaction": {
+      "@id": "/factions/YZ",
+      "@type": "Faction",
+      "reference": "YZ",
+      "color": "#764891",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY7459",
+      "name": "Yzmir"
+    },
+    "allImagePath": {
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_92/JPG/fr_FR/37a0fd0dc84221d50982423a57713af3.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_92/JPG/en_US/2845a489c7235597093975d944378585.jpg",
+      "de-de": "",
+      "it-it": ""
+    },
+    "name": "Mochizuki Chiyome",
+    "elements": {
+      "MAIN_COST": "3",
+      "RECALL_COST": "3",
+      "OCEAN_POWER": "3",
+      "FOREST_POWER": "3",
+      "MOUNTAIN_POWER": "3",
+      "ECHO_EFFECT": "{D} : Payez {1} de moins pour le prochain Sort que vous jouez ce tour-ci, jusqu'à un minimum de {1}."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-022-C-FR"
+  },
+  {
+    "@context": "/contexts/Card",
+    "@id": "/cards/ALT_DUSTERCB_P_YZ_98_R1",
+    "@type": "Card",
+    "cardType": {
+      "@id": "/card_types/01GE7AC9X35JXEQZJBBD6E4BKX",
+      "@type": "CardType",
+      "reference": "SPELL",
+      "id": "01GE7AC9X35JXEQZJBBD6E4BKX",
+      "name": "Sort"
+    },
+    "cardSubTypes": [
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/6a4324f1b3f22eab9e62",
+        "reference": "DISRUPTION",
+        "id": "01HKAGPH80FC347E2P8841D298",
+        "name": "Interférence"
+      },
+      {
+        "@type": "CardSubType",
+        "@id": "/.well-known/genid/849b9e3761c31b921d96",
+        "reference": "MANEUVER",
+        "id": "01HKAGPGT0M24AWMMF30CN0NT4",
+        "name": "Manœuvre"
+      }
+    ],
+    "cardSet": {
+      "@id": "/card_sets/DUSTERCB",
+      "@type": "CardSet",
+      "id": "01K60PWBQRTWXF3M650SKAQEBE",
+      "reference": "DUSTERCB",
+      "name": "Les Graines de l'Unité - Collector Booster"
+    },
+    "rarity": {
+      "@type": "Rarity",
+      "@id": "/.well-known/genid/657428650efa96bd8484",
+      "reference": "RARE",
+      "id": "01GE7AC9WY6PK56RADXXD6P1T5",
+      "name": "Rare"
+    },
+    "cardRulings": [],
+    "imagePath": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_98/JPG/fr_FR/e511e2e2b861977e909f4e2ac0265e70.jpg",
+    "assets": [],
+    "lowerPrice": 0,
+    "qrUrlDetail": "https://qr.altered.gg/ALT_DUSTERCB_P_YZ_98_R1",
+    "reference": "ALT_DUSTERCB_P_YZ_98_R1",
+    "id": "01K60PWD8W298J6MWWTKX7RCJQ",
+    "mainFaction": {
+      "@id": "/factions/YZ",
+      "@type": "Faction",
+      "reference": "YZ",
+      "color": "#764891",
+      "id": "01GE7AC9WEQKW1Y1BF8SCY7459",
+      "name": "Yzmir"
+    },
+    "allImagePath": {
+      "de-de": "",
+      "es-es": "",
+      "fr-fr": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_98/JPG/fr_FR/e511e2e2b861977e909f4e2ac0265e70.jpg",
+      "en-us": "https://altered-prod-eu.s3.amazonaws.com/Art/DUSTERCB/CARDS/ALT_DUSTERCB_P_YZ_98/JPG/en_US/60bdfd6b813b449a97047a7877377fc7.jpg",
+      "it-it": ""
+    },
+    "name": "Coup de Grâce",
+    "elements": {
+      "MAIN_COST": "7",
+      "RECALL_COST": "7",
+      "MAIN_EFFECT": "[[Fugace]].  Choisissez jusqu'à trois, #vous pouvez choisir la même option plusieurs fois :#  • Défaussez un Personnage ciblé.  • Défaussez un Permanent ciblé.  • [Sabotez]."
+    },
+    "isSuspended": false,
+    "isErrated": false,
+    "isBanned": false,
+    "collectorNumber": "SDUCB-024-R-FR"
+  }
+]
