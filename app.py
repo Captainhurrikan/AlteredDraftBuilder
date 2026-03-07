@@ -260,13 +260,85 @@ def _build_deck_by_type(picks: list[dict]) -> dict:
         type_label = TYPE_LABELS.get(ct, ct)
         grouped[type_label].append((card, count))
 
-    # Sort each group by main cost
+    # Sort each group by: main cost → reserve cost → alphabetical
     for type_label in grouped:
         grouped[type_label].sort(
-            key=lambda x: (_clean_cost(x[0].get("elements", {}).get("MAIN_COST", "99")) or 99)
+            key=lambda x: (
+                _clean_cost(x[0].get("elements", {}).get("MAIN_COST", "99")) or 99,
+                _clean_cost(x[0].get("elements", {}).get("RECALL_COST", "99")) or 99,
+                _get_name(x[0]).lower(),
+            )
         )
 
     return dict(grouped)
+
+
+def _make_sidebar_mana_curve(picks: list[dict]) -> str:
+    """Build dual mana curve HTML for the sidebar (Main cost + Reserve cost)."""
+    main_curve: dict[int, int] = Counter()
+    reserve_curve: dict[int, int] = Counter()
+
+    for card in picks:
+        if _get_card_type(card) == "HERO":
+            continue
+        elements = card.get("elements", {})
+        mc = _clean_cost(elements.get("MAIN_COST"))
+        rc = _clean_cost(elements.get("RECALL_COST"))
+        if mc is not None:
+            main_curve[mc] += 1
+        if rc is not None:
+            reserve_curve[rc] += 1
+
+    if not main_curve and not reserve_curve:
+        return ""
+
+    all_costs = sorted(set(list(main_curve.keys()) + list(reserve_curve.keys())))
+    if not all_costs:
+        return ""
+    max_cost = max(all_costs)
+    costs = list(range(0, max_cost + 1))
+
+    main_vals = [main_curve.get(c, 0) for c in costs]
+    reserve_vals = [reserve_curve.get(c, 0) for c in costs]
+    max_val = max(max(main_vals, default=0), max(reserve_vals, default=0), 1)
+
+    bar_max_h = 50  # max bar height in px
+
+    # Build bars HTML for both curves side by side
+    bars_html = ""
+    for c in costs:
+        m = main_curve.get(c, 0)
+        r = reserve_curve.get(c, 0)
+        mh = int((m / max_val) * bar_max_h) if m else 0
+        rh = int((r / max_val) * bar_max_h) if r else 0
+
+        bars_html += f"""
+        <div style="display:flex; flex-direction:column; align-items:center; gap:2px; flex:1;">
+            <div style="display:flex; align-items:flex-end; gap:1px; height:{bar_max_h}px;">
+                <div style="width:8px; height:{mh}px; background:#1976D2; border-radius:2px 2px 0 0;"
+                     title="Main: {m}"></div>
+                <div style="width:8px; height:{rh}px; background:#F57C00; border-radius:2px 2px 0 0;"
+                     title="Réserve: {r}"></div>
+            </div>
+            <span style="font-size:0.65em; color:#888;">{c}</span>
+        </div>
+        """
+
+    html = f"""
+    <div style="margin: 8px 0;">
+        <div style="display:flex; gap:1px; align-items:flex-end; justify-content:center;
+                    padding:4px 0; border-bottom:1px solid #ddd;">
+            {bars_html}
+        </div>
+        <div style="display:flex; justify-content:center; gap:12px; margin-top:4px; font-size:0.7em;">
+            <span><span style="display:inline-block; width:8px; height:8px;
+                         background:#1976D2; border-radius:2px;"></span> Main</span>
+            <span><span style="display:inline-block; width:8px; height:8px;
+                         background:#F57C00; border-radius:2px;"></span> Réserve</span>
+        </div>
+    </div>
+    """
+    return html
 
 
 def render_sidebar():
@@ -310,14 +382,26 @@ def render_sidebar():
         .card-tooltip-wrap:hover .card-hover-img {
             display: block;
         }
+        .type-block {
+            margin-bottom: 10px;
+            padding: 6px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .type-block:last-child { border-bottom: none; }
         </style>
         """,
         unsafe_allow_html=True,
     )
 
+    # Dual mana curves
+    curve_html = _make_sidebar_mana_curve(picks)
+    if curve_html:
+        st.sidebar.markdown(curve_html, unsafe_allow_html=True)
+
     deck_by_type = _build_deck_by_type(picks)
 
-    type_order = ["Héros", "Personnage", "Sort", "Permanent", "Repère Perm."]
+    # 3 main category blocks + Héros at end
+    type_order = ["Personnage", "Sort", "Permanent", "Repère Perm.", "Héros"]
     for type_label in type_order:
         entries = deck_by_type.get(type_label, [])
         if not entries:
@@ -356,7 +440,10 @@ def render_sidebar():
                 f'</div>'
             )
 
-        st.sidebar.markdown("\n".join(html_rows), unsafe_allow_html=True)
+        st.sidebar.markdown(
+            f'<div class="type-block">{"".join(html_rows)}</div>',
+            unsafe_allow_html=True,
+        )
 
     # Quick stats at the bottom
     stats = _compute_deck_stats(picks)
@@ -674,7 +761,7 @@ def screen_done():
             unsafe_allow_html=True,
         )
 
-        type_order = ["Héros", "Personnage", "Sort", "Permanent", "Repère Perm."]
+        type_order = ["Personnage", "Sort", "Permanent", "Repère Perm.", "Héros"]
         for type_label in type_order:
             entries = deck_by_type.get(type_label, [])
             if not entries:
