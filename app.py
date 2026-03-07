@@ -9,8 +9,9 @@ from draft_engine import (
     generate_faction_choices,
     generate_hero_choices,
     generate_main_choices,
+    has_bundled_data,
     init_draft_state,
-    load_collection_from_zip,
+    load_collection_from_data_dir,
     RARE_SLOTS,
     COMMON_EXALTED_SLOTS,
     _get_name,
@@ -198,28 +199,27 @@ def on_hero_pick(card):
 # ---------------------------------------------------------------------------
 # Screens
 # ---------------------------------------------------------------------------
-def screen_upload():
+def screen_start():
     st.title("Altered Draft Tool")
     st.markdown("Outil de draft interactif pour **Altered TCG**.")
     st.markdown("---")
 
-    uploaded = st.file_uploader(
-        "Uploade ton export de collection Altered (fichier ZIP)",
-        type=["zip"],
-    )
+    if not has_bundled_data():
+        st.error(
+            "Aucune donnée de cartes trouvée dans le dossier `data/`. "
+            "Place ton export Altered (ZIP ou fichiers JSON) dans le dossier `data/` du projet."
+        )
+        return
 
-    if uploaded is not None:
-        _state()["zip_data"] = uploaded.read()
-
-    if st.button("Commencer le Draft", disabled=("zip_data" not in _state())):
+    if st.button("Commencer le Draft", type="primary"):
         try:
-            collection = load_collection_from_zip(_state()["zip_data"])
+            collection = load_collection_from_data_dir()
         except Exception as e:
-            st.error(f"Erreur lors du chargement du ZIP : {e}")
+            st.error(f"Erreur lors du chargement des cartes : {e}")
             return
 
         if not collection:
-            st.error("Aucune carte trouvée dans le ZIP.")
+            st.error("Aucune carte trouvée dans le dossier `data/`.")
             return
 
         _state()["raw_collection"] = collection
@@ -355,7 +355,7 @@ def main():
     phase = _state().get("phase")
 
     if phase is None:
-        screen_upload()
+        screen_start()
     elif phase == "FACTION_PICK":
         screen_faction_pick()
     elif phase == "MAIN_DRAFT":
@@ -365,7 +365,7 @@ def main():
     elif phase == "DONE":
         screen_done()
     else:
-        screen_upload()
+        screen_start()
 
 
 main()
