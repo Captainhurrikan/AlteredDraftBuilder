@@ -182,11 +182,18 @@ def get_cards_by_faction_and_rarity(
 
 
 def get_heroes(cards: list[dict], faction: str) -> list[dict]:
-    """Get hero cards for a faction."""
-    return [
-        c for c in cards
-        if _get_faction(c) == faction and _get_card_type(c) == CARD_TYPE_HERO
-    ]
+    """Get hero cards for a faction, deduplicated by name."""
+    seen_names: set[str] = set()
+    result = []
+    for c in cards:
+        if _get_faction(c) != faction or _get_card_type(c) != CARD_TYPE_HERO:
+            continue
+        name = _get_name(c)
+        if name in seen_names:
+            continue
+        seen_names.add(name)
+        result.append(c)
+    return result
 
 
 def available_for_pick(
