@@ -273,8 +273,38 @@ def _build_deck_by_type(picks: list[dict]) -> dict:
     return dict(grouped)
 
 
-def _make_sidebar_mana_curve(picks: list[dict]) -> go.Figure | None:
-    """Build a compact dual mana curve Plotly chart for the sidebar."""
+def _make_single_mana_curve(curve: dict[int, int], title: str, color: str) -> go.Figure | None:
+    """Build a single mana curve Plotly chart."""
+    if not curve:
+        return None
+
+    max_cost = max(curve.keys())
+    x = list(range(0, max_cost + 1))
+    vals = [curve.get(c, 0) for c in x]
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=x, y=vals,
+        marker_color=color,
+        text=vals, textposition="outside",
+        textfont_size=10,
+    ))
+    fig.update_layout(
+        title=dict(text=title, font_size=13, x=0.5, xanchor="center"),
+        margin=dict(t=35, b=25, l=10, r=10),
+        height=180,
+        xaxis=dict(dtick=1, title=None, tickfont_size=10),
+        yaxis=dict(visible=False),
+        bargap=0.3,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        showlegend=False,
+    )
+    return fig
+
+
+def _compute_mana_curves(picks: list[dict]) -> tuple[dict[int, int], dict[int, int]]:
+    """Compute main and reserve cost curves from picks."""
     main_curve: dict[int, int] = Counter()
     reserve_curve: dict[int, int] = Counter()
 
@@ -289,41 +319,28 @@ def _make_sidebar_mana_curve(picks: list[dict]) -> go.Figure | None:
         if rc is not None:
             reserve_curve[rc] += 1
 
+    return dict(main_curve), dict(reserve_curve)
+
+
+def render_mana_curves():
+    """Render Main and Reserve mana curves side by side below card selection."""
+    picks = _state().get("picks", [])
+    if not picks:
+        return
+
+    main_curve, reserve_curve = _compute_mana_curves(picks)
     if not main_curve and not reserve_curve:
-        return None
+        return
 
-    all_costs = sorted(set(list(main_curve.keys()) + list(reserve_curve.keys())))
-    if not all_costs:
-        return None
-    max_cost = max(all_costs)
-    x = list(range(0, max_cost + 1))
-    main_vals = [main_curve.get(c, 0) for c in x]
-    reserve_vals = [reserve_curve.get(c, 0) for c in x]
-
-    fig = go.Figure()
-    fig.add_trace(go.Bar(
-        name="Main", x=x, y=main_vals,
-        marker_color="#1976D2", text=main_vals, textposition="outside",
-        textfont_size=9,
-    ))
-    fig.add_trace(go.Bar(
-        name="Réserve", x=x, y=reserve_vals,
-        marker_color="#F57C00", text=reserve_vals, textposition="outside",
-        textfont_size=9, opacity=0.8,
-    ))
-    fig.update_layout(
-        barmode="group",
-        margin=dict(t=10, b=25, l=10, r=10),
-        height=140,
-        xaxis=dict(dtick=1, title=None, tickfont_size=9),
-        yaxis=dict(visible=False),
-        legend=dict(orientation="h", y=1.15, x=0.5, xanchor="center", font_size=9),
-        bargap=0.3,
-        bargroupgap=0.05,
-        plot_bgcolor="rgba(0,0,0,0)",
-        paper_bgcolor="rgba(0,0,0,0)",
-    )
-    return fig
+    col_left, col_right = st.columns(2)
+    with col_left:
+        fig = _make_single_mana_curve(main_curve, "Courbe Main", "#1976D2")
+        if fig:
+            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    with col_right:
+        fig = _make_single_mana_curve(reserve_curve, "Courbe Réserve", "#F57C00")
+        if fig:
+            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 
 def render_sidebar():
@@ -334,26 +351,31 @@ def render_sidebar():
 
     st.sidebar.markdown(f"### Deck ({len(picks)} cartes)")
 
-    # CSS for hover tooltip
+    # CSS for sidebar card rows with cropped artwork thumbnails
     st.sidebar.markdown(
         """
         <style>
         .card-row {
-            display: flex; align-items: center; gap: 6px;
-            padding: 3px 0; font-size: 0.85em; position: relative;
+            display: flex; align-items: center; gap: 5px;
+            padding: 2px 0; font-size: 0.82em; position: relative;
         }
-        .card-row .qty {
-            background: #f0f0f0; border-radius: 4px; padding: 1px 6px;
-            font-weight: bold; min-width: 22px; text-align: center;
+        .card-thumb {
+            width: 36px; height: 36px; border-radius: 4px; flex-shrink: 0;
+            object-fit: cover; object-position: center 25%;
+            border: 1px solid #555;
         }
-        .card-row .faction-dot {
-            width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+        .card-thumb-placeholder {
+            width: 36px; height: 36px; border-radius: 4px; flex-shrink: 0;
+            background: #444; border: 1px solid #555;
         }
-        .card-row .cname { flex: 1; }
+        .card-row .cname {
+            flex: 1; white-space: nowrap; overflow: hidden;
+            text-overflow: ellipsis; font-size: 0.85em;
+        }
         .cost-badge {
-            display: inline-block; width: 22px; height: 22px; border-radius: 50%;
-            text-align: center; line-height: 22px; font-size: 0.75em; font-weight: bold;
-            color: white;
+            display: inline-flex; width: 20px; height: 20px; border-radius: 50%;
+            align-items: center; justify-content: center;
+            font-size: 0.7em; font-weight: bold; color: white; flex-shrink: 0;
         }
         .cost-main { background: #1976D2; }
         .cost-reserve { background: #F57C00; }
@@ -368,9 +390,9 @@ def render_sidebar():
             display: block;
         }
         .type-block {
-            margin-bottom: 10px;
-            padding: 6px 0;
-            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 8px;
+            padding: 4px 0;
+            border-bottom: 1px solid #333;
         }
         .type-block:last-child { border-bottom: none; }
         </style>
@@ -378,14 +400,9 @@ def render_sidebar():
         unsafe_allow_html=True,
     )
 
-    # Dual mana curves
-    curve_fig = _make_sidebar_mana_curve(picks)
-    if curve_fig:
-        st.sidebar.plotly_chart(curve_fig, use_container_width=True, config={"displayModeBar": False})
-
     deck_by_type = _build_deck_by_type(picks)
 
-    # 3 main category blocks + Héros at end
+    # Card list grouped by type
     type_order = ["Personnage", "Sort", "Permanent", "Repère Perm.", "Héros"]
     for type_label in type_order:
         entries = deck_by_type.get(type_label, [])
@@ -398,8 +415,6 @@ def render_sidebar():
         html_rows = []
         for card, count in entries:
             name = _get_name(card)
-            faction = _get_faction(card)
-            color = FACTION_COLORS.get(faction, "#888")
             elements = card.get("elements", {})
             mc = _clean_cost(elements.get("MAIN_COST"))
             rc = _clean_cost(elements.get("RECALL_COST"))
@@ -411,17 +426,25 @@ def render_sidebar():
             if rc is not None:
                 cost_html += f'<span class="cost-badge cost-reserve">{rc}</span>'
 
-            img_tag = ""
+            # Cropped artwork thumbnail
             if img_url:
-                img_tag = f'<img class="card-hover-img" src="{img_url}" />'
+                thumb_html = f'<img class="card-thumb" src="{img_url}" />'
+            else:
+                thumb_html = '<div class="card-thumb-placeholder"></div>'
+
+            hover_img = ""
+            if img_url:
+                hover_img = f'<img class="card-hover-img" src="{img_url}" />'
+
+            qty_html = f'<span style="font-weight:bold; min-width:14px; text-align:center; font-size:0.8em;">{count}</span>' if count > 1 else ""
 
             html_rows.append(
                 f'<div class="card-row card-tooltip-wrap">'
-                f'<span class="qty">{count}</span>'
-                f'<span class="faction-dot" style="background:{color}"></span>'
+                f'{thumb_html}'
+                f'{qty_html}'
                 f'<span class="cname">{name}</span>'
                 f'{cost_html}'
-                f'{img_tag}'
+                f'{hover_img}'
                 f'</div>'
             )
 
@@ -614,6 +637,8 @@ def screen_faction_pick():
     for i, card in enumerate(choices):
         render_card(card, cols[i % len(cols)], f"faction_{i}", on_faction_pick)
 
+    render_mana_curves()
+
 
 def screen_main_draft():
     pick_idx = _state()["pick_index"]
@@ -651,6 +676,8 @@ def screen_main_draft():
     for i, card in enumerate(choices):
         render_card(card, cols[i % len(cols)], f"main_{pick_idx}_{i}", on_main_pick)
 
+    render_mana_curves()
+
 
 def screen_hero_pick():
     st.title("Pick 40 — Choisis ton héros")
@@ -671,6 +698,8 @@ def screen_hero_pick():
         cols = _card_columns(len(row_cards))
         for i, card in enumerate(row_cards):
             render_card(card, cols[i], f"hero_{row_start + i}", on_hero_pick)
+
+    render_mana_curves()
 
 
 def screen_done():
