@@ -240,9 +240,21 @@ def draw_choices(pool: list[dict], n: int = CHOICES_PER_PICK) -> list[dict]:
 # Keyword / synergy helpers
 # ---------------------------------------------------------------------------
 
+def _strip_parentheses(text: str) -> str:
+    """Remove all parenthesized reminder text from an effect string."""
+    import re
+    return re.sub(r"\([^)]*\)", "", text)
+
+
 def _extract_keywords(card: dict) -> set[str]:
-    """Extract synergy keywords from a card's effect text and subtypes."""
-    effect = card.get("elements", {}).get("MAIN_EFFECT", "")
+    """Extract synergy keywords from a card's effect text.
+
+    Parenthesized text (reminder text) is stripped first so that e.g.
+    "(Défaussez jusqu'à une carte d'une Réserve.)" does not cause
+    "réserve" to be detected as a keyword for a Sabotez card.
+    """
+    raw_effect = card.get("elements", {}).get("MAIN_EFFECT", "")
+    effect = _strip_parentheses(raw_effect)
     found: set[str] = set()
 
     # Bracketed keywords like [Sabotez], [En Contact]
@@ -250,7 +262,6 @@ def _extract_keywords(card: dict) -> set[str]:
     for match in re.findall(r"\[([^\]]+)\]", effect):
         for kw in SYNERGY_KEYWORDS:
             if kw.lower() in match.lower():
-                # Normalize to base keyword
                 found.add(kw.lower())
                 break
 
