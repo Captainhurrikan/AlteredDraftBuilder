@@ -27,6 +27,7 @@ from draft_engine import (
     _get_card_type,
     _get_ref,
     _extract_keywords,
+    _extract_synergy_tags,
 )
 
 # ---------------------------------------------------------------------------

@@ -3,6 +3,7 @@
 import json
 import os
 import random
+import re
 import zipfile
 from io import BytesIO
 from pathlib import Path
@@ -70,6 +71,80 @@ SYNERGY_MAP: dict[str, str] = {
     "scarabot": "Scarabot",
     "phalène de mana": "Phalène de Mana",
     "aérolithe": "Aérolithe",
+    # Additional keywords
+    "après vous": "Après Vous",
+    "infiltré": "Infiltré",
+    "infiltrée": "Infiltré",
+}
+
+# ---------------------------------------------------------------------------
+# Effect-based synergy patterns (detected from free text, not just brackets)
+# ---------------------------------------------------------------------------
+# Each pattern is (compiled_regex, synergy_tag).
+# These capture mechanical themes that create real gameplay synergies
+# even when cards don't share the exact same bracketed keyword.
+
+EFFECT_PATTERNS: list[tuple[re.Pattern, str]] = [
+    # Boost manipulation — cards that give or consume boosts synergize
+    (re.compile(r"gagne \d+ boosts?", re.IGNORECASE), "Boosts"),
+    (re.compile(r"perd \d+ boosts?", re.IGNORECASE), "Boosts"),
+    (re.compile(r"n'a (?:pas|aucun) (?:de )?boosts?", re.IGNORECASE), "Boosts"),
+    # Token creation — cards creating creatures synergize with swarm strategies
+    (re.compile(r"cr[ée]{1,2}(?:z|er?) (?:un|deux|trois|\d+) jetons?", re.IGNORECASE), "Création de Jetons"),
+    (re.compile(r"create (?:a|two|three|\d+) .* tokens?", re.IGNORECASE), "Création de Jetons"),
+    # Expedition movement — positional synergies
+    (re.compile(r"exp[ée]dition (?:avance|recule)", re.IGNORECASE), "Mouvement"),
+    (re.compile(r"recule d'une r[ée]gion", re.IGNORECASE), "Mouvement"),
+    (re.compile(r"avance d'une r[ée]gion", re.IGNORECASE), "Mouvement"),
+    # Exhaust / ready mechanics
+    (re.compile(r"[ée]puisez|redressez", re.IGNORECASE), "Épuisement"),
+    (re.compile(r"\{T\}", re.IGNORECASE), "Épuisement"),
+    # Landmark interaction
+    (re.compile(r"rep[èe]res?|landmarks?", re.IGNORECASE), "Repères"),
+    # Reserve interaction
+    (re.compile(r"(?:dans|de) (?:votre |ma )?r[ée]serve", re.IGNORECASE), "Réserve"),
+    (re.compile(r"envoyez[- ](?:le|la) en r[ée]serve", re.IGNORECASE), "Réserve"),
+    # Dice mechanics
+    (re.compile(r"lancez un d[ée]", re.IGNORECASE), "Dé"),
+    # Noon triggers
+    (re.compile(r"[àa] midi", re.IGNORECASE), "À Midi"),
+    # Hand interaction
+    (re.compile(r"(?:dans|de) votre main", re.IGNORECASE), "Main"),
+    (re.compile(r"piochez|draw", re.IGNORECASE), "Main"),
+]
+
+# ---------------------------------------------------------------------------
+# Rules-based synergy interactions
+# ---------------------------------------------------------------------------
+# Maps pairs of tags that create strong gameplay synergies based on the rules.
+# When two cards have tags from the same interaction pair, they synergize
+# even if they don't share the exact same tag.
+# Format: frozenset({tag_a, tag_b}) → interaction label for display.
+
+SYNERGY_INTERACTIONS: dict[frozenset, str] = {
+    # Ravitaillement exhausts a card to play from reserve → synergizes with
+    # cards that care about exhausted state or reserve
+    frozenset({"Ravitaillement", "Réserve"}): "Ravitaillement + Réserve",
+    frozenset({"Ravitaillement", "Épuisement"}): "Ravitaillement + Épuisement",
+    # Défenseur blocks → synergizes with positional/contact strategies
+    frozenset({"Défenseur", "En Contact"}): "Défenseur + Contact",
+    # Token creation + cards that count creatures or boost them
+    frozenset({"Création de Jetons", "Boosts"}): "Jetons + Boosts",
+    frozenset({"Recrue Ordis", "Boosts"}): "Ordis + Boosts",
+    frozenset({"Scarabot", "Boosts"}): "Scarabot + Boosts",
+    # Don gives a card to opponent → cards that trigger on Don received
+    frozenset({"Don", "Boosts"}): "Don + Boosts",
+    # Movement synergies
+    frozenset({"Mouvement", "En Contact"}): "Mouvement + Contact",
+    frozenset({"Mouvement", "Foncer"}): "Mouvement + Foncer",
+    # Fugace (fleeting) cards pair well with noon triggers
+    frozenset({"Fugace", "À Midi"}): "Fugace + Midi",
+    # Anchor + reserve for persistent strategies
+    frozenset({"Ancré", "Réserve"}): "Ancré + Réserve",
+    # Boost-heavy strategies
+    frozenset({"Aguerri", "Boosts"}): "Aguerri + Boosts",
+    frozenset({"Boosté", "Boosts"}): "Boosté + Boosts",
+    frozenset({"Coriace", "Boosts"}): "Coriace + Boosts",
 }
 
 
@@ -268,7 +343,6 @@ def draw_choices(pool: list[dict], n: int = CHOICES_PER_PICK) -> list[dict]:
 
 def _strip_parentheses(text: str) -> str:
     """Remove all parenthesized reminder text from an effect string."""
-    import re
     return re.sub(r"\([^)]*\)", "", text)
 
 
@@ -285,7 +359,6 @@ def _extract_keywords(card: dict) -> set[str]:
     effect = _strip_parentheses(raw_effect)
     found: set[str] = set()
 
-    import re
     for match in re.findall(r"\[([^\]]+)\]", effect):
         # Strip leading '[' from double-bracket keywords like [[Fugace]]
         clean = match.lstrip("[").strip()
@@ -308,43 +381,132 @@ def _extract_keywords(card: dict) -> set[str]:
     return found
 
 
+def _extract_synergy_tags(card: dict) -> set[str]:
+    """Extract all synergy tags from a card: bracketed keywords + effect patterns.
+
+    This combines the bracket-based keyword extraction with free-text effect
+    pattern detection to capture deeper mechanical synergies.
+    Also considers ECHO_EFFECT for additional synergy signals.
+    """
+    tags = _extract_keywords(card)
+
+    # Scan full effect text (including ECHO_EFFECT) for effect-based patterns
+    elements = card.get("elements", {})
+    full_text = " ".join(
+        elements.get(field, "") or ""
+        for field in ("MAIN_EFFECT", "ECHO_EFFECT")
+    )
+    text = _strip_parentheses(full_text)
+
+    for pattern, tag in EFFECT_PATTERNS:
+        if pattern.search(text):
+            tags.add(tag)
+
+    return tags
+
+
+def _compute_synergy_score(tags_a: set[str], tags_b: set[str]) -> int:
+    """Compute a synergy score between two sets of tags.
+
+    Scores:
+    - +2 for each directly shared tag (same keyword/effect)
+    - +1 for each rules-based interaction between their tags
+    """
+    score = len(tags_a & tags_b) * 2
+
+    for pair, _label in SYNERGY_INTERACTIONS.items():
+        if pair <= (tags_a | tags_b) and not pair <= tags_a and not pair <= tags_b:
+            # One tag from each card
+            score += 1
+
+    return score
+
+
+def _group_synergy_score(cards: list[dict]) -> tuple[int, str]:
+    """Compute total synergy score for a group and find the best label.
+
+    Returns (total_score, best_label) where best_label is the most
+    descriptive synergy tag shared by the group.
+    """
+    card_tags = [_extract_synergy_tags(c) for c in cards]
+    total = 0
+    for i in range(len(cards)):
+        for j in range(i + 1, len(cards)):
+            total += _compute_synergy_score(card_tags[i], card_tags[j])
+
+    # Find the best label: prefer a directly shared keyword, then interaction
+    shared = set.intersection(*card_tags) if card_tags else set()
+    if shared:
+        # Prefer bracket-based keywords over effect patterns for display
+        keyword_shared = shared & set(SYNERGY_MAP.values())
+        label = next(iter(keyword_shared)) if keyword_shared else next(iter(shared))
+    else:
+        # Check for interaction-based synergies
+        all_tags = set.union(*card_tags) if card_tags else set()
+        label = "synergie"
+        for pair, interaction_label in SYNERGY_INTERACTIONS.items():
+            if pair <= all_tags:
+                label = interaction_label
+                break
+
+    return total, label
+
+
 def _find_synergy_group(
     characters: list[dict], group_size: int = GROUP_SIZE
-) -> list[dict] | None:
-    """Find a group of characters that share at least one keyword.
+) -> tuple[list[dict], str] | None:
+    """Find a group of characters with strong synergies.
 
-    Returns a list of `group_size` characters sharing a common keyword,
-    or None if no such group can be formed.
+    Uses both bracketed keywords and effect-based pattern analysis to find
+    groups with deep mechanical synergies. Tries multiple candidate groups
+    and picks the one with the highest synergy score.
+
+    Returns (cards, synergy_label) or None if no group can be formed.
     """
-    # Build keyword → cards index
-    keyword_to_cards: dict[str, list[dict]] = {}
+    # Build tag → cards index using the enhanced synergy detection
+    tag_to_cards: dict[str, list[dict]] = {}
     for card in characters:
-        for kw in _extract_keywords(card):
-            keyword_to_cards.setdefault(kw, []).append(card)
+        for tag in _extract_synergy_tags(card):
+            tag_to_cards.setdefault(tag, []).append(card)
 
-    # Try keywords that have enough cards, prefer keywords with more cards
+    # Find all tags with enough cards for a group
     viable = [
-        (kw, cards) for kw, cards in keyword_to_cards.items()
+        (tag, cards) for tag, cards in tag_to_cards.items()
         if len(cards) >= group_size
     ]
     if not viable:
         return None
 
     random.shuffle(viable)
-    # Pick a random viable keyword, then sample cards from it
-    kw, cards = viable[0]
 
-    # Deduplicate by name to avoid variants
-    by_name: dict[str, list[dict]] = {}
-    for c in cards:
-        by_name.setdefault(_get_name(c), []).append(c)
+    best_group: list[dict] | None = None
+    best_score = -1
+    best_label = "synergie"
 
-    unique_names = list(by_name.keys())
-    if len(unique_names) < group_size:
+    # Try several candidate groups and keep the best one
+    for tag, cards in viable[:5]:
+        # Deduplicate by name to avoid variants
+        by_name: dict[str, list[dict]] = {}
+        for c in cards:
+            by_name.setdefault(_get_name(c), []).append(c)
+
+        unique_names = list(by_name.keys())
+        if len(unique_names) < group_size:
+            continue
+
+        # Try a few random samples for this tag
+        for _ in range(3):
+            chosen_names = random.sample(unique_names, group_size)
+            candidate = [random.choice(by_name[n]) for n in chosen_names]
+            score, label = _group_synergy_score(candidate)
+            if score > best_score:
+                best_score = score
+                best_group = candidate
+                best_label = label
+
+    if best_group is None:
         return None
-
-    chosen_names = random.sample(unique_names, group_size)
-    return [random.choice(by_name[name]) for name in chosen_names]
+    return best_group, best_label
 
 
 def generate_faction_group_choices(
@@ -352,7 +514,10 @@ def generate_faction_group_choices(
 ) -> list[tuple[str, list[dict], str]]:
     """Generate 3 groups of 3 characters, each group from a different faction.
 
-    Each group shares at least one synergy keyword.
+    Each group shares synergies detected via keyword matching AND effect-based
+    pattern analysis (boosts, tokens, movement, etc.), scored using a
+    rules-based interaction matrix.
+
     Returns a list of (faction_code, [card, card, card], shared_keyword) tuples.
     """
     factions = random.sample(FACTIONS, len(FACTIONS))  # Try all factions in random order
@@ -373,11 +538,9 @@ def generate_faction_group_choices(
         if len(pool) < GROUP_SIZE:
             continue
 
-        group = _find_synergy_group(pool, GROUP_SIZE)
-        if group is not None:
-            # Find the shared keyword(s) for display
-            shared = set.intersection(*[_extract_keywords(c) for c in group])
-            keyword_label = next(iter(shared)) if shared else "synergie"
+        result = _find_synergy_group(pool, GROUP_SIZE)
+        if result is not None:
+            group, keyword_label = result
             groups.append((faction, group, keyword_label))
 
     return groups
