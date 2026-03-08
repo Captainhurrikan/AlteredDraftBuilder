@@ -5,10 +5,12 @@ import plotly.graph_objects as go
 from collections import Counter, defaultdict
 
 from draft_engine import (
+    apply_group_pick,
     apply_pick,
     build_deck_summary,
     export_deck_text,
     generate_faction_choices,
+    generate_faction_group_choices,
     generate_hero_choices,
     generate_main_choices,
     has_bundled_data,
@@ -24,6 +26,7 @@ from draft_engine import (
     _get_powers,
     _get_card_type,
     _get_ref,
+    _extract_keywords,
 )
 
 # ---------------------------------------------------------------------------
@@ -586,6 +589,11 @@ def _make_terrain_pie(stats: dict) -> go.Figure:
 # ---------------------------------------------------------------------------
 # Callbacks
 # ---------------------------------------------------------------------------
+def on_faction_group_pick(group: list[dict]):
+    apply_group_pick(_state(), group)
+    _state()["pick_type"] = None
+
+
 def on_faction_pick(card):
     apply_pick(_state(), card, pick_type="RARE")
     _state()["pick_type"] = None
@@ -645,22 +653,103 @@ def _card_columns(n_cards: int, max_per_row: int = 5):
     return all_cols[1:-1]  # Return only the card columns
 
 
+def render_card_group(
+    faction: str, cards: list[dict], keyword: str, group_idx: int
+):
+    """Render a group of 3 characters from the same faction with shared keyword."""
+    color = FACTION_COLORS.get(faction, "#888")
+    faction_name = FACTION_NAMES.get(faction, faction)
+    faction_icon = FACTION_ICONS.get(faction, "")
+
+    st.markdown(
+        f"""
+        <div style="
+            border: 3px solid {color};
+            border-radius: 16px;
+            padding: 12px 8px 4px 8px;
+            margin-bottom: 8px;
+            background: linear-gradient(180deg, {color}18 0%, transparent 60%);
+        ">
+            <div style="text-align: center; margin-bottom: 8px;">
+                <span style="
+                    background: {color}; color: white;
+                    padding: 4px 16px; border-radius: 20px;
+                    font-weight: bold; font-size: 1.1em;
+                ">{faction_icon} {faction_name}</span>
+                <br/>
+                <span style="
+                    color: {color}; font-size: 0.85em; font-style: italic;
+                    margin-top: 4px; display: inline-block;
+                ">Synergie : {keyword.capitalize()}</span>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Show the 3 cards side by side
+    card_cols = st.columns(len(cards))
+    for i, card in enumerate(cards):
+        with card_cols[i]:
+            image_url = _get_image_url(card)
+            if image_url:
+                st.image(image_url, use_container_width=True)
+            else:
+                name = _get_name(card)
+                rarity = _get_rarity(card)
+                rarity_label = RARITY_LABELS.get(rarity, rarity)
+                cost = _get_cost(card)
+                st.markdown(
+                    f"""
+                    <div style="
+                        border: 2px solid {color};
+                        border-radius: 10px;
+                        padding: 12px;
+                        text-align: center;
+                        min-height: 150px;
+                    ">
+                        <h5 style="margin: 4px 0;">{name}</h5>
+                        <p style="margin: 2px 0; color: #666; font-size: 0.8em;">
+                            Coût : {cost} | {rarity_label}
+                        </p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+    # Single button to pick the whole group
+    st.button(
+        f"Choisir le groupe {faction_icon} {faction_name}",
+        key=f"pick_group_{group_idx}",
+        on_click=on_faction_group_pick,
+        args=(cards,),
+        use_container_width=True,
+        type="primary",
+    )
+
+
 def screen_faction_pick():
     st.title("Pick 1 — Quelle faction vas-tu jouer ?")
-    st.markdown("Choisis une carte rare. Sa faction sera ta faction pour tout le draft.")
+    st.markdown(
+        "Choisis un **groupe de 3 personnages**. "
+        "Leur faction sera ta faction pour tout le draft, "
+        "et les 3 cartes rejoindront ton deck."
+    )
 
     if _state().get("current_choices") is None:
-        choices = generate_faction_choices(_state())
-        _state()["current_choices"] = choices
+        groups = generate_faction_group_choices(_state())
+        _state()["current_choices"] = groups
 
-    choices = _state()["current_choices"]
-    if not choices:
-        st.error("Pas assez de cartes rares dans la collection pour proposer un choix.")
+    groups = _state()["current_choices"]
+    if not groups:
+        st.error("Pas assez de personnages dans la collection pour former des groupes.")
         return
 
-    cols = _card_columns(len(choices))
-    for i, card in enumerate(choices):
-        render_card(card, cols[i % len(cols)], f"faction_{i}", on_faction_pick)
+    # Display groups side by side
+    group_cols = st.columns(len(groups))
+    for idx, (faction, cards, keyword) in enumerate(groups):
+        with group_cols[idx]:
+            render_card_group(faction, cards, keyword, idx)
 
     render_mana_curves()
 
