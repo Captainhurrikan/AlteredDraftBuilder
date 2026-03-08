@@ -33,18 +33,44 @@ CHOICES_PER_PICK = 3
 GROUP_SIZE = 3  # Number of characters per faction group
 NUM_GROUPS = 3  # Number of faction groups to propose
 
-# Keywords used for synergy detection in card effects
-SYNERGY_KEYWORDS = [
-    "Fugace", "Sabotez", "Ancré", "Gigantesque", "Ravitaillez",
-    "Repérage", "Endormi", "En Contact", "Foncer", "Défenseur",
-    "Coriace", "Boosté", "Aguerri", "Aguerrie", "Éternel", "Éternelle",
-    "Ravitaille", "Saboter", "s'Élève", "Défenseuse", "Défenseurs",
-]
-
-# Phrases (non-bracketed) to also detect as synergy themes
-SYNERGY_PHRASES = [
-    "jeton", "réserve", "boost", "en contact",
-]
+# Canonical synergy keyword mapping: pattern (lowercase) → display label.
+# Variants (conjugation, gender) map to the same canonical keyword.
+# Only bracketed keywords [like this] are matched — no free-text phrases.
+SYNERGY_MAP: dict[str, str] = {
+    # Core mechanics
+    "fugace": "Fugace",
+    "ancré": "Ancré",
+    "sabotez": "Sabotage",
+    "saboter": "Sabotage",
+    "gigantesque": "Gigantesque",
+    "ravitaillez": "Ravitaillement",
+    "ravitaille": "Ravitaillement",
+    "ravitailler": "Ravitaillement",
+    "ravitaillez épuisé": "Ravitaillement",
+    "ravitaille épuisé": "Ravitaillement",
+    "repérage": "Repérage",
+    "endormi": "Endormi",
+    "en contact": "En Contact",
+    "foncer": "Foncer",
+    "défenseur": "Défenseur",
+    "défenseuse": "Défenseur",
+    "défenseurs": "Défenseur",
+    "coriace 1": "Coriace",
+    "coriace x": "Coriace",
+    "boosté": "Boosté",
+    "aguerri": "Aguerri",
+    "aguerrie": "Aguerri",
+    "éternel": "Éternel",
+    "éternelle": "Éternel",
+    "s'élève": "Élévation",
+    "don": "Don",
+    # Named tokens — cards creating the same token truly share a synergy
+    "recrue ordis": "Recrue Ordis",
+    "graine de mana": "Graine de Mana",
+    "scarabot": "Scarabot",
+    "phalène de mana": "Phalène de Mana",
+    "aérolithe": "Aérolithe",
+}
 
 
 def load_collection_from_zip(zip_bytes: bytes) -> list[dict[str, Any]]:
@@ -247,29 +273,37 @@ def _strip_parentheses(text: str) -> str:
 
 
 def _extract_keywords(card: dict) -> set[str]:
-    """Extract synergy keywords from a card's effect text.
+    """Extract canonical synergy keywords from a card's bracketed abilities.
 
-    Parenthesized text (reminder text) is stripped first so that e.g.
-    "(Défaussez jusqu'à une carte d'une Réserve.)" does not cause
-    "réserve" to be detected as a keyword for a Sabotez card.
+    Only considers text inside square brackets [like this].
+    Parenthesized reminder text is stripped first.
+    Token references like [1/1/1 Recrue Ordis] are normalized by stripping
+    the stat prefix.
+    Returns a set of canonical keyword labels (e.g. {"Sabotage", "Défenseur"}).
     """
     raw_effect = card.get("elements", {}).get("MAIN_EFFECT", "")
     effect = _strip_parentheses(raw_effect)
     found: set[str] = set()
 
-    # Bracketed keywords like [Sabotez], [En Contact]
     import re
     for match in re.findall(r"\[([^\]]+)\]", effect):
-        for kw in SYNERGY_KEYWORDS:
-            if kw.lower() in match.lower():
-                found.add(kw.lower())
-                break
+        # Strip leading '[' from double-bracket keywords like [[Fugace]]
+        clean = match.lstrip("[").strip()
+        # Strip stat prefix for token names: "1/1/1 Recrue Ordis" → "Recrue Ordis"
+        clean_no_stats = re.sub(r"^\d+/\d+/\d+\s+", "", clean)
 
-    # Phrase-based detection (non-bracketed)
-    effect_lower = effect.lower()
-    for phrase in SYNERGY_PHRASES:
-        if phrase.lower() in effect_lower:
-            found.add(phrase.lower())
+        clean_lower = clean_no_stats.lower()
+
+        # Exact match first
+        if clean_lower in SYNERGY_MAP:
+            found.add(SYNERGY_MAP[clean_lower])
+            continue
+
+        # Partial match (for patterns like "Coriace 1" matching "coriace")
+        for pattern, label in SYNERGY_MAP.items():
+            if pattern in clean_lower or clean_lower in pattern:
+                found.add(label)
+                break
 
     return found
 
