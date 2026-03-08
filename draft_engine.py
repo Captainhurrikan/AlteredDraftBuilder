@@ -30,6 +30,21 @@ COMMON_EXALTED_SLOTS = 24
 HERO_SLOTS = 1
 MAX_COPIES = 3
 CHOICES_PER_PICK = 3
+GROUP_SIZE = 3  # Number of characters per faction group
+NUM_GROUPS = 3  # Number of faction groups to propose
+
+# Keywords used for synergy detection in card effects
+SYNERGY_KEYWORDS = [
+    "Fugace", "Sabotez", "Ancré", "Gigantesque", "Ravitaillez",
+    "Repérage", "Endormi", "En Contact", "Foncer", "Défenseur",
+    "Coriace", "Boosté", "Aguerri", "Aguerrie", "Éternel", "Éternelle",
+    "Ravitaille", "Saboter", "s'Élève", "Défenseuse", "Défenseurs",
+]
+
+# Phrases (non-bracketed) to also detect as synergy themes
+SYNERGY_PHRASES = [
+    "jeton", "réserve", "boost", "en contact",
+]
 
 
 def load_collection_from_zip(zip_bytes: bytes) -> list[dict[str, Any]]:
@@ -222,6 +237,108 @@ def draw_choices(pool: list[dict], n: int = CHOICES_PER_PICK) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
+# Keyword / synergy helpers
+# ---------------------------------------------------------------------------
+
+def _extract_keywords(card: dict) -> set[str]:
+    """Extract synergy keywords from a card's effect text and subtypes."""
+    effect = card.get("elements", {}).get("MAIN_EFFECT", "")
+    found: set[str] = set()
+
+    # Bracketed keywords like [Sabotez], [En Contact]
+    import re
+    for match in re.findall(r"\[([^\]]+)\]", effect):
+        for kw in SYNERGY_KEYWORDS:
+            if kw.lower() in match.lower():
+                # Normalize to base keyword
+                found.add(kw.lower())
+                break
+
+    # Phrase-based detection (non-bracketed)
+    effect_lower = effect.lower()
+    for phrase in SYNERGY_PHRASES:
+        if phrase.lower() in effect_lower:
+            found.add(phrase.lower())
+
+    return found
+
+
+def _find_synergy_group(
+    characters: list[dict], group_size: int = GROUP_SIZE
+) -> list[dict] | None:
+    """Find a group of characters that share at least one keyword.
+
+    Returns a list of `group_size` characters sharing a common keyword,
+    or None if no such group can be formed.
+    """
+    # Build keyword → cards index
+    keyword_to_cards: dict[str, list[dict]] = {}
+    for card in characters:
+        for kw in _extract_keywords(card):
+            keyword_to_cards.setdefault(kw, []).append(card)
+
+    # Try keywords that have enough cards, prefer keywords with more cards
+    viable = [
+        (kw, cards) for kw, cards in keyword_to_cards.items()
+        if len(cards) >= group_size
+    ]
+    if not viable:
+        return None
+
+    random.shuffle(viable)
+    # Pick a random viable keyword, then sample cards from it
+    kw, cards = viable[0]
+
+    # Deduplicate by name to avoid variants
+    by_name: dict[str, list[dict]] = {}
+    for c in cards:
+        by_name.setdefault(_get_name(c), []).append(c)
+
+    unique_names = list(by_name.keys())
+    if len(unique_names) < group_size:
+        return None
+
+    chosen_names = random.sample(unique_names, group_size)
+    return [random.choice(by_name[name]) for name in chosen_names]
+
+
+def generate_faction_group_choices(
+    state: dict,
+) -> list[tuple[str, list[dict], str]]:
+    """Generate 3 groups of 3 characters, each group from a different faction.
+
+    Each group shares at least one synergy keyword.
+    Returns a list of (faction_code, [card, card, card], shared_keyword) tuples.
+    """
+    factions = random.sample(FACTIONS, len(FACTIONS))  # Try all factions in random order
+    groups: list[tuple[str, list[dict], str]] = []
+
+    for faction in factions:
+        if len(groups) >= NUM_GROUPS:
+            break
+
+        # Get all rare characters for this faction
+        pool = get_cards_by_faction_and_rarity(
+            state["collection"], faction, [RARITY_RARE]
+        )
+        # Only characters
+        pool = [c for c in pool if _get_card_type(c) == "CHARACTER"]
+        pool = available_for_pick(pool, state["copies_picked"])
+
+        if len(pool) < GROUP_SIZE:
+            continue
+
+        group = _find_synergy_group(pool, GROUP_SIZE)
+        if group is not None:
+            # Find the shared keyword(s) for display
+            shared = set.intersection(*[_extract_keywords(c) for c in group])
+            keyword_label = next(iter(shared)) if shared else "synergie"
+            groups.append((faction, group, keyword_label))
+
+    return groups
+
+
+# ---------------------------------------------------------------------------
 # Draft state helpers
 # ---------------------------------------------------------------------------
 
@@ -289,6 +406,20 @@ def generate_hero_choices(state: dict) -> list[dict]:
     """Generate ALL hero choices for pick 40."""
     pool = get_heroes(state["collection"], state["faction"])
     return pool  # Return all heroes, not just 3
+
+
+def apply_group_pick(state: dict, group: list[dict]) -> None:
+    """Apply a faction group pick (3 cards at once) for pick 1."""
+    for card in group:
+        ref = _get_ref(card)
+        state["copies_picked"][ref] = state["copies_picked"].get(ref, 0) + 1
+        state["picks"].append(card)
+
+    state["faction"] = _get_faction(group[0])
+    state["rare_slots"] -= len(group)
+    state["pick_index"] = len(group) + 1  # Next pick index
+    state["phase"] = "MAIN_DRAFT"
+    state["current_choices"] = None
 
 
 def apply_pick(state: dict, card: dict, pick_type: str | None = None) -> None:
