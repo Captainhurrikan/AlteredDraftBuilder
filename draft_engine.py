@@ -114,7 +114,7 @@ EFFECT_PATTERNS: list[tuple[re.Pattern, str]] = [
 
 # Tags that only count as part of cross-tag interactions (SYNERGY_INTERACTIONS),
 # never as direct synergies between two cards sharing the same tag.
-COMBO_ONLY_TAGS: set[str] = {"Main", "Réserve", "Épuisement"}
+COMBO_ONLY_TAGS: set[str] = {"Main", "Réserve", "Épuisement", "Repères"}
 
 SYNERGY_INTERACTIONS: dict[frozenset, str] = {
     # Ravitaillement exhausts a card to play from reserve → synergizes with
