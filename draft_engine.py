@@ -43,7 +43,6 @@ SYNERGY_MAP: dict[str, str] = {
     "ancré": "Ancré",
     "sabotez": "Sabotage",
     "saboter": "Sabotage",
-    "gigantesque": "Gigantesque",
     "ravitaillez": "Ravitaillement",
     "ravitaille": "Ravitaillement",
     "ravitailler": "Ravitaillement",
@@ -52,17 +51,9 @@ SYNERGY_MAP: dict[str, str] = {
     "repérage": "Repérage",
     "endormi": "Endormi",
     "en contact": "En Contact",
-    "foncer": "Foncer",
-    "défenseur": "Défenseur",
-    "défenseuse": "Défenseur",
-    "défenseurs": "Défenseur",
-    "coriace 1": "Coriace",
-    "coriace x": "Coriace",
     "boosté": "Boosté",
     "aguerri": "Aguerri",
     "aguerrie": "Aguerri",
-    "éternel": "Éternel",
-    "éternelle": "Éternel",
     "s'élève": "Élévation",
     "don": "Don",
     # Named tokens — cards creating the same token truly share a synergy
@@ -71,10 +62,6 @@ SYNERGY_MAP: dict[str, str] = {
     "scarabot": "Scarabot",
     "phalène de mana": "Phalène de Mana",
     "aérolithe": "Aérolithe",
-    # Additional keywords
-    "après vous": "Après Vous",
-    "infiltré": "Infiltré",
-    "infiltrée": "Infiltré",
 }
 
 # ---------------------------------------------------------------------------
@@ -111,6 +98,10 @@ EFFECT_PATTERNS: list[tuple[re.Pattern, str]] = [
     # Hand interaction
     (re.compile(r"(?:dans|de) votre main", re.IGNORECASE), "Main"),
     (re.compile(r"piochez|draw", re.IGNORECASE), "Main"),
+    # Sacrifice — cards that require sacrificing characters/objects
+    (re.compile(r"sacrifiez", re.IGNORECASE), "Sacrifice"),
+    # Cooldown spells — go to reserve exhausted
+    (re.compile(r"[dD][ée]lai", re.IGNORECASE), "Cooldown Sort"),
 ]
 
 # ---------------------------------------------------------------------------
@@ -121,22 +112,21 @@ EFFECT_PATTERNS: list[tuple[re.Pattern, str]] = [
 # even if they don't share the exact same tag.
 # Format: frozenset({tag_a, tag_b}) → interaction label for display.
 
+# Tags that only count as part of cross-tag interactions (SYNERGY_INTERACTIONS),
+# never as direct synergies between two cards sharing the same tag.
+COMBO_ONLY_TAGS: set[str] = {"Main", "Réserve", "Épuisement"}
+
 SYNERGY_INTERACTIONS: dict[frozenset, str] = {
     # Ravitaillement exhausts a card to play from reserve → synergizes with
     # cards that care about exhausted state or reserve
     frozenset({"Ravitaillement", "Réserve"}): "Ravitaillement + Réserve",
     frozenset({"Ravitaillement", "Épuisement"}): "Ravitaillement + Épuisement",
-    # Défenseur blocks → synergizes with positional/contact strategies
-    frozenset({"Défenseur", "En Contact"}): "Défenseur + Contact",
     # Token creation + cards that count creatures or boost them
     frozenset({"Création de Jetons", "Boosts"}): "Jetons + Boosts",
     frozenset({"Recrue Ordis", "Boosts"}): "Ordis + Boosts",
     frozenset({"Scarabot", "Boosts"}): "Scarabot + Boosts",
-    # Don gives a card to opponent → cards that trigger on Don received
-    frozenset({"Don", "Boosts"}): "Don + Boosts",
     # Movement synergies
     frozenset({"Mouvement", "En Contact"}): "Mouvement + Contact",
-    frozenset({"Mouvement", "Foncer"}): "Mouvement + Foncer",
     # Fugace (fleeting) cards pair well with noon triggers
     frozenset({"Fugace", "À Midi"}): "Fugace + Midi",
     # Anchor + reserve for persistent strategies
@@ -144,7 +134,17 @@ SYNERGY_INTERACTIONS: dict[frozenset, str] = {
     # Boost-heavy strategies
     frozenset({"Aguerri", "Boosts"}): "Aguerri + Boosts",
     frozenset({"Boosté", "Boosts"}): "Boosté + Boosts",
-    frozenset({"Coriace", "Boosts"}): "Coriace + Boosts",
+    # Sacrifice + tokens = sacrifice fodder strategy
+    frozenset({"Sacrifice", "Création de Jetons"}): "Sacrifice + Jetons",
+    frozenset({"Sacrifice", "Aérolithe"}): "Sacrifice + Aérolithe",
+    frozenset({"Sacrifice", "Graine de Mana"}): "Sacrifice + Graine de Mana",
+    # Cooldown spells interact with exhaust/reserve themes
+    frozenset({"Cooldown Sort", "Épuisement"}): "Cooldown + Épuisement",
+    frozenset({"Cooldown Sort", "Réserve"}): "Cooldown + Réserve",
+    # Scout sends to reserve → synergizes with reserve strategies
+    frozenset({"Repérage", "Réserve"}): "Repérage + Réserve",
+    # Asleep ignores stats at dusk → interacts with contact positioning
+    frozenset({"Endormi", "En Contact"}): "Endormi + Contact",
 }
 
 
@@ -412,7 +412,8 @@ def _compute_synergy_score(tags_a: set[str], tags_b: set[str]) -> int:
     - +2 for each directly shared tag (same keyword/effect)
     - +1 for each rules-based interaction between their tags
     """
-    score = len(tags_a & tags_b) * 2
+    direct_shared = (tags_a & tags_b) - COMBO_ONLY_TAGS
+    score = len(direct_shared) * 2
 
     for pair, _label in SYNERGY_INTERACTIONS.items():
         if pair <= (tags_a | tags_b) and not pair <= tags_a and not pair <= tags_b:
@@ -436,10 +437,11 @@ def _group_synergy_score(cards: list[dict]) -> tuple[int, str]:
 
     # Find the best label: prefer a directly shared keyword, then interaction
     shared = set.intersection(*card_tags) if card_tags else set()
-    if shared:
+    display_shared = shared - COMBO_ONLY_TAGS
+    if display_shared:
         # Prefer bracket-based keywords over effect patterns for display
-        keyword_shared = shared & set(SYNERGY_MAP.values())
-        label = next(iter(keyword_shared)) if keyword_shared else next(iter(shared))
+        keyword_shared = display_shared & set(SYNERGY_MAP.values())
+        label = next(iter(keyword_shared)) if keyword_shared else next(iter(display_shared))
     else:
         # Check for interaction-based synergies
         all_tags = set.union(*card_tags) if card_tags else set()
@@ -467,7 +469,8 @@ def _find_synergy_group(
     tag_to_cards: dict[str, list[dict]] = {}
     for card in characters:
         for tag in _extract_synergy_tags(card):
-            tag_to_cards.setdefault(tag, []).append(card)
+            if tag not in COMBO_ONLY_TAGS:
+                tag_to_cards.setdefault(tag, []).append(card)
 
     # Find all tags with enough cards for a group
     viable = [
