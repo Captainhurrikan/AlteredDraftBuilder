@@ -482,12 +482,10 @@ def _find_synergy_group(
 
     random.shuffle(viable)
 
-    best_group: list[dict] | None = None
-    best_score = -1
-    best_label = "synergie"
+    candidates: list[tuple[list[dict], int, str]] = []
 
-    # Try several candidate groups and keep the best one
-    for tag, cards in viable[:5]:
+    # Try several candidate groups from different tags
+    for tag, cards in viable[:8]:
         # Deduplicate by name to avoid variants
         by_name: dict[str, list[dict]] = {}
         for c in cards:
@@ -502,14 +500,16 @@ def _find_synergy_group(
             chosen_names = random.sample(unique_names, group_size)
             candidate = [random.choice(by_name[n]) for n in chosen_names]
             score, label = _group_synergy_score(candidate)
-            if score > best_score:
-                best_score = score
-                best_group = candidate
-                best_label = label
+            if score > 0:
+                candidates.append((candidate, score, label))
 
-    if best_group is None:
+    if not candidates:
         return None
-    return best_group, best_label
+
+    # Weighted random selection: higher scores are more likely but don't always win
+    weights = [score for _, score, _ in candidates]
+    chosen = random.choices(candidates, weights=weights, k=1)[0]
+    return chosen[0], chosen[2]
 
 
 def generate_faction_group_choices(
