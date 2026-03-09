@@ -32,6 +32,7 @@ HERO_SLOTS = 1
 MAX_COPIES = 3
 CHOICES_PER_PICK = 3
 GROUP_SIZE = 3  # Number of characters per faction group
+MIN_UNIQUE_NAMES = 5  # Minimum unique card names for a tag to be viable in draft
 NUM_GROUPS = 3  # Number of faction groups to propose
 
 # Canonical synergy keyword mapping: pattern (lowercase) → display label.
@@ -492,7 +493,7 @@ def _find_synergy_group(
             by_name.setdefault(_get_name(c), []).append(c)
 
         unique_names = list(by_name.keys())
-        if len(unique_names) < group_size:
+        if len(unique_names) < MIN_UNIQUE_NAMES:
             continue
 
         # Try a few random samples for this tag
