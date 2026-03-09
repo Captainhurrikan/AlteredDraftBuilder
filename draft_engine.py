@@ -105,6 +105,9 @@ EFFECT_PATTERNS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"[dD][ée]lai", re.IGNORECASE), "Cooldown Sort"),
 ]
 
+# Detects cards whose main effect is entirely conditional (no unconditional base value).
+_CONDITIONAL_EFFECT_RE = re.compile(r"^(Si |Seulement |Uniquement )", re.IGNORECASE)
+
 # ---------------------------------------------------------------------------
 # Rules-based synergy interactions
 # ---------------------------------------------------------------------------
@@ -320,21 +323,72 @@ def available_for_pick(
     return [c for c in pool if copies_picked.get(_get_ref(c), 0) < MAX_COPIES]
 
 
-def draw_choices(pool: list[dict], n: int = CHOICES_PER_PICK) -> list[dict]:
-    """Draw n distinct cards from pool (by name), randomly.
+def _parse_power(val: "str | int | None") -> int:
+    """Parse a power value that may be formatted as '#2#' or similar."""
+    if val is None:
+        return 0
+    s = str(val).replace("#", "").strip()
+    try:
+        return int(s)
+    except ValueError:
+        return 0
 
-    Ensures no two proposed cards share the same name (e.g. R1 vs R2 variants).
+
+def _draft_weight(card: dict) -> float:
+    """Return a sampling weight for this card in draft picks.
+
+    Cards with conditional-only effects and low stats appear less frequently
+    (lower weight) without being excluded entirely.
+    """
+    elements = card.get("elements") or {}
+    effect = elements.get("MAIN_EFFECT") or ""
+    effect_clean = re.sub(r"\([^)]*\)", "", effect).strip()
+
+    fp = _parse_power(elements.get("FOREST_POWER"))
+    mp = _parse_power(elements.get("MOUNTAIN_POWER"))
+    total_power = fp + mp
+
+    is_conditional = bool(_CONDITIONAL_EFFECT_RE.match(effect_clean))
+    is_low_power = total_power <= 4
+
+    if is_conditional and is_low_power:
+        return 0.2  # Rarely offered — low stat + condition hard to meet in draft
+    if is_conditional:
+        return 0.5  # Less common — conditional but has stat presence
+    return 1.0
+
+
+def draw_choices(pool: list[dict], n: int = CHOICES_PER_PICK) -> list[dict]:
+    """Draw n distinct cards from pool (by name), using weight-biased sampling.
+
+    Cards with conditional-only effects or very low stats are offered less
+    frequently. Ensures no two proposed cards share the same name.
     """
     if not pool:
         return []
-    # Group by name to avoid proposing variants of the same card
     by_name: dict[str, list[dict]] = {}
     for c in pool:
         by_name.setdefault(_get_name(c), []).append(c)
     names = list(by_name.keys())
     if len(names) <= n:
         return [random.choice(by_name[name]) for name in names]
-    chosen_names = random.sample(names, n)
+
+    # Compute weight per name (representative = first variant found)
+    weights = [_draft_weight(by_name[name][0]) for name in names]
+
+    # Weighted sampling without replacement
+    chosen_names: list[str] = []
+    remaining_names = list(names)
+    remaining_weights = list(weights)
+    for _ in range(n):
+        if not remaining_names:
+            break
+        [picked] = random.choices(remaining_names, weights=remaining_weights, k=1)
+        idx = remaining_names.index(picked)
+        chosen_names.append(picked)
+        remaining_names.pop(idx)
+        remaining_weights.pop(idx)
+
     return [random.choice(by_name[name]) for name in chosen_names]
 
 
