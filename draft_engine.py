@@ -772,3 +772,12 @@ def export_deck_text(picks: list[dict]) -> str:
         lines.append("")
     lines.append(f"Total: {len(picks)} cards")
     return "\n".join(lines)
+
+
+def export_deck_refs(picks: list[dict]) -> str:
+    """Export deck as compact reference list: '1 ALT_CORE_B_AX_02_C' per line."""
+    counts: dict[str, int] = {}
+    for c in picks:
+        ref = _get_ref(c)
+        counts[ref] = counts.get(ref, 0) + 1
+    return "\n".join(f"{count} {ref}" for ref, count in counts.items())
