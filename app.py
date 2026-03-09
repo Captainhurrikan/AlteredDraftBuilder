@@ -9,6 +9,7 @@ from draft_engine import (
     apply_pick,
     build_deck_summary,
     export_deck_text,
+    export_deck_refs,
     generate_faction_choices,
     generate_faction_group_choices,
     generate_hero_choices,
@@ -960,7 +961,7 @@ def screen_done():
 
     # --- Export buttons ---
     st.markdown("---")
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         if st.button("Nouveau Draft"):
             _reset_draft()
@@ -971,6 +972,14 @@ def screen_done():
             "Exporter en .txt",
             data=deck_text,
             file_name="altered_draft_deck.txt",
+            mime="text/plain",
+        )
+    with col3:
+        refs_text = export_deck_refs(picks)
+        st.download_button(
+            "Exporter refs",
+            data=refs_text,
+            file_name="altered_draft_refs.txt",
             mime="text/plain",
         )
 
