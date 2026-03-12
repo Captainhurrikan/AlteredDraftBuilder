@@ -3,6 +3,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 from collections import Counter, defaultdict
+from math import comb
 
 from draft_engine import (
     apply_group_pick,
@@ -985,25 +986,244 @@ def screen_done():
 
 
 # ---------------------------------------------------------------------------
+# Decklist Analyzer — opening hand probabilities
+# ---------------------------------------------------------------------------
+
+@st.cache_resource
+def _load_card_lookup() -> dict[str, dict]:
+    """Load all cards from data/ and build a reference → card lookup."""
+    collection = load_collection_from_data_dir()
+    lookup = {}
+    for card in collection:
+        ref = card.get("reference", "")
+        if ref:
+            lookup[ref] = card
+    return lookup
+
+
+def _parse_decklist(text: str) -> list[tuple[str, int]]:
+    """Parse decklist text into (reference, quantity) pairs."""
+    entries = []
+    for line in text.strip().split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+        parts = line.split(maxsplit=1)
+        if len(parts) != 2:
+            continue
+        try:
+            qty = int(parts[0])
+        except ValueError:
+            continue
+        ref = parts[1].strip()
+        entries.append((ref, qty))
+    return entries
+
+
+def _compute_top_hands(
+    decklist: list[tuple[str, int]], hand_size: int = 6, top_n: int = 10
+) -> list[tuple[tuple[int, ...], float]]:
+    """Compute the top_n most probable opening hands.
+
+    Uses multivariate hypergeometric distribution:
+    P(hand) = product(C(n_i, k_i)) / C(N, hand_size)
+
+    Returns list of (counts_per_card, probability) sorted by descending probability.
+    """
+    total_cards = sum(qty for _, qty in decklist)
+    if total_cards < hand_size:
+        return []
+
+    total_comb = comb(total_cards, hand_size)
+    n = len(decklist)
+
+    # Precompute suffix sums of max drawable per card (for pruning)
+    suffix_max = [0] * (n + 1)
+    for i in range(n - 1, -1, -1):
+        suffix_max[i] = suffix_max[i + 1] + decklist[i][1]
+
+    results: list[tuple[tuple[int, ...], float]] = []
+
+    def generate(idx: int, remaining: int, current: list[int], prob_num: int):
+        if remaining == 0:
+            results.append((tuple(current), prob_num / total_comb))
+            return
+        if idx >= n:
+            return
+        if suffix_max[idx] < remaining:
+            return
+
+        max_draw = min(decklist[idx][1], remaining)
+        for k in range(max_draw + 1):
+            current.append(k)
+            generate(idx + 1, remaining - k, current, prob_num * comb(decklist[idx][1], k))
+            current.pop()
+
+    generate(0, hand_size, [], 1)
+    results.sort(key=lambda x: -x[1])
+    return results[:top_n]
+
+
+def screen_decklist_analyzer():
+    st.title("Analyse de Decklist — Mains de départ")
+    st.markdown(
+        "Colle ta decklist au format `quantité référence` (une carte par ligne). "
+        "L'outil calculera les **combinaisons de 6 cartes** les plus probables "
+        "dans ta main de départ."
+    )
+
+    decklist_text = st.text_area(
+        "Decklist",
+        height=350,
+        placeholder="1 ALT_CORE_B_YZ_01_C\n2 ALT_CORE_B_YZ_04_C\n3 ALT_CYCLONE_B_YZ_72_C\n...",
+        key="analyzer_decklist_input",
+    )
+
+    col_opt1, col_opt2, col_opt3 = st.columns(3)
+    with col_opt1:
+        top_n = st.number_input(
+            "Combinaisons à afficher", min_value=1, max_value=50, value=10, key="analyzer_top_n"
+        )
+    with col_opt2:
+        hand_size = st.number_input(
+            "Taille de la main", min_value=1, max_value=10, value=6, key="analyzer_hand_size"
+        )
+
+    if st.button("Analyser", type="primary", key="analyzer_run"):
+        if not decklist_text or not decklist_text.strip():
+            st.warning("Colle ta decklist ci-dessus.")
+            return
+
+        entries = _parse_decklist(decklist_text)
+        if not entries:
+            st.error("Impossible de parser la decklist. Format attendu : `quantité référence`")
+            return
+
+        total_cards = sum(qty for _, qty in entries)
+        if total_cards < hand_size:
+            st.error(f"Pas assez de cartes ({total_cards}) pour former une main de {hand_size}.")
+            return
+
+        # Store parsed data and compute results
+        card_lookup = _load_card_lookup()
+
+        # Validate references
+        missing = [ref for ref, _ in entries if ref not in card_lookup]
+        if missing:
+            st.warning(
+                f"Références introuvables dans la collection ({len(missing)}) : "
+                + ", ".join(f"`{r}`" for r in missing[:5])
+                + ("..." if len(missing) > 5 else "")
+                + "\n\nLes images ne seront pas affichées pour ces cartes."
+            )
+
+        with st.spinner("Calcul des probabilités en cours..."):
+            top_hands = _compute_top_hands(entries, hand_size=hand_size, top_n=top_n)
+
+        _state()["analyzer_results"] = top_hands
+        _state()["analyzer_entries"] = entries
+        _state()["analyzer_total"] = total_cards
+        _state()["analyzer_hand_size"] = hand_size
+
+    # Display results from session state
+    if "analyzer_results" not in _state():
+        return
+
+    top_hands = _state()["analyzer_results"]
+    entries = _state()["analyzer_entries"]
+    total_cards = _state()["analyzer_total"]
+    stored_hand_size = _state()["analyzer_hand_size"]
+
+    if not top_hands:
+        st.error("Aucune combinaison trouvée.")
+        return
+
+    card_lookup = _load_card_lookup()
+    total_comb = comb(total_cards, stored_hand_size)
+
+    st.markdown(f"### Top {len(top_hands)} mains les plus probables")
+    st.markdown(
+        f"*Deck de **{total_cards}** cartes — **{len(entries)}** cartes uniques "
+        f"— C({total_cards},{stored_hand_size}) = **{total_comb:,}** mains possibles*"
+    )
+    st.markdown("---")
+
+    for rank, (hand_counts, prob) in enumerate(top_hands, 1):
+        # Expand hand into list of (ref, drawn_count) for cards actually drawn
+        drawn_cards = []
+        for i, count in enumerate(hand_counts):
+            if count > 0:
+                ref = entries[i][0]
+                for _ in range(count):
+                    drawn_cards.append(ref)
+
+        pct = prob * 100
+        # Number of distinct ways to draw this specific hand
+        num_ways = 1
+        for i, count in enumerate(hand_counts):
+            num_ways *= comb(entries[i][1], count)
+
+        st.markdown(
+            f"**#{rank}** — Probabilité : **{pct:.4f}%** "
+            f"({num_ways:,} combinaison{'s' if num_ways > 1 else ''} "
+            f"sur {total_comb:,})"
+        )
+
+        cols = st.columns(stored_hand_size)
+        for j, ref in enumerate(drawn_cards):
+            card = card_lookup.get(ref)
+            with cols[j]:
+                if card:
+                    img_url = _get_image_url(card)
+                    if img_url:
+                        st.image(img_url, use_container_width=True)
+                    else:
+                        name = _get_name(card)
+                        faction = _get_faction(card)
+                        color = FACTION_COLORS.get(faction, "#888")
+                        st.markdown(
+                            f'<div style="border:2px solid {color}; border-radius:10px; '
+                            f'padding:12px; text-align:center; min-height:120px;">'
+                            f'<b>{name}</b><br/><small>{ref}</small></div>',
+                            unsafe_allow_html=True,
+                        )
+                else:
+                    st.markdown(
+                        f'<div style="border:2px solid #888; border-radius:10px; '
+                        f'padding:12px; text-align:center; min-height:120px; color:#888;">'
+                        f'<small>{ref}</small></div>',
+                        unsafe_allow_html=True,
+                    )
+
+        st.markdown("---")
+
+
+# ---------------------------------------------------------------------------
 # Main routing
 # ---------------------------------------------------------------------------
 def main():
-    render_sidebar()
+    tab_draft, tab_analyzer = st.tabs(["Draft", "Analyse Decklist"])
 
-    phase = _state().get("phase")
+    with tab_draft:
+        render_sidebar()
 
-    if phase is None:
-        screen_start()
-    elif phase == "FACTION_PICK":
-        screen_faction_pick()
-    elif phase == "MAIN_DRAFT":
-        screen_main_draft()
-    elif phase == "HERO_PICK":
-        screen_hero_pick()
-    elif phase == "DONE":
-        screen_done()
-    else:
-        screen_start()
+        phase = _state().get("phase")
+
+        if phase is None:
+            screen_start()
+        elif phase == "FACTION_PICK":
+            screen_faction_pick()
+        elif phase == "MAIN_DRAFT":
+            screen_main_draft()
+        elif phase == "HERO_PICK":
+            screen_hero_pick()
+        elif phase == "DONE":
+            screen_done()
+        else:
+            screen_start()
+
+    with tab_analyzer:
+        screen_decklist_analyzer()
 
 
 main()
