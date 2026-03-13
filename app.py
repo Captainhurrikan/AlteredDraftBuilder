@@ -3,6 +3,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 from collections import Counter, defaultdict
+from itertools import combinations
 from math import comb
 
 from draft_engine import (
@@ -145,6 +146,145 @@ def _clean_cost(raw) -> int | None:
         return int(str(raw).replace("#", ""))
     except (ValueError, TypeError):
         return None
+
+
+def _is_own_mana_seed(card: dict) -> bool:
+    """Return True if the card creates a Graine de Mana in YOUR landmarks."""
+    effect = (card.get("elements") or {}).get("MAIN_EFFECT") or ""
+    if "[Graine de Mana]" not in effect and "[graine de mana]" not in effect.lower():
+        return False
+    low = effect.lower()
+    # Cards that give seeds to opponents only
+    if "adversaire" in low or "autre joueur" in low or "chaque joueur" in low:
+        # Some cards mention both "vos Repères" AND "adversaire" — check if
+        # "vos repères" appears to confirm it benefits the player too.
+        if "vos repères" in low:
+            return True
+        return False
+    return True
+
+
+def _check_on_curve(kept: list[tuple[int, bool]]) -> bool:
+    """Check if 3 kept cards can be assigned to turns 1-3 on curve (3/4/5 mana).
+
+    Each card is assigned to turn 1, 2, 3, or not played.
+    Mana seed played on turn T gives +1 mana on turn T+1.
+    """
+    BASE = [3, 4, 5]
+    n = len(kept)
+    # assignments: 0=not played, 1=turn1, 2=turn2, 3=turn3
+    for combo in range(4 ** n):
+        assignment = []
+        tmp = combo
+        for _ in range(n):
+            assignment.append(tmp % 4)
+            tmp //= 4
+
+        turn_costs = [0, 0, 0]
+        turn_seeds = [0, 0, 0]
+        valid = True
+        for i, a in enumerate(assignment):
+            if a == 0:
+                continue
+            cost, is_seed = kept[i]
+            if cost is None or cost < 0:
+                valid = False
+                break
+            turn_costs[a - 1] += cost
+            if is_seed:
+                turn_seeds[a - 1] += 1
+
+        if not valid:
+            continue
+
+        # Check each turn: cost must equal available mana
+        if turn_costs[0] != BASE[0]:
+            continue
+        if turn_costs[1] != BASE[1] + turn_seeds[0]:
+            continue
+        if turn_costs[2] != BASE[2] + turn_seeds[1]:
+            continue
+        return True
+    return False
+
+
+def _compute_curve_probability(
+    decklist: list[tuple[str, int]], card_lookup: dict[str, dict]
+) -> tuple[float, int, int, list[str]]:
+    """Compute probability of drawing a 6-card hand that allows on-curve play.
+
+    Returns (probability, valid_types, total_types, seed_card_names).
+    """
+    HAND_SIZE = 6
+    total_cards = sum(qty for _, qty in decklist)
+    if total_cards < HAND_SIZE:
+        return 0.0, 0, 0, []
+
+    total_comb = comb(total_cards, HAND_SIZE)
+    n = len(decklist)
+
+    # Build card data: (cost, is_seed) per decklist entry
+    card_data = []
+    seed_names = []
+    for ref, qty in decklist:
+        card = card_lookup.get(ref)
+        cost = _clean_cost(_get_cost(card)) if card else None
+        is_seed = _is_own_mana_seed(card) if card else False
+        card_data.append((cost if cost is not None else -1, is_seed, qty))
+        if is_seed:
+            seed_names.append(_get_name(card) if card else ref)
+
+    # Suffix sums for pruning
+    suffix_max = [0] * (n + 1)
+    for i in range(n - 1, -1, -1):
+        suffix_max[i] = suffix_max[i + 1] + card_data[i][2]
+
+    valid_prob = 0.0
+    total_types = 0
+    valid_types = 0
+    curve_cache: dict[tuple, bool] = {}
+
+    def check_hand_on_curve(hand_cards: list[tuple[int, bool]]) -> bool:
+        """Check if any selection of 3 cards from 6 allows on-curve play."""
+        hand_key = tuple(sorted(hand_cards))
+        if hand_key in curve_cache:
+            return curve_cache[hand_key]
+
+        result = False
+        for indices in combinations(range(len(hand_cards)), 3):
+            kept = [hand_cards[i] for i in indices]
+            if _check_on_curve(kept):
+                result = True
+                break
+        curve_cache[hand_key] = result
+        return result
+
+    def generate(idx: int, remaining: int, current: list[int], prob_num: int):
+        nonlocal valid_prob, total_types, valid_types
+        if remaining == 0:
+            total_types += 1
+            # Expand to list of (cost, is_seed)
+            hand = []
+            for i, count in enumerate(current):
+                for _ in range(count):
+                    hand.append((card_data[i][0], card_data[i][1]))
+            if check_hand_on_curve(hand):
+                valid_types += 1
+                valid_prob += prob_num / total_comb
+            return
+        if idx >= n:
+            return
+        if suffix_max[idx] < remaining:
+            return
+
+        max_draw = min(card_data[idx][2], remaining)
+        for k in range(max_draw + 1):
+            current.append(k)
+            generate(idx + 1, remaining - k, current, prob_num * comb(card_data[idx][2], k))
+            current.pop()
+
+    generate(0, HAND_SIZE, [], 1)
+    return valid_prob, valid_types, total_types, seed_names
 
 
 def render_card(card: dict, col, key_suffix: str, on_pick):
@@ -1089,7 +1229,13 @@ def screen_decklist_analyzer():
             "Taille de la main", min_value=1, max_value=10, value=6, key="analyzer_hand_size"
         )
 
-    if st.button("Analyser", type="primary", key="analyzer_run"):
+    col_btn1, col_btn2 = st.columns(2)
+    with col_btn1:
+        analyze_btn = st.button("Analyser", type="primary", key="analyzer_run")
+    with col_btn2:
+        curve_btn = st.button("Analyse de courbe 3-4-5", key="curve_run")
+
+    if analyze_btn:
         if not decklist_text or not decklist_text.strip():
             st.warning("Colle ta decklist ci-dessus.")
             return
@@ -1124,6 +1270,29 @@ def screen_decklist_analyzer():
         _state()["analyzer_entries"] = entries
         _state()["analyzer_total"] = total_cards
         _state()["analyzer_hand_size_stored"] = hand_size
+
+    if curve_btn:
+        if not decklist_text or not decklist_text.strip():
+            st.warning("Colle ta decklist ci-dessus.")
+            return
+
+        entries = _parse_decklist(decklist_text)
+        if not entries:
+            st.error("Impossible de parser la decklist. Format attendu : `quantité référence`")
+            return
+
+        total_cards = sum(qty for _, qty in entries)
+        if total_cards < 6:
+            st.error(f"Pas assez de cartes ({total_cards}) pour former une main de 6.")
+            return
+
+        card_lookup = _load_card_lookup()
+        with st.spinner("Calcul de la courbe de mana en cours..."):
+            prob, valid_types, total_types, seed_names = _compute_curve_probability(
+                entries, card_lookup
+            )
+
+        _state()["curve_result"] = (prob, valid_types, total_types, seed_names)
 
     # Display results from session state
     if "analyzer_results" not in _state() or "analyzer_hand_size_stored" not in _state():
@@ -1196,6 +1365,34 @@ def screen_decklist_analyzer():
                     )
 
         st.markdown("---")
+
+    # --- Curve analysis results ---
+    if "curve_result" in _state():
+        prob, valid_types, total_types, seed_names = _state()["curve_result"]
+        pct = prob * 100
+
+        st.markdown("### Analyse de courbe de mana (3-4-5)")
+        st.metric("Probabilité on-curve", f"{pct:.2f}%")
+        st.markdown(
+            f"*{valid_types} composition{'s' if valid_types > 1 else ''} valide{'s' if valid_types > 1 else ''} "
+            f"sur {total_types} types de main analysés*"
+        )
+
+        if seed_names:
+            st.markdown(
+                "**Cartes Graine de Mana détectées** : "
+                + ", ".join(f"`{n}`" for n in seed_names)
+            )
+
+        with st.expander("Comment ça marche ?"):
+            st.markdown(
+                "- On pioche **6 cartes**, on en **garde 3**\n"
+                "- **Tour 1** : 3 mana disponibles\n"
+                "- **Tour 2** : 4 mana + 1 par Graine de Mana jouée au tour 1\n"
+                "- **Tour 3** : 5 mana + 1 par Graine de Mana jouée au tour 2\n"
+                "- Les coûts des cartes jouées chaque tour doivent **exactement** "
+                "totaliser le mana disponible"
+            )
 
 
 # ---------------------------------------------------------------------------
