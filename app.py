@@ -1123,16 +1123,16 @@ def screen_decklist_analyzer():
         _state()["analyzer_results"] = top_hands
         _state()["analyzer_entries"] = entries
         _state()["analyzer_total"] = total_cards
-        _state()["analyzer_hand_size"] = hand_size
+        _state()["analyzer_hand_size_stored"] = hand_size
 
     # Display results from session state
-    if "analyzer_results" not in _state():
+    if "analyzer_results" not in _state() or "analyzer_hand_size_stored" not in _state():
         return
 
     top_hands = _state()["analyzer_results"]
     entries = _state()["analyzer_entries"]
     total_cards = _state()["analyzer_total"]
-    stored_hand_size = _state()["analyzer_hand_size"]
+    stored_hand_size = _state()["analyzer_hand_size_stored"]
 
     if not top_hands:
         st.error("Aucune combinaison trouvée.")
