@@ -164,47 +164,105 @@ def _is_own_mana_seed(card: dict) -> bool:
     return True
 
 
-def _check_on_curve(kept: list[tuple[int, bool]]) -> bool:
-    """Check if 3 kept cards can be assigned to turns 1-3 on curve (3/4/5 mana).
+def _is_fugace(card: dict) -> bool:
+    """Return True if the card has [[Fugace]] (Fleeting)."""
+    effect = (card.get("elements") or {}).get("MAIN_EFFECT") or ""
+    return "[[Fugace]]" in effect
 
-    Each card is assigned to turn 1, 2, 3, or not played.
-    Mana seed played on turn T gives +1 mana on turn T+1.
+
+def _check_on_curve_2turns(
+    hand_cards: list[tuple[int, int, bool, bool]],
+    reserve_cards: list[tuple[int, int, bool, bool]],
+) -> bool:
+    """Check if a hand/reserve split allows on-curve play for 2 turns.
+
+    Each card is (main_cost, recall_cost, is_seed, is_fugace).
+    Hand cards are played at main_cost; reserve cards at recall_cost.
+    Non-fugace hand cards played on T1 can be replayed on T2 at recall_cost.
+
+    Turn 1: total cost must = 3
+    Turn 2: total cost must = 4 + seeds_from_T1
     """
-    BASE = [3, 4, 5]
-    n = len(kept)
-    # assignments: 0=not played, 1=turn1, 2=turn2, 3=turn3
-    for combo in range(4 ** n):
-        assignment = []
-        tmp = combo
-        for _ in range(n):
-            assignment.append(tmp % 4)
-            tmp //= 4
+    n_hand = len(hand_cards)
+    n_res = len(reserve_cards)
 
-        turn_costs = [0, 0, 0]
-        turn_seeds = [0, 0, 0]
-        valid = True
-        for i, a in enumerate(assignment):
+    # Hand card assignments: 0=skip, 1=play T1, 2=play T2
+    for h_combo in range(3 ** n_hand):
+        h_assign = []
+        tmp = h_combo
+        for _ in range(n_hand):
+            h_assign.append(tmp % 3)
+            tmp //= 3
+
+        t1_from_hand = 0
+        t1_seeds_hand = 0
+        t2_from_hand = 0
+        replay_candidates = []  # (recall_cost,) for non-fugace cards played T1
+        skip = False
+        for i, a in enumerate(h_assign):
+            mc, rc, seed, fugace = hand_cards[i]
             if a == 0:
                 continue
-            cost, is_seed = kept[i]
-            if cost is None or cost < 0:
-                valid = False
+            if mc < 0:
+                skip = True
                 break
-            turn_costs[a - 1] += cost
-            if is_seed:
-                turn_seeds[a - 1] += 1
-
-        if not valid:
+            if a == 1:
+                t1_from_hand += mc
+                if seed:
+                    t1_seeds_hand += 1
+                if not fugace and rc >= 0:
+                    replay_candidates.append(rc)
+            else:  # a == 2
+                t2_from_hand += mc
+        if skip or t1_from_hand > 3:
             continue
 
-        # Check each turn: cost must equal available mana
-        if turn_costs[0] != BASE[0]:
-            continue
-        if turn_costs[1] != BASE[1] + turn_seeds[0]:
-            continue
-        if turn_costs[2] != BASE[2] + turn_seeds[1]:
-            continue
-        return True
+        # Reserve card assignments: 0=skip, 1=play T1, 2=play T2
+        for r_combo in range(3 ** n_res):
+            r_assign = []
+            tmp = r_combo
+            for _ in range(n_res):
+                r_assign.append(tmp % 3)
+                tmp //= 3
+
+            t1_total = t1_from_hand
+            t1_seeds = t1_seeds_hand
+            t2_from_res = 0
+            bad = False
+            for j, a in enumerate(r_assign):
+                mc, rc, seed, fugace = reserve_cards[j]
+                if a == 0:
+                    continue
+                if rc < 0:
+                    bad = True
+                    break
+                if a == 1:
+                    t1_total += rc
+                    if seed:
+                        t1_seeds += 1
+                else:  # a == 2
+                    t2_from_res += rc
+            if bad or t1_total != 3:
+                continue
+
+            t2_target = 4 + t1_seeds
+            t2_base = t2_from_hand + t2_from_res
+
+            if t2_base == t2_target:
+                return True
+
+            # Try adding replays of non-fugace hand cards from T1
+            if replay_candidates and t2_base < t2_target:
+                t2_need = t2_target - t2_base
+                n_rep = len(replay_candidates)
+                for rep_mask in range(1, 1 << n_rep):
+                    rep_cost = 0
+                    for k in range(n_rep):
+                        if rep_mask & (1 << k):
+                            rep_cost += replay_candidates[k]
+                    if rep_cost == t2_need:
+                        return True
+
     return False
 
 
@@ -212,6 +270,9 @@ def _compute_curve_probability(
     decklist: list[tuple[str, int]], card_lookup: dict[str, dict]
 ) -> tuple[float, int, int, list[str]]:
     """Compute probability of drawing a 6-card hand that allows on-curve play.
+
+    Considers hand (3 cards, MAIN_COST) and reserve (3 cards, RECALL_COST).
+    Non-fugace cards played from hand on T1 can be replayed from reserve on T2.
 
     Returns (probability, valid_types, total_types, seed_card_names).
     """
@@ -223,37 +284,52 @@ def _compute_curve_probability(
     total_comb = comb(total_cards, HAND_SIZE)
     n = len(decklist)
 
-    # Build card data: (cost, is_seed) per decklist entry
+    # Build card data: (main_cost, recall_cost, is_seed, is_fugace) per entry
     card_data = []
     seed_names = []
     for ref, qty in decklist:
         card = card_lookup.get(ref)
-        cost = _clean_cost(_get_cost(card)) if card else None
-        is_seed = _is_own_mana_seed(card) if card else False
-        card_data.append((cost if cost is not None else -1, is_seed, qty))
-        if is_seed:
-            seed_names.append(_get_name(card) if card else ref)
+        if card:
+            mc = _clean_cost(_get_cost(card))
+            elements = card.get("elements") or {}
+            rc = _clean_cost(elements.get("RECALL_COST"))
+            seed = _is_own_mana_seed(card)
+            fugace = _is_fugace(card)
+            name = _get_name(card)
+        else:
+            mc, rc, seed, fugace, name = None, None, False, False, ref
+        card_data.append((
+            mc if mc is not None else -1,
+            rc if rc is not None else -1,
+            seed,
+            fugace,
+            qty,
+        ))
+        if seed:
+            seed_names.append(name)
 
     # Suffix sums for pruning
     suffix_max = [0] * (n + 1)
     for i in range(n - 1, -1, -1):
-        suffix_max[i] = suffix_max[i + 1] + card_data[i][2]
+        suffix_max[i] = suffix_max[i + 1] + card_data[i][4]
 
     valid_prob = 0.0
     total_types = 0
     valid_types = 0
     curve_cache: dict[tuple, bool] = {}
 
-    def check_hand_on_curve(hand_cards: list[tuple[int, bool]]) -> bool:
-        """Check if any selection of 3 cards from 6 allows on-curve play."""
-        hand_key = tuple(sorted(hand_cards))
+    def check_hand_on_curve(cards: list[tuple[int, int, bool, bool]]) -> bool:
+        """Check if any split of 6 cards into hand(3)/reserve(3) allows on-curve."""
+        hand_key = tuple(sorted(cards))
         if hand_key in curve_cache:
             return curve_cache[hand_key]
 
         result = False
-        for indices in combinations(range(len(hand_cards)), 3):
-            kept = [hand_cards[i] for i in indices]
-            if _check_on_curve(kept):
+        for hand_indices in combinations(range(len(cards)), 3):
+            reserve_indices = [i for i in range(len(cards)) if i not in hand_indices]
+            hand = [cards[i] for i in hand_indices]
+            reserve = [cards[i] for i in reserve_indices]
+            if _check_on_curve_2turns(hand, reserve):
                 result = True
                 break
         curve_cache[hand_key] = result
@@ -263,11 +339,14 @@ def _compute_curve_probability(
         nonlocal valid_prob, total_types, valid_types
         if remaining == 0:
             total_types += 1
-            # Expand to list of (cost, is_seed)
+            # Expand to list of (main_cost, recall_cost, is_seed, is_fugace)
             hand = []
             for i, count in enumerate(current):
                 for _ in range(count):
-                    hand.append((card_data[i][0], card_data[i][1]))
+                    hand.append((
+                        card_data[i][0], card_data[i][1],
+                        card_data[i][2], card_data[i][3],
+                    ))
             if check_hand_on_curve(hand):
                 valid_types += 1
                 valid_prob += prob_num / total_comb
@@ -277,10 +356,10 @@ def _compute_curve_probability(
         if suffix_max[idx] < remaining:
             return
 
-        max_draw = min(card_data[idx][2], remaining)
+        max_draw = min(card_data[idx][4], remaining)
         for k in range(max_draw + 1):
             current.append(k)
-            generate(idx + 1, remaining - k, current, prob_num * comb(card_data[idx][2], k))
+            generate(idx + 1, remaining - k, current, prob_num * comb(card_data[idx][4], k))
             current.pop()
 
     generate(0, HAND_SIZE, [], 1)
@@ -1233,7 +1312,7 @@ def screen_decklist_analyzer():
     with col_btn1:
         analyze_btn = st.button("Analyser", type="primary", key="analyzer_run")
     with col_btn2:
-        curve_btn = st.button("Analyse de courbe 3-4-5", key="curve_run")
+        curve_btn = st.button("Analyse de courbe 3 → 4/5", key="curve_run")
 
     if analyze_btn:
         if not decklist_text or not decklist_text.strip():
@@ -1371,7 +1450,7 @@ def screen_decklist_analyzer():
         prob, valid_types, total_types, seed_names = _state()["curve_result"]
         pct = prob * 100
 
-        st.markdown("### Analyse de courbe de mana (3-4-5)")
+        st.markdown("### Analyse de courbe de mana (3 puis 4/5)")
         st.metric("Probabilité on-curve", f"{pct:.2f}%")
         st.markdown(
             f"*{valid_types} composition{'s' if valid_types > 1 else ''} valide{'s' if valid_types > 1 else ''} "
@@ -1386,12 +1465,13 @@ def screen_decklist_analyzer():
 
         with st.expander("Comment ça marche ?"):
             st.markdown(
-                "- On pioche **6 cartes**, on en **garde 3**\n"
-                "- **Tour 1** : 3 mana disponibles\n"
+                "- On pioche **6 cartes** : 3 en main, 3 en réserve\n"
+                "- **Tour 1** : 3 mana — jouer depuis la main (coût principal) "
+                "ou la réserve (coût de rappel)\n"
                 "- **Tour 2** : 4 mana + 1 par Graine de Mana jouée au tour 1\n"
-                "- **Tour 3** : 5 mana + 1 par Graine de Mana jouée au tour 2\n"
-                "- Les coûts des cartes jouées chaque tour doivent **exactement** "
-                "totaliser le mana disponible"
+                "- Les cartes non-Fugaces jouées depuis la main au tour 1 "
+                "peuvent être rejouées au tour 2 depuis la réserve (coût de rappel)\n"
+                "- Les coûts doivent **exactement** totaliser le mana disponible"
             )
 
 
